@@ -1,0 +1,30 @@
+2025-04-19 12:00:02,209 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-19 12:00:02,224 INFO fetch_uap_data - Script started.
+2025-04-19 12:00:02,225 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-19 12:00:02,225 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-19 12:00:04,392 DEBUG fetch_uap_data - Skipping post 1k337dd as it has no video content.
+2025-04-19 12:00:04,392 DEBUG fetch_uap_data - Skipping post 1k30j7m as it has no video content.
+2025-04-19 12:00:05,075 DEBUG fetch_uap_data - Geocoded location 'Wyong, AU' to (-33.282513, 151.425669).
+2025-04-19 12:00:05,268 DEBUG fetch_uap_data - Skipping post 1k2upco because no event date is available after fallback.
+2025-04-19 12:00:05,268 DEBUG fetch_uap_data - Parsing event date from: 'around 3:00 AM'
+2025-04-19 12:00:06,041 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-19 12:00:06,042 DEBUG fetch_uap_data - Extracted generic two-digit year: 2000
+2025-04-19 12:00:06,042 DEBUG fetch_uap_data - Extracted numeric month: 3
+2025-04-19 12:00:06,042 DEBUG fetch_uap_data - Extracted day: 3
+2025-04-19 12:00:06,042 DEBUG fetch_uap_data - Extracted time: 03:00:00
+2025-04-19 12:00:06,042 DEBUG fetch_uap_data - Constructed datetime from fallback: 2000-03-03 03:00:00+00:00
+2025-04-19 12:00:06,203 DEBUG fetch_uap_data - Geocoded location 'Windsor, Ontario, Canada' to (42.285854, -82.978070).
+2025-04-19 12:00:06,203 DEBUG fetch_uap_data - Skipping post 1k2zlgv because event date (2000-03-03 03:00:00+00:00) is outside the 7-day window from report date (2025-04-19 16:01:38+00:00). Time difference: 9178 days, 13:01:38
+2025-04-19 12:00:07,726 DEBUG fetch_uap_data - Skipping post 1k2yylz because no event date is available after fallback.
+2025-04-19 12:00:07,726 DEBUG fetch_uap_data - Parsing event date from: 'around 2012 - 2016 after 8pm but before 11pm'
+2025-04-19 12:00:07,740 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-19 12:00:07,740 DEBUG fetch_uap_data - Extracted 4-digit year: 2012
+2025-04-19 12:00:07,740 DEBUG fetch_uap_data - Month not found in 'around 2012 - 2016 after 8pm but before 11pm'
+2025-04-19 12:00:07,740 DEBUG fetch_uap_data - Day not found in 'around 2012 - 2016 after 8pm but before 11pm'
+2025-04-19 12:00:07,740 DEBUG fetch_uap_data - Time not found in 'around 2012 - 2016 after 8pm but before 11pm'
+2025-04-19 12:00:07,740 DEBUG fetch_uap_data - Constructed datetime from fallback: 2012-01-01 00:00:00+00:00
+2025-04-19 12:00:07,886 DEBUG fetch_uap_data - Geocoded location 'Encinal  , TX' to (28.040633, -99.355210).
+2025-04-19 12:00:07,886 DEBUG fetch_uap_data - Skipping post 1k2x3fb because event date (2012-01-01 00:00:00+00:00) is outside the 7-day window from report date (2025-04-19 14:09:06+00:00). Time difference: 4857 days, 14:09:06
+2025-04-19 12:00:07,886 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-19 12:00:11,283 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-19 12:00:11,283 INFO fetch_uap_data - Script finished. Total runtime: 0:00:09.058835

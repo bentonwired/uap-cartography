@@ -1,0 +1,15 @@
+2025-04-07 12:00:02,977 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-07 12:00:02,993 INFO fetch_uap_data - Script started.
+2025-04-07 12:00:02,994 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-07 12:00:02,994 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-07 12:00:06,521 DEBUG fetch_uap_data - Parsing event date from: 'December 9 2009'
+2025-04-07 12:00:06,542 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2009-12-09 00:00:00+00:00
+2025-04-07 12:00:07,376 DEBUG fetch_uap_data - Geocoded location 'Kremlin Moscow Russia' to (55.751621, 37.618122).
+2025-04-07 12:00:07,377 DEBUG fetch_uap_data - Skipping post 1jtsvw7 because event date (2009-12-09 00:00:00+00:00) is outside the 3-day window from report date (2025-04-07 18:46:06+00:00). Time difference: 5598 days, 18:46:06
+2025-04-07 12:00:07,377 DEBUG fetch_uap_data - Parsing event date from: '3-4PM'
+2025-04-07 12:00:07,378 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-03 16:00:00+00:00
+2025-04-07 12:00:08,259 DEBUG fetch_uap_data - Geocoded location 'UK' to (6.311055, 20.544753).
+2025-04-07 12:00:08,260 DEBUG fetch_uap_data - Skipping post 1jtrg13 because event date (2025-04-03 16:00:00+00:00) is outside the 3-day window from report date (2025-04-07 17:47:52+00:00). Time difference: 4 days, 1:47:52
+2025-04-07 12:00:08,260 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-07 12:00:11,319 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-07 12:00:11,320 INFO fetch_uap_data - Script finished. Total runtime: 0:00:08.327350

@@ -1,0 +1,58 @@
+2025-04-20 12:00:03,113 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-20 12:00:03,128 INFO fetch_uap_data - Script started.
+2025-04-20 12:00:03,128 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-20 12:00:03,128 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-20 12:00:06,825 DEBUG fetch_uap_data - Parsing event date from: '4-19-2025 23:26:28'
+2025-04-20 12:00:07,956 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-20 12:00:07,956 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-20 12:00:07,956 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-20 12:00:07,956 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-20 12:00:07,957 DEBUG fetch_uap_data - Extracted time: 23:26:28
+2025-04-20 12:00:07,957 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 23:26:28+00:00
+2025-04-20 12:00:08,850 DEBUG fetch_uap_data - Geocoded location 'Pueblo Colorado' to (38.263995, -104.614187).
+2025-04-20 12:00:08,850 DEBUG fetch_uap_data - Skipping post 1k3swbn because event date (2025-04-04 23:26:28+00:00) is outside the 7-day window from report date (2025-04-20 18:18:01+00:00). Time difference: 15 days, 18:51:33
+2025-04-20 12:00:09,809 DEBUG fetch_uap_data - Geocoded location 'Mt Whitney, California' to (36.578590, -118.292138).
+2025-04-20 12:00:09,809 DEBUG fetch_uap_data - Parsing event date from: 'March 2nd, 2025 around 3pm'
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Extracted month name 'march' as 3
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Extracted day: 2
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Time not found in 'March 2nd, 2025 around 3pm'
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-03-02 00:00:00+00:00
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Skipping post 1k3q77f because event date (2025-03-02 00:00:00+00:00) is outside the 7-day window from report date (2025-04-20 16:19:05+00:00). Time difference: 49 days, 16:19:05
+2025-04-20 12:00:09,819 DEBUG fetch_uap_data - Parsing event date from: '20th April 2025 - 5am'
+2025-04-20 12:00:09,820 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-20 05:00:00+00:00
+2025-04-20 12:00:10,817 DEBUG fetch_uap_data - Geocoded location 'Bournemouth, United Kingdom.' to (50.720151, -1.879912).
+2025-04-20 12:00:11,110 DEBUG fetch_uap_data - Added post with ID 1k3o3du
+2025-04-20 12:00:12,110 DEBUG fetch_uap_data - Parsing event date from: '19.30pm AEST tonight'
+2025-04-20 12:00:12,127 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-20 12:00:12,127 DEBUG fetch_uap_data - Extracted generic two-digit year: 2019
+2025-04-20 12:00:12,127 DEBUG fetch_uap_data - Month not found in '19.30pm AEST tonight'
+2025-04-20 12:00:12,127 DEBUG fetch_uap_data - Extracted day: 19
+2025-04-20 12:00:12,127 DEBUG fetch_uap_data - Time not found in '19.30pm AEST tonight'
+2025-04-20 12:00:12,127 DEBUG fetch_uap_data - Constructed datetime from fallback: 2019-01-19 00:00:00+00:00
+2025-04-20 12:00:12,526 DEBUG fetch_uap_data - Geocoded location 'Torquay, Victoria, Australia' to (-38.326655, 144.313408).
+2025-04-20 12:00:12,526 DEBUG fetch_uap_data - Skipping post 1k3kna8 because event date (2019-01-19 00:00:00+00:00) is outside the 7-day window from report date (2025-04-20 11:39:27+00:00). Time difference: 2283 days, 11:39:27
+2025-04-20 12:00:12,526 DEBUG fetch_uap_data - Parsing event date from: '4-12-2025 around 9:30pm'
+2025-04-20 12:00:12,537 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-20 12:00:12,537 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-20 12:00:12,537 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-20 12:00:12,537 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-20 12:00:12,537 DEBUG fetch_uap_data - Time not found in '4-12-2025 around 9:30pm'
+2025-04-20 12:00:12,537 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 00:00:00+00:00
+2025-04-20 12:00:13,853 DEBUG fetch_uap_data - Skipping post 1k3m1m1 because event date (2025-04-04 00:00:00+00:00) is outside the 7-day window from report date (2025-04-20 13:01:21+00:00). Time difference: 16 days, 13:01:21
+2025-04-20 12:00:13,854 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-20 12:00:13,854 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-20 12:00:13,881 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-20 12:00:13,884 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-20 12:00:13,884 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-20 12:00:13,886 INFO fetch_uap_data - Total records processed: 1
+2025-04-20 12:00:13,886 INFO fetch_uap_data - Records inserted: 1
+2025-04-20 12:00:13,886 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-20 12:00:13,894 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-20 12:00:13,894 DEBUG fetch_uap_data - Database connection closed.
+2025-04-20 12:00:15,100 INFO fetch_uap_data - Fetched 4 flight records for location (50.720151, -1.879912)
+2025-04-20 12:00:15,129 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-20 12:00:15,137 INFO fetch_uap_data - Inserted 4 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k3o3du/my_experience_this_morning/
+2025-04-20 12:00:31,806 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-20 12:00:31,806 INFO fetch_uap_data - Script finished. Total runtime: 0:00:28.678030

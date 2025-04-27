@@ -1,0 +1,20 @@
+# Ignore Python code
+*.py
+
+# Ignore database exports
+*.sql
+
+# Ignore local settings
+.env
+*.db
+.bat
+.ini
+.bat
+
+# Ignore virtual environment folders
+.venv/
+__pycache__/
+
+# Ignore any data-processing folders
+/data/
+scripts/

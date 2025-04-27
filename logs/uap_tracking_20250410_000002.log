@@ -1,0 +1,15 @@
+2025-04-10 00:00:03,172 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-10 00:00:03,188 INFO fetch_uap_data - Script started.
+2025-04-10 00:00:03,188 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-10 00:00:03,188 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-10 00:00:05,584 DEBUG fetch_uap_data - Skipping post 1jvpj4q as it has no video content.
+2025-04-10 00:00:05,584 DEBUG fetch_uap_data - Parsing event date from: 'noon, 9/1/2016'
+2025-04-10 00:00:05,610 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2016-01-09 12:00:00+00:00
+2025-04-10 00:00:06,010 DEBUG fetch_uap_data - Geocoded location 'Florida' to (27.756767, -81.463983).
+2025-04-10 00:00:06,011 DEBUG fetch_uap_data - Skipping post 1jvpwio because event date (2016-01-09 12:00:00+00:00) is outside the 7-day window from report date (2025-04-10 04:52:23+00:00). Time difference: 3378 days, 16:52:23
+2025-04-10 00:00:06,011 DEBUG fetch_uap_data - Parsing event date from: 'September 2023'
+2025-04-10 00:00:06,013 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2023-09-10 00:00:00+00:00
+2025-04-10 00:00:08,407 DEBUG fetch_uap_data - Skipping post 1jvndpk because event date (2023-09-10 00:00:00+00:00) is outside the 7-day window from report date (2025-04-10 02:25:47+00:00). Time difference: 578 days, 2:25:47
+2025-04-10 00:00:08,407 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-10 00:00:11,314 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-10 00:00:11,314 INFO fetch_uap_data - Script finished. Total runtime: 0:00:08.126411

@@ -1,0 +1,25 @@
+2025-03-28 17:35:53,596 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-03-28 17:35:53,728 INFO fetch_uap_data - Script started.
+2025-03-28 17:35:53,728 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-03-28 17:35:53,728 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-03-28 17:35:55,602 DEBUG fetch_uap_data - Parsing event date from: '5:39, 28/03/2025'
+2025-03-28 17:35:55,603 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-03-28 17:35:55,603 DEBUG fetch_uap_data - Extracted numeric month: 5
+2025-03-28 17:35:55,603 DEBUG fetch_uap_data - Extracted day: 5
+2025-03-28 17:35:55,604 DEBUG fetch_uap_data - Extracted time: 05:39:00
+2025-03-28 17:35:55,604 DEBUG fetch_uap_data - Constructed datetime: 2025-05-05 05:39:00
+2025-03-28 17:35:55,966 DEBUG fetch_uap_data - Geocoded location 'México City, Coyoacán' to (19.349861, -99.161975).
+2025-03-28 17:35:56,103 DEBUG fetch_uap_data - Added post with ID 1jm9b5z
+2025-03-28 17:35:57,104 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-03-28 17:35:57,146 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-03-28 17:35:57,148 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-03-28 17:35:57,148 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-03-28 17:35:57,155 INFO fetch_uap_data - Total records processed: 1
+2025-03-28 17:35:57,155 INFO fetch_uap_data - Records inserted: 1
+2025-03-28 17:35:57,156 INFO fetch_uap_data - Skipped duplicates: 0
+2025-03-28 17:35:57,162 DEBUG fetch_uap_data - Geometry column updated.
+2025-03-28 17:35:57,162 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-03-28 17:35:57,162 DEBUG fetch_uap_data - Database connection closed.
+2025-03-28 17:35:57,162 INFO fetch_uap_data - 1 records successfully inserted.
+2025-03-28 17:35:57,162 INFO fetch_uap_data - 0 records skipped (likely duplicates).
+2025-03-28 17:35:57,162 INFO fetch_uap_data - Script finished. Total runtime: 0:00:03.433538

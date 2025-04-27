@@ -1,0 +1,7 @@
+2025-03-28 18:36:56,645 INFO <input> - Reddit API initialized successfully.
+2025-03-28 18:38:57,298 INFO <input> - Fetching posts from subreddit: UFOs
+2025-03-28 18:38:59,172 DEBUG <input> - Parsing event date from: '5:39, 28/03/2025'
+2025-03-28 18:38:59,190 DEBUG <input> - Parsed datetime using dateparser: 2025-03-28 05:39:00
+2025-03-28 18:38:59,592 DEBUG <input> - Geocoded location 'México City, Coyoacán' to (19.349861, -99.161975).
+2025-03-28 18:38:59,742 DEBUG <input> - Added post with ID 1jm9b5z
+2025-03-28 18:39:00,742 INFO <input> - Returning results as a test DataFrame (test_mode=True).

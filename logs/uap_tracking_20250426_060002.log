@@ -1,0 +1,32 @@
+2025-04-26 06:00:02,328 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-26 06:00:02,346 INFO fetch_uap_data - Script started.
+2025-04-26 06:00:02,346 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-26 06:00:02,346 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-26 06:00:04,384 DEBUG fetch_uap_data - Parsing event date from: '10:22 pm'
+2025-04-26 06:00:04,476 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-26 22:22:00+00:00
+2025-04-26 06:00:04,990 DEBUG fetch_uap_data - Geocoded location 'San Mateo, Ca' to (37.496904, -122.333057).
+2025-04-26 06:00:05,113 DEBUG fetch_uap_data - Added post with ID 1k8bxwh
+2025-04-26 06:00:06,114 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-26 06:00:06,114 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-26 06:00:06,148 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-26 06:00:06,151 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-26 06:00:06,151 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-26 06:00:06,154 INFO fetch_uap_data - Total records processed: 1
+2025-04-26 06:00:06,154 INFO fetch_uap_data - Records inserted: 1
+2025-04-26 06:00:06,154 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-26 06:00:06,159 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-26 06:00:06,159 DEBUG fetch_uap_data - Database connection closed.
+2025-04-26 06:00:06,650 INFO fetch_uap_data - Fetched 26 flight records for location (37.496904, -122.333057)
+2025-04-26 06:00:06,681 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-26 06:00:06,692 INFO fetch_uap_data - Inserted 26 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k8bxwh/bay_area_42525/
+2025-04-26 06:00:09,903 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-26 06:00:09,903 INFO fetch_uap_data - Recomputing confidence ratings…
+2025-04-26 06:00:09,930 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-26 06:00:09,930 ERROR fetch_uap_data - Error computing confidence ratings: syntax error at or near "WHERE"
+LINE 44:     **WHERE vetted = TRUE;**
+               ^
+
+2025-04-26 06:00:09,930 INFO fetch_uap_data - Calling export_sightings_to_geojson() now…
+2025-04-26 06:00:09,956 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-26 06:00:09,967 INFO fetch_uap_data - GeoJSON export complete.
+2025-04-26 06:00:09,967 INFO fetch_uap_data - Script finished. Total runtime: 0:00:07.621206

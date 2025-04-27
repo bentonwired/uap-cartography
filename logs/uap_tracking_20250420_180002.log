@@ -1,0 +1,49 @@
+2025-04-20 18:00:02,483 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-20 18:00:02,498 INFO fetch_uap_data - Script started.
+2025-04-20 18:00:02,499 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-20 18:00:02,499 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-20 18:00:04,827 DEBUG fetch_uap_data - Skipping post 1k3zjzc as it has no video content.
+2025-04-20 18:00:04,827 DEBUG fetch_uap_data - Parsing event date from: '3:30pm April 20'
+2025-04-20 18:00:04,845 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-20 15:30:00+00:00
+2025-04-20 18:00:05,271 DEBUG fetch_uap_data - Geocoded location 'Huntington Beach' to (33.678334, -118.000016).
+2025-04-20 18:00:05,447 DEBUG fetch_uap_data - Added post with ID 1k3yhad
+2025-04-20 18:00:06,447 DEBUG fetch_uap_data - Parsing event date from: '12:06AM 21/04/2025'
+2025-04-20 18:00:06,449 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-21 00:06:00+00:00
+2025-04-20 18:00:06,799 DEBUG fetch_uap_data - Geocoded location 'Penrith, Sydney, Australia' to (-33.751195, 150.694171).
+2025-04-20 18:00:06,973 DEBUG fetch_uap_data - Added post with ID 1k3xsjo
+2025-04-20 18:00:08,625 DEBUG fetch_uap_data - Geocoded location 'Lakeland, Florida' to (28.039465, -81.949804).
+2025-04-20 18:00:08,625 DEBUG fetch_uap_data - Parsing event date from: '3:30pm, 4/20/25'
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Extracted two-digit year from mm/dd/yy: 2025
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Extracted numeric month: 3
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Extracted day: 3
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Time not found in '3:30pm, 4/20/25'
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-03-03 00:00:00+00:00
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Skipping post 1k3uutf because event date (2025-03-03 00:00:00+00:00) is outside the 7-day window from report date (2025-04-20 19:47:35+00:00). Time difference: 48 days, 19:47:35
+2025-04-20 18:00:09,805 DEBUG fetch_uap_data - Parsing event date from: '4-19-2025 23:26:28'
+2025-04-20 18:00:09,891 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-20 18:00:09,892 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-20 18:00:09,892 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-20 18:00:09,892 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-20 18:00:09,892 DEBUG fetch_uap_data - Extracted time: 23:26:28
+2025-04-20 18:00:09,892 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 23:26:28+00:00
+2025-04-20 18:00:10,207 DEBUG fetch_uap_data - Geocoded location 'Pueblo Colorado' to (38.263995, -104.614187).
+2025-04-20 18:00:10,207 DEBUG fetch_uap_data - Skipping post 1k3swbn because event date (2025-04-04 23:26:28+00:00) is outside the 7-day window from report date (2025-04-20 18:18:01+00:00). Time difference: 15 days, 18:51:33
+2025-04-20 18:00:10,207 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-20 18:00:10,207 INFO fetch_uap_data - Fetched 2 sightings. Inserting into database...
+2025-04-20 18:00:10,237 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-20 18:00:10,239 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-20 18:00:10,239 INFO fetch_uap_data - Inserting 2 records into the database.
+2025-04-20 18:00:10,241 INFO fetch_uap_data - Total records processed: 2
+2025-04-20 18:00:10,241 INFO fetch_uap_data - Records inserted: 2
+2025-04-20 18:00:10,241 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-20 18:00:10,246 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-20 18:00:10,247 DEBUG fetch_uap_data - Database connection closed.
+2025-04-20 18:00:10,888 INFO fetch_uap_data - Fetched 76 flight records for location (33.678334, -118.000016)
+2025-04-20 18:00:10,917 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-20 18:00:10,928 INFO fetch_uap_data - Inserted 76 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k3yhad/speedy_blinking/
+2025-04-20 18:00:11,460 INFO fetch_uap_data - Fetched 21 flight records for location (-33.751195, 150.694171)
+2025-04-20 18:00:11,488 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-20 18:00:11,496 INFO fetch_uap_data - Inserted 21 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k3xsjo/what_is_this_saw_this_at_midnight_last_night_in/
+2025-04-20 18:00:26,494 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-20 18:00:26,494 INFO fetch_uap_data - Script finished. Total runtime: 0:00:23.995980

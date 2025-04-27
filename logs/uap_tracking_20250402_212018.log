@@ -1,0 +1,22 @@
+2025-04-02 21:20:18,082 INFO <input> - Reddit API initialized successfully.
+2025-04-02 21:20:18,098 INFO <input> - Script started.
+2025-04-02 21:20:18,098 INFO <input> - Fetching UAP sightings from Reddit...
+2025-04-02 21:20:18,098 INFO <input> - Fetching posts from subreddit: UFOs
+2025-04-02 21:20:20,168 DEBUG <input> - Skipping post 1jq8pz4 as it has no video content.
+2025-04-02 21:20:20,168 DEBUG <input> - Parsing event date from: 'Last week'
+2025-04-02 21:20:20,185 DEBUG <input> - Parsed datetime using dateparser: 2025-03-26 21:20:20.184817
+2025-04-02 21:20:20,875 DEBUG <input> - Geocoded location 'La Serena, Chile' to (-29.902631, -71.252025).
+2025-04-02 21:20:21,005 DEBUG <input> - Added post with ID 1jq82em
+2025-04-02 21:20:22,006 DEBUG <input> - Skipping post 1jq3yvf as it has no video content.
+2025-04-02 21:20:22,006 INFO <input> - Fetched 1 sightings. Inserting into database...
+2025-04-02 21:20:22,040 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 21:20:22,042 DEBUG <input> - Primary key sequence updated.
+2025-04-02 21:20:22,042 INFO <input> - Inserting 1 records into the database.
+2025-04-02 21:20:22,043 INFO <input> - Total records processed: 1
+2025-04-02 21:20:22,043 INFO <input> - Records inserted: 0
+2025-04-02 21:20:22,043 INFO <input> - Skipped duplicates: 1
+2025-04-02 21:20:22,049 DEBUG <input> - Primary key sequence updated.
+2025-04-02 21:20:22,049 INFO <input> - Dry run mode enabled: transaction rolled back. No changes were saved.
+2025-04-02 21:20:22,049 DEBUG <input> - Database connection closed.
+2025-04-02 21:20:24,772 INFO <input> - Email notification sent successfully.
+2025-04-02 21:20:24,772 INFO <input> - Script finished. Total runtime: 0:00:06.674435

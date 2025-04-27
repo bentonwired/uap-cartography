@@ -1,0 +1,47 @@
+2025-04-15 12:00:03,697 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-15 12:00:03,714 INFO fetch_uap_data - Script started.
+2025-04-15 12:00:03,714 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-15 12:00:03,714 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-15 12:00:05,751 DEBUG fetch_uap_data - Skipping post 1jzzxq1 as it has no video content.
+2025-04-15 12:00:05,751 DEBUG fetch_uap_data - Parsing event date from: '4/15/25 and 8:18pm'
+2025-04-15 12:00:06,698 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-15 12:00:06,699 DEBUG fetch_uap_data - Extracted two-digit year from mm/dd/yy: 2025
+2025-04-15 12:00:06,699 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-15 12:00:06,699 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-15 12:00:06,699 DEBUG fetch_uap_data - Time not found in '4/15/25 and 8:18pm'
+2025-04-15 12:00:06,699 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 00:00:00+00:00
+2025-04-15 12:00:06,888 DEBUG fetch_uap_data - Skipping post 1jzzvr0 because event date (2025-04-04 00:00:00+00:00) is outside the 7-day window from report date (2025-04-15 18:53:36+00:00). Time difference: 11 days, 18:53:36
+2025-04-15 12:00:06,888 DEBUG fetch_uap_data - Skipping post 1jzzqj3 as it has no video content.
+2025-04-15 12:00:06,888 DEBUG fetch_uap_data - Parsing event date from: '04/11/2025 at 7:30PM EST'
+2025-04-15 12:00:06,891 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-11-04 19:30:00-05:00
+2025-04-15 12:00:10,428 ERROR fetch_uap_data - Geocoding failed for 'E of Charlotte, NC': HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=E+of+Charlotte%2C+NC&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-04-15 12:00:11,674 DEBUG fetch_uap_data - Geocoded location 'E of Charlotte, NC' to (35.216533, -80.784083).
+2025-04-15 12:00:11,674 DEBUG fetch_uap_data - Parsing event date from: '04/11/2025 at 7:30PM EST Location: E of Charlotte, NC'
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Time not found in '04/11/2025 at 7:30PM EST Location: E of Charlotte, NC'
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 00:00:00+00:00
+2025-04-15 12:00:11,681 DEBUG fetch_uap_data - Skipping post 1jzyc8g because event date (2025-04-04 00:00:00+00:00) is outside the 7-day window from report date (2025-04-15 17:52:03+00:00). Time difference: 11 days, 17:52:03
+2025-04-15 12:00:11,923 DEBUG fetch_uap_data - Skipping post 1jzsxpf because no event date is available after fallback.
+2025-04-15 12:00:11,923 DEBUG fetch_uap_data - Parsing event date from: '4/12/2025 8:55 pm'
+2025-04-15 12:00:11,924 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-12-04 20:55:00+00:00
+2025-04-15 12:00:12,482 DEBUG fetch_uap_data - Geocoded location 'Orlando, Florida' to (28.542111, -81.379030).
+2025-04-15 12:00:12,482 DEBUG fetch_uap_data - Skipping post 1jzt4tg because event date (2025-12-04 20:55:00+00:00) is outside the 7-day window from report date (2025-04-15 14:22:38+00:00). Time difference: 233 days, 6:32:22
+2025-04-15 12:00:12,482 DEBUG fetch_uap_data - Parsing event date from: '9.15pm, 12th April'
+2025-04-15 12:00:12,483 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-12 21:15:00+00:00
+2025-04-15 12:00:14,075 DEBUG fetch_uap_data - Geocoded location 'Waikato/Waipa, New Zealand' to (-37.895365, 175.453220).
+2025-04-15 12:00:14,243 DEBUG fetch_uap_data - Added post with ID 1jzq7yh
+2025-04-15 12:00:15,244 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-15 12:00:15,244 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-15 12:00:15,282 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-15 12:00:15,287 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-15 12:00:15,287 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-15 12:00:15,293 INFO fetch_uap_data - Total records processed: 1
+2025-04-15 12:00:15,293 INFO fetch_uap_data - Records inserted: 0
+2025-04-15 12:00:15,293 INFO fetch_uap_data - Skipped duplicates: 1
+2025-04-15 12:00:15,334 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-15 12:00:15,335 DEBUG fetch_uap_data - Database connection closed.
+2025-04-15 12:00:29,339 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-15 12:00:29,340 INFO fetch_uap_data - Script finished. Total runtime: 0:00:25.626552

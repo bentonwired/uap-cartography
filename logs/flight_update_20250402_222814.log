@@ -1,0 +1,147 @@
+2025-04-02 22:28:14,808 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:14,809 INFO <input> - Found 23 sightings with valid location and event date.
+2025-04-02 22:28:14,809 INFO <input> - Fetching flight data for sighting 1 (lat: 38.390597711713916, lon: -86.93148192268099)
+2025-04-02 22:28:14,811 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:15,710 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/38.390597711713916/lon/-86.93148192268099/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:15,710 INFO <input> - Fetched 4 flight records for location (38.390598, -86.931482)
+2025-04-02 22:28:15,737 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:15,739 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:15,740 INFO <input> - Fetching flight data for sighting 2 (lat: 32.250448254515796, lon: -110.98845165348575)
+2025-04-02 22:28:15,741 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:16,149 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/32.250448254515796/lon/-110.98845165348575/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:16,149 INFO <input> - Fetched 8 flight records for location (32.250448, -110.988452)
+2025-04-02 22:28:16,180 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:16,181 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...d621',NULL,'adsb_icao','SWA2931 ','N410WN','B737','ground',3...
+                                                             ^
+
+2025-04-02 22:28:16,181 INFO <input> - Fetching flight data for sighting 3 (lat: 33.697105038423075, lon: -117.18538066119046)
+2025-04-02 22:28:16,182 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:16,612 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/33.697105038423075/lon/-117.18538066119046/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:16,613 INFO <input> - Fetched 7 flight records for location (33.697105, -117.185381)
+2025-04-02 22:28:16,640 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:16,641 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...('ae0263',NULL,'mlat','RATS33  ','61-0324','K35R','ground',4...
+                                                             ^
+
+2025-04-02 22:28:16,642 INFO <input> - Fetching flight data for sighting 11 (lat: 41.08940419253974, lon: -85.34777035096441)
+2025-04-02 22:28:16,643 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:17,064 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/41.08940419253974/lon/-85.34777035096441/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:17,064 INFO <input> - Fetched 3 flight records for location (41.089404, -85.347770)
+2025-04-02 22:28:17,096 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:17,097 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:17,097 INFO <input> - Fetching flight data for sighting 4 (lat: 53.364599030623936, lon: -2.283372539434854)
+2025-04-02 22:28:17,098 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:17,503 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/53.364599030623936/lon/-2.283372539434854/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:17,503 INFO <input> - Fetched 26 flight records for location (53.364599, -2.283373)
+2025-04-02 22:28:17,536 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:17,537 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...ad3e',NULL,'adsb_icao','RYR29PY ','EI-HMW','B38M','ground',6...
+                                                             ^
+
+2025-04-02 22:28:17,537 INFO <input> - Fetching flight data for sighting 5 (lat: 54.444543498827635, lon: -1.6157472711448821)
+2025-04-02 22:28:17,538 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:17,984 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/54.444543498827635/lon/-1.6157472711448821/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:17,984 INFO <input> - Fetched 3 flight records for location (54.444543, -1.615747)
+2025-04-02 22:28:18,015 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:18,016 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:18,016 INFO <input> - Fetching flight data for sighting 6 (lat: 52.44589994516685, lon: 0.6229185047244249)
+2025-04-02 22:28:18,017 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:18,461 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/52.44589994516685/lon/0.6229185047244249/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:18,461 INFO <input> - Fetched 1 flight records for location (52.445900, 0.622919)
+2025-04-02 22:28:18,491 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:18,492 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:18,492 INFO <input> - Fetching flight data for sighting 9 (lat: 53.5563035, lon: -3.0656565)
+2025-04-02 22:28:18,493 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:18,926 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/53.5563035/lon/-3.0656565/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:18,926 INFO <input> - Fetched 8 flight records for location (53.556303, -3.065656)
+2025-04-02 22:28:18,975 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:18,976 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...ad3e',NULL,'adsb_icao','RYR29PY ','EI-HMW','B38M','ground',7...
+                                                             ^
+
+2025-04-02 22:28:18,977 INFO <input> - Fetching flight data for sighting 10 (lat: 36.275938499999995, lon: -97.2969140904745)
+2025-04-02 22:28:18,977 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:19,471 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/36.275938499999995/lon/-97.2969140904745/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:19,472 INFO <input> - Fetched 1 flight records for location (36.275938, -97.296914)
+2025-04-02 22:28:19,501 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:19,502 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:19,502 INFO <input> - Fetching flight data for sighting 13 (lat: 32.257877013495886, lon: -109.83584019766857)
+2025-04-02 22:28:19,502 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:19,926 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/32.257877013495886/lon/-109.83584019766857/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:19,926 INFO <input> - Fetched 2 flight records for location (32.257877, -109.835840)
+2025-04-02 22:28:19,953 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:19,954 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:19,954 INFO <input> - Fetching flight data for sighting 8 (lat: 33.4151005, lon: -111.831455)
+2025-04-02 22:28:19,955 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:20,384 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/33.4151005/lon/-111.831455/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:20,385 INFO <input> - Fetched 72 flight records for location (33.415101, -111.831455)
+2025-04-02 22:28:20,413 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:20,415 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...6c9a',NULL,'adsb_icao','N513AF  ','N513AF','P28A','ground',6...
+                                                             ^
+
+2025-04-02 22:28:20,416 INFO <input> - Fetching flight data for sighting 15 (lat: 23.4559809, lon: 85.2557301)
+2025-04-02 22:28:20,416 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:20,841 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/23.4559809/lon/85.2557301/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:20,841 INFO <input> - Fetched 0 flight records for location (23.455981, 85.255730)
+2025-04-02 22:28:20,842 WARNING <input> - No flight data returned for sighting 15
+2025-04-02 22:28:20,842 INFO <input> - Fetching flight data for sighting 12 (lat: 51.6722151, lon: -4.139608801647599)
+2025-04-02 22:28:20,842 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:21,265 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/51.6722151/lon/-4.139608801647599/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:21,265 INFO <input> - Fetched 2 flight records for location (51.672215, -4.139609)
+2025-04-02 22:28:21,294 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:21,295 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:21,296 INFO <input> - Fetching flight data for sighting 26 (lat: 40.7263208, lon: -73.986456)
+2025-04-02 22:28:21,296 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:21,727 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/40.7263208/lon/-73.986456/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:21,728 INFO <input> - Fetched 39 flight records for location (40.726321, -73.986456)
+2025-04-02 22:28:21,756 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:21,758 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...),('a7858e',NULL,'adsb_icao',NULL,'N584JB','A320','ground',0...
+                                                             ^
+
+2025-04-02 22:28:21,758 INFO <input> - Fetching flight data for sighting 27 (lat: 19.3498606, lon: -99.1619751)
+2025-04-02 22:28:21,759 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:22,179 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/19.3498606/lon/-99.1619751/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:22,179 INFO <input> - Fetched 16 flight records for location (19.349861, -99.161975)
+2025-04-02 22:28:22,209 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:22,210 ERROR <input> - Error inserting flight data: invalid input syntax for type integer: "ground"
+LINE 7: ...2450',NULL,'adsb_icao','VIV1119 ','9H-MLX','A20N','ground',1...
+                                                             ^
+
+2025-04-02 22:28:22,210 INFO <input> - Fetching flight data for sighting 28 (lat: 41.9426657, lon: -70.7618592)
+2025-04-02 22:28:22,211 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:22,644 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/41.9426657/lon/-70.7618592/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:22,644 INFO <input> - Fetched 0 flight records for location (41.942666, -70.761859)
+2025-04-02 22:28:22,645 WARNING <input> - No flight data returned for sighting 28
+2025-04-02 22:28:22,645 INFO <input> - Fetching flight data for sighting 29 (lat: 26.9606125, lon: -82.3576323996642)
+2025-04-02 22:28:22,646 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:23,071 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/26.9606125/lon/-82.3576323996642/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:23,071 INFO <input> - Fetched 1 flight records for location (26.960612, -82.357632)
+2025-04-02 22:28:23,098 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:23,099 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:23,099 INFO <input> - Fetching flight data for sighting 30 (lat: 45.4371908, lon: 12.3345898)
+2025-04-02 22:28:23,100 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:23,508 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/45.4371908/lon/12.3345898/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:23,508 INFO <input> - Fetched 6 flight records for location (45.437191, 12.334590)
+2025-04-02 22:28:23,535 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:23,536 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:23,536 INFO <input> - Fetching flight data for sighting 31 (lat: 21.2094892, lon: 72.8317058)
+2025-04-02 22:28:23,537 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:28:23,956 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/21.2094892/lon/72.8317058/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:28:23,957 INFO <input> - Fetched 1 flight records for location (21.209489, 72.831706)
+2025-04-02 22:28:23,985 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:28:23,986 ERROR <input> - Error inserting flight data: there is no unique or exclusion constraint matching the ON CONFLICT specification
+
+2025-04-02 22:28:23,986 INFO <input> - Fetching flight data for sighting 32 (lat: 19.3498606, lon: -99.1619751)
+2025-04-02 22:28:23,987 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443

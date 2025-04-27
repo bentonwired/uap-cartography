@@ -1,0 +1,45 @@
+2025-04-22 00:00:04,336 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-22 00:00:04,355 INFO fetch_uap_data - Script started.
+2025-04-22 00:00:04,356 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-22 00:00:04,356 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-22 00:00:06,808 DEBUG fetch_uap_data - Parsing event date from: 'January 28th, 8:00 pm'
+2025-04-22 00:00:06,849 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-01-28 20:00:00+00:00
+2025-04-22 00:00:07,241 DEBUG fetch_uap_data - Geocoded location 'Bushwick, Brooklyn, New York City' to (40.694270, -73.918748).
+2025-04-22 00:00:07,242 DEBUG fetch_uap_data - Skipping post 1k4yivz because event date (2025-01-28 20:00:00+00:00) is outside the 7-day window from report date (2025-04-22 05:14:16+00:00). Time difference: 83 days, 9:14:16
+2025-04-22 00:00:07,242 DEBUG fetch_uap_data - Parsing event date from: 'February 1st 2025 8:40pm. Location: San Antonio, Texas 78210. What did I see? Any explanation? #ufo #uap #drones #texas #orbs'
+2025-04-22 00:00:08,421 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-22 00:00:08,421 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-22 00:00:08,421 DEBUG fetch_uap_data - Extracted month name 'february' as 2
+2025-04-22 00:00:08,421 DEBUG fetch_uap_data - Extracted day: 1
+2025-04-22 00:00:08,421 DEBUG fetch_uap_data - Time not found in 'February 1st 2025 8:40pm. Location: San Antonio, Texas 78210. What did I see? Any explanation? #ufo #uap #drones #texas #orbs'
+2025-04-22 00:00:08,421 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-02-01 00:00:00+00:00
+2025-04-22 00:00:09,191 DEBUG fetch_uap_data - Skipping post 1k4vooz because event date (2025-02-01 00:00:00+00:00) is outside the 7-day window from report date (2025-04-22 02:34:25+00:00). Time difference: 80 days, 2:34:25
+2025-04-22 00:00:09,191 DEBUG fetch_uap_data - Parsing event date from: '20:49'
+2025-04-22 00:00:09,339 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-22 20:49:00+00:00
+2025-04-22 00:00:09,707 DEBUG fetch_uap_data - Geocoded location 'Bristol, UK' to (51.453802, -2.597298).
+2025-04-22 00:00:09,866 DEBUG fetch_uap_data - Added post with ID 1k4upoy
+2025-04-22 00:00:11,067 DEBUG fetch_uap_data - Skipping post 1k4xaed because no event date is available after fallback.
+2025-04-22 00:00:11,067 DEBUG fetch_uap_data - Skipping post 1k4waqj as it has no video content.
+2025-04-22 00:00:11,067 DEBUG fetch_uap_data - Parsing event date from: '8:15'
+2025-04-22 00:00:11,068 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-22 08:15:00+00:00
+2025-04-22 00:00:11,417 DEBUG fetch_uap_data - Geocoded location 'Auburn, Alabama' to (32.609857, -85.480783).
+2025-04-22 00:00:11,603 DEBUG fetch_uap_data - Added post with ID 1k4ufzm
+2025-04-22 00:00:12,821 DEBUG fetch_uap_data - Skipping post 1k4u14h because no event date is available after fallback.
+2025-04-22 00:00:12,821 DEBUG fetch_uap_data - Skipping post 1k4tz19 as it has no video content.
+2025-04-22 00:00:12,821 DEBUG fetch_uap_data - Skipping post 1k4s33r as it has no video content.
+2025-04-22 00:00:12,821 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-22 00:00:12,821 INFO fetch_uap_data - Fetched 2 sightings. Inserting into database...
+2025-04-22 00:00:12,880 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-22 00:00:12,909 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-22 00:00:12,909 INFO fetch_uap_data - Inserting 2 records into the database.
+2025-04-22 00:00:12,919 INFO fetch_uap_data - Total records processed: 2
+2025-04-22 00:00:12,919 INFO fetch_uap_data - Records inserted: 2
+2025-04-22 00:00:12,919 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-22 00:00:12,971 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-22 00:00:12,971 DEBUG fetch_uap_data - Database connection closed.
+2025-04-22 00:00:13,849 INFO fetch_uap_data - Fetched 10 flight records for location (51.453802, -2.597298)
+2025-04-22 00:00:13,885 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-22 00:00:13,903 INFO fetch_uap_data - Inserted 10 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k4upoy/bristol_uk/
+2025-04-22 00:00:14,364 INFO fetch_uap_data - Fetched 0 flight records for location (32.609857, -85.480783)
+2025-04-22 00:00:17,330 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-22 00:00:17,331 INFO fetch_uap_data - Script finished. Total runtime: 0:00:12.976474

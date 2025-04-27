@@ -1,0 +1,38 @@
+2025-04-13 00:00:05,694 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-13 00:00:05,710 INFO fetch_uap_data - Script started.
+2025-04-13 00:00:05,711 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-13 00:00:05,711 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-13 00:00:07,774 DEBUG fetch_uap_data - Parsing event date from: '4/12/2025 9:28pm'
+2025-04-13 00:00:07,837 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-12-04 21:28:00+00:00
+2025-04-13 00:00:08,600 DEBUG fetch_uap_data - Geocoded location 'San Antonio, TX' to (29.424600, -98.495141).
+2025-04-13 00:00:08,601 DEBUG fetch_uap_data - Skipping post 1jxy9jb because event date (2025-12-04 21:28:00+00:00) is outside the 7-day window from report date (2025-04-13 03:07:40+00:00). Time difference: 235 days, 18:20:20
+2025-04-13 00:00:08,601 DEBUG fetch_uap_data - Parsing event date from: '4/12/2025 at 9:27pm CST'
+2025-04-13 00:00:08,604 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-12-04 21:27:00-06:00
+2025-04-13 00:00:09,548 DEBUG fetch_uap_data - Geocoded location 'Austin, Tx' to (30.271129, -97.743700).
+2025-04-13 00:00:09,548 DEBUG fetch_uap_data - Skipping post 1jxxxsh because event date (2025-12-04 21:27:00-06:00) is outside the 7-day window from report date (2025-04-13 02:48:27+00:00). Time difference: 236 days, 0:38:33
+2025-04-13 00:00:09,548 DEBUG fetch_uap_data - Parsing event date from: 'April 12th, 2025, around 8:30 PM'
+2025-04-13 00:00:11,637 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-13 00:00:11,637 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-13 00:00:11,637 DEBUG fetch_uap_data - Extracted month name 'april' as 4
+2025-04-13 00:00:11,638 DEBUG fetch_uap_data - Extracted day: 12
+2025-04-13 00:00:11,638 DEBUG fetch_uap_data - Extracted time: 08:30:00
+2025-04-13 00:00:11,638 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-12 08:30:00+00:00
+2025-04-13 00:00:12,667 DEBUG fetch_uap_data - Added post with ID 1jxxvin
+2025-04-13 00:00:13,668 DEBUG fetch_uap_data - Parsing event date from: '9 pm'
+2025-04-13 00:00:13,947 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-13 21:00:00+00:00
+2025-04-13 00:00:14,148 DEBUG fetch_uap_data - Geocoded location 'Amarillo Texas' to (35.207290, -101.837119).
+2025-04-13 00:00:14,272 DEBUG fetch_uap_data - Added post with ID 1jxxq7q
+2025-04-13 00:00:15,273 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-13 00:00:15,273 INFO fetch_uap_data - Fetched 2 sightings. Inserting into database...
+2025-04-13 00:00:15,739 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-13 00:00:15,744 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-13 00:00:15,744 INFO fetch_uap_data - Inserting 2 records into the database.
+2025-04-13 00:00:15,749 INFO fetch_uap_data - Total records processed: 2
+2025-04-13 00:00:15,750 INFO fetch_uap_data - Records inserted: 2
+2025-04-13 00:00:15,750 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-13 00:00:15,756 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-13 00:00:15,756 DEBUG fetch_uap_data - Database connection closed.
+2025-04-13 00:00:15,756 WARNING fetch_uap_data - Skipping flight data fetch due to missing event_date or location for UAP source https://www.reddit.com/r/UFOs/comments/1jxxvin/i_just_saw_this_flying_over_new_mexico_what_is_it/
+2025-04-13 00:00:16,392 INFO fetch_uap_data - Fetched 0 flight records for location (35.207290, -101.837119)
+2025-04-13 00:00:20,558 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-13 00:00:20,558 INFO fetch_uap_data - Script finished. Total runtime: 0:00:14.848352

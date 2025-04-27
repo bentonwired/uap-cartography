@@ -1,0 +1,27 @@
+2025-04-18 06:00:03,209 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-18 06:00:03,224 INFO fetch_uap_data - Script started.
+2025-04-18 06:00:03,224 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-18 06:00:03,224 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-18 06:00:05,198 DEBUG fetch_uap_data - Parsing event date from: '7:30am on 25 Feb 2025'
+2025-04-18 06:00:05,224 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-02-25 07:30:00+00:00
+2025-04-18 06:00:06,360 DEBUG fetch_uap_data - Skipping post 1k1xpi5 because event date (2025-02-25 07:30:00+00:00) is outside the 7-day window from report date (2025-04-18 05:49:47+00:00). Time difference: 51 days, 22:19:47
+2025-04-18 06:00:06,360 DEBUG fetch_uap_data - Skipping post 1k23vtu as it has no video content.
+2025-04-18 06:00:06,360 DEBUG fetch_uap_data - Parsing event date from: 'April 18, 2025 12:15pm'
+2025-04-18 06:00:06,362 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-18 12:15:00+00:00
+2025-04-18 06:00:06,842 DEBUG fetch_uap_data - Geocoded location 'Berlin, Germany' to (52.510885, 13.398937).
+2025-04-18 06:00:06,979 DEBUG fetch_uap_data - Added post with ID 1k225l9
+2025-04-18 06:00:07,979 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-18 06:00:07,979 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-18 06:00:08,016 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-18 06:00:08,019 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-18 06:00:08,019 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-18 06:00:08,021 INFO fetch_uap_data - Total records processed: 1
+2025-04-18 06:00:08,021 INFO fetch_uap_data - Records inserted: 1
+2025-04-18 06:00:08,021 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-18 06:00:08,059 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-18 06:00:08,059 DEBUG fetch_uap_data - Database connection closed.
+2025-04-18 06:00:08,522 INFO fetch_uap_data - Fetched 8 flight records for location (52.510885, 13.398937)
+2025-04-18 06:00:08,550 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-18 06:00:08,557 INFO fetch_uap_data - Inserted 8 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k225l9/first_sighting_just_now_in_berlin/
+2025-04-18 06:00:12,014 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-18 06:00:12,014 INFO fetch_uap_data - Script finished. Total runtime: 0:00:08.790110

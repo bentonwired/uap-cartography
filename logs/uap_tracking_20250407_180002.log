@@ -1,0 +1,42 @@
+2025-04-07 18:00:02,812 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-07 18:00:02,828 INFO fetch_uap_data - Script started.
+2025-04-07 18:00:02,828 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-07 18:00:02,828 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-07 18:00:04,734 DEBUG fetch_uap_data - Parsing event date from: '8:05pm'
+2025-04-07 18:00:04,817 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-08 20:05:00+00:00
+2025-04-07 18:00:05,445 DEBUG fetch_uap_data - Geocoded location 'Henderson Nevada' to (36.031984, -114.982249).
+2025-04-07 18:00:05,588 DEBUG fetch_uap_data - Added post with ID 1jtzyif
+2025-04-07 18:00:06,588 DEBUG fetch_uap_data - Parsing event date from: '1/19/2025 at 12 AM'
+2025-04-07 18:00:07,419 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-07 18:00:07,419 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-07 18:00:07,419 DEBUG fetch_uap_data - Extracted numeric month: 1
+2025-04-07 18:00:07,420 DEBUG fetch_uap_data - Extracted day: 1
+2025-04-07 18:00:07,420 DEBUG fetch_uap_data - Time not found in '1/19/2025 at 12 AM'
+2025-04-07 18:00:07,420 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-01-01 00:00:00+00:00
+2025-04-07 18:00:07,640 DEBUG fetch_uap_data - Geocoded location 'Joshua Tree National Park, CA' to (33.897067, -115.951116).
+2025-04-07 18:00:07,640 DEBUG fetch_uap_data - Skipping post 1jtzyah because event date (2025-01-01 00:00:00+00:00) is outside the 7-day window from report date (2025-04-07 23:49:30+00:00). Time difference: 96 days, 23:49:30
+2025-04-07 18:00:07,640 DEBUG fetch_uap_data - Parsing event date from: '11:30 PM - April 24th, 2023'
+2025-04-07 18:00:07,642 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2023-04-24 23:30:00+00:00
+2025-04-07 18:00:09,776 DEBUG fetch_uap_data - Geocoded location 'Tampa, FL' to (27.947760, -82.458444).
+2025-04-07 18:00:09,776 DEBUG fetch_uap_data - Skipping post 1jtz4hf because event date (2023-04-24 23:30:00+00:00) is outside the 7-day window from report date (2025-04-07 23:10:23+00:00). Time difference: 713 days, 23:40:23
+2025-04-07 18:00:09,776 DEBUG fetch_uap_data - Parsing event date from: 'December 9 2009'
+2025-04-07 18:00:09,777 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2009-12-09 00:00:00+00:00
+2025-04-07 18:00:10,771 DEBUG fetch_uap_data - Geocoded location 'Kremlin Moscow Russia' to (55.751621, 37.618122).
+2025-04-07 18:00:10,771 DEBUG fetch_uap_data - Skipping post 1jtsvw7 because event date (2009-12-09 00:00:00+00:00) is outside the 7-day window from report date (2025-04-07 18:46:06+00:00). Time difference: 5598 days, 18:46:06
+2025-04-07 18:00:10,772 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-07 18:00:10,772 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-07 18:00:10,800 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-07 18:00:10,803 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-07 18:00:10,803 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-07 18:00:10,805 INFO fetch_uap_data - Total records processed: 1
+2025-04-07 18:00:10,805 INFO fetch_uap_data - Records inserted: 1
+2025-04-07 18:00:10,805 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-07 18:00:10,810 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-07 18:00:10,810 DEBUG fetch_uap_data - Database connection closed.
+2025-04-07 18:00:11,321 INFO fetch_uap_data - Fetched 64 flight records for location (36.031984, -114.982249)
+2025-04-07 18:00:11,349 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-07 18:00:11,353 ERROR fetch_uap_data - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, https://www.reddit.com/r/UFOs/comments/1jtzyif/saw_this_while_wa..., null, a5d10c, adsb_icao, N474MC  , N474MC, RV8, 7200, 142, null, null, null, null, null, null, null, 335.06, null, null, null, 128, 1200, 1014, 3488, null, 36.113132, -115.433762, 9, 75, 0, 0, 0, null, ["geom_rate"], 2395640, 0, -5.3, null, null).
+
+2025-04-07 18:00:14,106 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-07 18:00:14,106 INFO fetch_uap_data - Script finished. Total runtime: 0:00:11.278262

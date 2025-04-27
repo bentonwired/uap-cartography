@@ -1,0 +1,18 @@
+2025-04-16 06:00:03,098 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-16 06:00:03,113 INFO fetch_uap_data - Script started.
+2025-04-16 06:00:03,113 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-16 06:00:03,113 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-16 06:00:05,274 DEBUG fetch_uap_data - Skipping post 1k0cpz6 as it has no video content.
+2025-04-16 06:00:05,274 DEBUG fetch_uap_data - Skipping post 1k0fdx2 as it has no video content.
+2025-04-16 06:00:05,274 DEBUG fetch_uap_data - Parsing event date from: '04-16-2025 00:09:27'
+2025-04-16 06:00:06,419 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-16 06:00:06,420 DEBUG fetch_uap_data - Extracted 4-digit year: 2025
+2025-04-16 06:00:06,420 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-16 06:00:06,420 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-16 06:00:06,420 DEBUG fetch_uap_data - Extracted time: 00:09:27
+2025-04-16 06:00:06,420 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 00:09:27+00:00
+2025-04-16 06:00:06,870 DEBUG fetch_uap_data - Geocoded location 'Pueblo, Colorado' to (38.263995, -104.614187).
+2025-04-16 06:00:06,871 DEBUG fetch_uap_data - Skipping post 1k0fdgd because event date (2025-04-04 00:09:27+00:00) is outside the 7-day window from report date (2025-04-16 08:24:08+00:00). Time difference: 12 days, 8:14:41
+2025-04-16 06:00:06,871 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-16 06:00:20,941 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-16 06:00:20,942 INFO fetch_uap_data - Script finished. Total runtime: 0:00:17.829316

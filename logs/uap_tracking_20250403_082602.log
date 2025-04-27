@@ -1,0 +1,6 @@
+2025-04-03 08:26:02,292 INFO <input> - Reddit API initialized successfully.
+2025-04-03 08:26:02,308 INFO <input> - Script started.
+2025-04-03 08:26:02,308 INFO <input> - Fetching UAP sightings from Reddit...
+2025-04-03 08:26:02,308 INFO <input> - Fetching posts from subreddit: UFOs
+2025-04-03 08:26:07,030 INFO <input> - Email notification sent successfully.
+2025-04-03 08:26:07,030 INFO <input> - Script finished. Total runtime: 0:00:04.722466

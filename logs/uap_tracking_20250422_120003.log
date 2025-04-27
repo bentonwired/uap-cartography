@@ -1,0 +1,39 @@
+2025-04-22 12:00:03,540 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-22 12:00:03,558 INFO fetch_uap_data - Script started.
+2025-04-22 12:00:03,558 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-22 12:00:03,558 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-22 12:00:05,608 DEBUG fetch_uap_data - Parsing event date from: '4:33AM, 21 April, 2025'
+2025-04-22 12:00:05,632 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-21 04:33:00+00:00
+2025-04-22 12:00:09,487 ERROR fetch_uap_data - Geocoding failed for 'Jonkoping, Sweden': HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Jonkoping%2C+Sweden&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-04-22 12:00:09,917 DEBUG fetch_uap_data - Added post with ID 1k5dgrw
+2025-04-22 12:00:10,918 DEBUG fetch_uap_data - Parsing event date from: '6:42pm - 8:13pm 2/9/25'
+2025-04-22 12:00:12,242 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-22 12:00:12,243 DEBUG fetch_uap_data - Extracted two-digit year from mm/dd/yy: 2025
+2025-04-22 12:00:12,243 DEBUG fetch_uap_data - Extracted numeric month: 6
+2025-04-22 12:00:12,243 DEBUG fetch_uap_data - Extracted day: 6
+2025-04-22 12:00:12,243 DEBUG fetch_uap_data - Time not found in '6:42pm - 8:13pm 2/9/25'
+2025-04-22 12:00:12,243 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-06-06 00:00:00+00:00
+2025-04-22 12:00:13,410 DEBUG fetch_uap_data - Geocoded location 'Phoenix, Arizona' to (33.448437, -112.074141).
+2025-04-22 12:00:13,410 DEBUG fetch_uap_data - Skipping post 1k5bkc3 because event date (2025-06-06 00:00:00+00:00) is outside the 7-day window from report date (2025-04-22 17:05:29+00:00). Time difference: 44 days, 6:54:31
+2025-04-22 12:00:13,410 DEBUG fetch_uap_data - Parsing event date from: '8:29 pm Central'
+2025-04-22 12:00:13,419 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-22 12:00:13,419 DEBUG fetch_uap_data - Extracted generic two-digit year: 2029
+2025-04-22 12:00:13,419 DEBUG fetch_uap_data - Extracted numeric month: 8
+2025-04-22 12:00:13,419 DEBUG fetch_uap_data - Extracted day: 8
+2025-04-22 12:00:13,419 DEBUG fetch_uap_data - Extracted time: 08:29:00
+2025-04-22 12:00:13,419 DEBUG fetch_uap_data - Constructed datetime from fallback: 2029-08-08 08:29:00+00:00
+2025-04-22 12:00:16,824 ERROR fetch_uap_data - Geocoding failed for 'Nashville, TN': HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Max retries exceeded with url: /search?q=Nashville%2C+TN&format=json&limit=1 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)"))
+2025-04-22 12:00:17,048 DEBUG fetch_uap_data - Skipping post 1k57fuk because event date (2029-08-08 08:29:00+00:00) is outside the 7-day window from report date (2025-04-22 14:17:48+00:00). Time difference: 1568 days, 18:11:12
+2025-04-22 12:00:17,048 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-22 12:00:17,049 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-22 12:00:17,085 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-22 12:00:17,088 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-22 12:00:17,090 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-22 12:00:17,096 INFO fetch_uap_data - Total records processed: 1
+2025-04-22 12:00:17,096 INFO fetch_uap_data - Records inserted: 1
+2025-04-22 12:00:17,096 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-22 12:00:17,101 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-22 12:00:17,101 DEBUG fetch_uap_data - Database connection closed.
+2025-04-22 12:00:17,101 WARNING fetch_uap_data - Skipping flight data fetch due to missing event_date or location for UAP source https://www.reddit.com/r/UFOs/comments/1k5dgrw/what_are_those/
+2025-04-22 12:00:19,843 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-22 12:00:19,844 INFO fetch_uap_data - Script finished. Total runtime: 0:00:16.286216

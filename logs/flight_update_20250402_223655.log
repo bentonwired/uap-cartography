@@ -1,0 +1,110 @@
+2025-04-02 22:36:55,120 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:55,122 INFO <input> - Found 23 sightings with valid location and event date.
+2025-04-02 22:36:55,122 INFO <input> - Fetching flight data for sighting 1 (lat: 38.390597711713916, lon: -86.93148192268099)
+2025-04-02 22:36:55,123 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:55,565 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/38.390597711713916/lon/-86.93148192268099/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:55,567 INFO <input> - Fetched 4 flight records for location (38.390598, -86.931482)
+2025-04-02 22:36:55,597 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:55,599 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 1, null, c044b2, adsb_icao, CSB107  , C-GAAJ, B763, 27000, 378, null, null, null, null, null, null, null, 113.85, null, null, null, 0, 2535, 1013, 27008, null, 38.419785, -87.157944, 8, 186, 0.55, 0, 0, [], [], 29320506, 0, -16.7).
+
+2025-04-02 22:36:55,600 INFO <input> - Fetching flight data for sighting 2 (lat: 32.250448254515796, lon: -110.98845165348575)
+2025-04-02 22:36:55,600 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:56,019 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/32.250448254515796/lon/-110.98845165348575/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:56,020 INFO <input> - Fetched 5 flight records for location (32.250448, -110.988452)
+2025-04-02 22:36:56,047 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:56,048 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 2, null, a1a9f4, adsb_icao, SKW5574 , N206SY, E75L, null, 33, null, null, null, null, null, null, null, 315.86, null, null, 315, -64, 7264, 1010, 6816, null, 32.116341, -110.939674, 8, 186, 0.1, 0, 0, [], [], 66839259, 0, -6.6).
+
+2025-04-02 22:36:56,049 INFO <input> - Fetching flight data for sighting 3 (lat: 33.697105038423075, lon: -117.18538066119046)
+2025-04-02 22:36:56,049 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:56,468 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/33.697105038423075/lon/-117.18538066119046/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:56,469 INFO <input> - Fetched 10 flight records for location (33.697105, -117.185381)
+2025-04-02 22:36:56,496 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:56,497 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 3, null, ab39f4, adsb_icao, N822TB  , N822TB, C525, 6775, 218, null, null, null, null, null, null, null, 62.73, null, null, null, -1728, 4673, 1011, 4992, null, 33.93565, -117.490654, 9, 75, 0.43, 0, 0, [], [], 3095450, 0, -6.2).
+
+2025-04-02 22:36:56,498 INFO <input> - Fetching flight data for sighting 11 (lat: 41.08940419253974, lon: -85.34777035096441)
+2025-04-02 22:36:56,498 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:56,917 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/41.08940419253974/lon/-85.34777035096441/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:56,917 INFO <input> - Fetched 2 flight records for location (41.089404, -85.347770)
+2025-04-02 22:36:56,947 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:56,948 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 11, null, ab202a, adsb_icao, FSR816  , N816FG, LJ45, 41000, 486, null, null, null, null, null, null, null, 84.93, null, null, null, 0, 1110, 1013, 40992, null, 40.957542, -85.513962, 9, 75, 0.18, 0, 0, [], [], 8579493, 0, -13.1).
+
+2025-04-02 22:36:56,948 INFO <input> - Fetching flight data for sighting 4 (lat: 53.364599030623936, lon: -2.283372539434854)
+2025-04-02 22:36:56,948 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:57,379 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/53.364599030623936/lon/-2.283372539434854/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:57,379 INFO <input> - Fetched 25 flight records for location (53.364599, -2.283373)
+2025-04-02 22:36:57,512 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:57,514 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 4, null, 406a95, adsb_icao, EZY47BL , G-EZWU, A320, 1350, 151, 162, 164, 0.25, 91, 19, null, null, 54.42, -23.73, 71.02, 70.96, 2048, 7634, 1022, 4000, null, 53.337364, -2.811046, 8, 186, 0.14, 0, 0, [], [], 102512624, 0, -10.8).
+
+2025-04-02 22:36:57,515 INFO <input> - Fetching flight data for sighting 5 (lat: 54.444543498827635, lon: -1.6157472711448821)
+2025-04-02 22:36:57,516 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:57,946 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/54.444543498827635/lon/-1.6157472711448821/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:57,947 INFO <input> - Fetched 3 flight records for location (54.444543, -1.615747)
+2025-04-02 22:36:57,977 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:57,978 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 5, null, 407fae, adsb_icao, TOM36D  , G-TUMZ, B38M, 16075, 347, 279, 352, 0.56, 120, 22, -17, 0, 199.17, -0.53, 195.47, 195.59, 2496, 2053, 1013, 20992, 21008, 54.591717, -1.934176, 8, 186, 0.38, 0, 0, [], [], 113413857, 0, -7.2).
+
+2025-04-02 22:36:57,978 INFO <input> - Fetching flight data for sighting 6 (lat: 52.44589994516685, lon: 0.6229185047244249)
+2025-04-02 22:36:57,979 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:58,407 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/52.44589994516685/lon/0.6229185047244249/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:58,408 INFO <input> - Fetched 2 flight records for location (52.445900, 0.622919)
+2025-04-02 22:36:58,437 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:58,438 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 6, null, 471f4a, adsb_icao, WMT893  , HA-LWC, A320, 13000, 328, 250, 302, 0.48, 93, 26, -8, 4, 276.65, -0.53, 275.8, 277, 0, 2276, 1012, 12992, null, 52.231796, 0.467076, 7, 371, 0.46, 0, 0, [], [], 117771113, 0, -12.4).
+
+2025-04-02 22:36:58,439 INFO <input> - Fetching flight data for sighting 9 (lat: 53.5563035, lon: -3.0656565)
+2025-04-02 22:36:58,439 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:58,869 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/53.5563035/lon/-3.0656565/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:58,870 INFO <input> - Fetched 7 flight records for location (53.556303, -3.065656)
+2025-04-02 22:36:58,900 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:58,901 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 9, null, 4ca704, adsb_icao, RYR6016 , EI-EBG, B738, 37000, 427, 252, 448, 0.78, 164, 23, -54, -27, 170.03, 0.7, 169.98, 169.72, -64, 7270, 1013, 36992, 37008, 53.717056, -3.202436, 7, 371, 0.25, 0, 0, [], [], 113778223, 0, -15.2).
+
+2025-04-02 22:36:58,901 INFO <input> - Fetching flight data for sighting 10 (lat: 36.275938499999995, lon: -97.2969140904745)
+2025-04-02 22:36:58,902 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:59,310 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/36.275938499999995/lon/-97.2969140904745/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:59,310 INFO <input> - Fetched 0 flight records for location (36.275938, -97.296914)
+2025-04-02 22:36:59,311 WARNING <input> - No flight data returned for sighting 10
+2025-04-02 22:36:59,311 INFO <input> - Fetching flight data for sighting 13 (lat: 32.257877013495886, lon: -109.83584019766857)
+2025-04-02 22:36:59,312 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:36:59,731 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/32.257877013495886/lon/-109.83584019766857/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:36:59,731 INFO <input> - Fetched 3 flight records for location (32.257877, -109.835840)
+2025-04-02 22:36:59,761 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:36:59,762 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 13, null, ac3ea3, adsb_icao, SWA1484 , N8885Q, B38M, 38000, 401, null, null, null, null, null, null, null, 292.09, null, null, null, 0, 2106, 1013, 38016, null, 32.509567, -109.954704, 8, 186, 0.47, 0, 0, [], [], 89519207, 0, -12.1).
+
+2025-04-02 22:36:59,763 INFO <input> - Fetching flight data for sighting 8 (lat: 33.4151005, lon: -111.831455)
+2025-04-02 22:36:59,763 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:37:00,215 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/33.4151005/lon/-111.831455/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:37:00,216 INFO <input> - Fetched 58 flight records for location (33.415101, -111.831455)
+2025-04-02 22:37:00,246 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:37:00,249 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 8, null, a842a9, adsb_icao, NKS692  , N631NK, A320, 38000, 415, null, null, null, null, null, null, null, 283.94, null, null, null, 64, 0735, 1012, 38016, null, 33.318554, -112.164528, 8, 186, 0.2, 0, 0, [], [], 68154402, 0, -10.6).
+
+2025-04-02 22:37:00,250 INFO <input> - Fetching flight data for sighting 15 (lat: 23.4559809, lon: 85.2557301)
+2025-04-02 22:37:00,251 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:37:00,687 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/23.4559809/lon/85.2557301/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:37:00,687 INFO <input> - Fetched 0 flight records for location (23.455981, 85.255730)
+2025-04-02 22:37:00,688 WARNING <input> - No flight data returned for sighting 15
+2025-04-02 22:37:00,688 INFO <input> - Fetching flight data for sighting 12 (lat: 51.6722151, lon: -4.139608801647599)
+2025-04-02 22:37:00,688 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:37:01,115 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/51.6722151/lon/-4.139608801647599/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:37:01,115 INFO <input> - Fetched 4 flight records for location (51.672215, -4.139609)
+2025-04-02 22:37:01,151 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:37:01,152 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 12, null, 406b21, adsb_icao, BAW2CE  , G-XLEH, A388, 40000, 465, 256, 490, 0.84, 154, 31, -49, -17, 114.47, -0.53, 117.25, 116.74, -64, 7730, 1013, 27008, 22000, 51.643284, -4.54155, 8, 186, 0.28, 0, 0, [], [], 54909200, 0, -11.5).
+
+2025-04-02 22:37:01,152 INFO <input> - Fetching flight data for sighting 26 (lat: 40.7263208, lon: -73.986456)
+2025-04-02 22:37:01,153 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443
+2025-04-02 22:37:01,614 DEBUG connectionpool - https://adsbexchange-com1.p.rapidapi.com:443 "GET /v2/lat/40.7263208/lon/-73.986456/dist/25/ HTTP/1.1" 200 None
+2025-04-02 22:37:01,614 INFO <input> - Fetched 70 flight records for location (40.726321, -73.986456)
+2025-04-02 22:37:01,642 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-02 22:37:01,646 ERROR <input> - Error inserting flight data: null value in column "flight_id" of relation "flight_data" violates not-null constraint
+DETAIL:  Failing row contains (null, null, null, null, null, null, 26, null, a7858e, adsb_icao, null, N584JB, A320, null, 0, null, null, null, null, null, null, null, null, null, null, null, null, 2000, null, null, null, 40.687374, -74.187256, 8, 186, 1.6, 0, 0, [], [], 57362136, 1, -6.4).
+
+2025-04-02 22:37:01,646 INFO <input> - Fetching flight data for sighting 27 (lat: 19.3498606, lon: -99.1619751)
+2025-04-02 22:37:01,647 DEBUG connectionpool - Starting new HTTPS connection (1): adsbexchange-com1.p.rapidapi.com:443

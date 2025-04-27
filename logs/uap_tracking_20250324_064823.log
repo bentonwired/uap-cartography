@@ -1,0 +1,80 @@
+2025-03-24 06:48:23,380 INFO reddit_api - Reddit API initialized successfully.
+2025-03-24 06:48:23,521 INFO reddit_api - Script started.
+2025-03-24 06:48:23,521 INFO reddit_api - Fetching UAP sightings from Reddit...
+2025-03-24 06:48:23,521 INFO reddit_api - Fetching posts from subreddit: UFOs
+2025-03-24 06:48:24,962 DEBUG reddit_api - Parsing event date from: '9:02am PST'
+2025-03-24 06:48:24,963 DEBUG reddit_api - Year not found in '9:02am PST'
+2025-03-24 06:48:24,963 ERROR reddit_api - Year component not found in '9:02am PST'
+2025-03-24 06:48:25,430 DEBUG reddit_api - Geocoded location 'Carson City, Nevada' to (39.166326, -119.767037).
+2025-03-24 06:48:25,736 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jibu9k/object_over_carson_city/
+2025-03-24 06:48:26,736 DEBUG reddit_api - Parsing event date from: 'Summer of 2009 around 10:30pm.'
+2025-03-24 06:48:26,736 DEBUG reddit_api - Extracted 4-digit year: 2009
+2025-03-24 06:48:26,737 DEBUG reddit_api - Extracted numeric month: 10
+2025-03-24 06:48:26,737 DEBUG reddit_api - Extracted day: 10
+2025-03-24 06:48:26,737 DEBUG reddit_api - Time not found in 'Summer of 2009 around 10:30pm.'
+2025-03-24 06:48:26,737 DEBUG reddit_api - Defaulting time to 00:00:00
+2025-03-24 06:48:26,737 DEBUG reddit_api - Constructed datetime: 2009-10-10 00:00:00
+2025-03-24 06:48:26,876 DEBUG reddit_api - Geocoded location 'Upstate NY' to (40.726321, -73.986456).
+2025-03-24 06:48:27,010 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jipn7m/black_triangle_mothership/
+2025-03-24 06:48:28,011 DEBUG reddit_api - Parsing event date from: '3/22/25 at 11:56AM pacific'
+2025-03-24 06:48:28,011 DEBUG reddit_api - Extracted two-digit year from mm/dd/yy: 2025
+2025-03-24 06:48:28,011 DEBUG reddit_api - Extracted numeric month: 3
+2025-03-24 06:48:28,011 DEBUG reddit_api - Extracted day: 3
+2025-03-24 06:48:28,011 DEBUG reddit_api - Time not found in '3/22/25 at 11:56AM pacific'
+2025-03-24 06:48:28,011 DEBUG reddit_api - Defaulting time to 00:00:00
+2025-03-24 06:48:28,011 DEBUG reddit_api - Constructed datetime: 2025-03-03 00:00:00
+2025-03-24 06:48:28,257 DEBUG reddit_api - Geocoded location 'Mesa AZ' to (33.415101, -111.831455).
+2025-03-24 06:48:28,390 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1ji3fa5/anyone_know_what_this_is/
+2025-03-24 06:48:29,391 DEBUG reddit_api - Parsing event date from: 'November 2001, around 9:00pm'
+2025-03-24 06:48:29,391 DEBUG reddit_api - Extracted 4-digit year: 2001
+2025-03-24 06:48:29,391 DEBUG reddit_api - Extracted month name 'november' as 11
+2025-03-24 06:48:29,391 DEBUG reddit_api - Extracted day: 9
+2025-03-24 06:48:29,391 DEBUG reddit_api - Time not found in 'November 2001, around 9:00pm'
+2025-03-24 06:48:29,391 DEBUG reddit_api - Defaulting time to 00:00:00
+2025-03-24 06:48:29,391 DEBUG reddit_api - Constructed datetime: 2001-11-09 00:00:00
+2025-03-24 06:48:29,596 DEBUG reddit_api - Geocoded location 'Formby, United Kingdom' to (53.556303, -3.065656).
+2025-03-24 06:48:29,730 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jhz6di/my_ufo_sighting_as_a_child_has_anyone_seen/
+2025-03-24 06:48:30,731 DEBUG reddit_api - Parsing event date from: '9:00pm (approx)'
+2025-03-24 06:48:30,731 DEBUG reddit_api - Year not found in '9:00pm (approx)'
+2025-03-24 06:48:30,731 ERROR reddit_api - Year component not found in '9:00pm (approx)'
+2025-03-24 06:48:30,945 DEBUG reddit_api - Geocoded location 'Northern Oklahoma' to (36.275938, -97.296914).
+2025-03-24 06:48:31,261 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jhqu5d/blue_ufo/
+2025-03-24 06:48:32,263 DEBUG reddit_api - Parsing event date from: 'September of 2021, Around 4:00pm**'
+2025-03-24 06:48:32,263 DEBUG reddit_api - Extracted 4-digit year: 2021
+2025-03-24 06:48:32,263 DEBUG reddit_api - Extracted month name 'september' as 9
+2025-03-24 06:48:32,263 DEBUG reddit_api - Extracted day: 4
+2025-03-24 06:48:32,263 DEBUG reddit_api - Time not found in 'September of 2021, Around 4:00pm**'
+2025-03-24 06:48:32,263 DEBUG reddit_api - Defaulting time to 00:00:00
+2025-03-24 06:48:32,263 DEBUG reddit_api - Constructed datetime: 2021-09-04 00:00:00
+2025-03-24 06:48:36,008 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jhomf8/can_anyone_help_figure_out_what_exactly_my_mom/
+2025-03-24 06:48:37,008 DEBUG reddit_api - Parsing event date from: '11 PM / 10 AM, August 20th + 21st 2023'
+2025-03-24 06:48:37,008 DEBUG reddit_api - Extracted 4-digit year: 2023
+2025-03-24 06:48:37,008 DEBUG reddit_api - Extracted month name 'august' as 8
+2025-03-24 06:48:37,008 DEBUG reddit_api - Extracted day: 11
+2025-03-24 06:48:37,008 DEBUG reddit_api - Time not found in '11 PM / 10 AM, August 20th + 21st 2023'
+2025-03-24 06:48:37,008 DEBUG reddit_api - Defaulting time to 00:00:00
+2025-03-24 06:48:37,008 DEBUG reddit_api - Constructed datetime: 2023-08-11 00:00:00
+2025-03-24 06:48:37,283 DEBUG reddit_api - Geocoded location 'Llanelli, South Wales, UK' to (51.672215, -4.139609).
+2025-03-24 06:48:37,419 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jhki51/ufouap_above_uk_2023/
+2025-03-24 06:48:39,310 DEBUG reddit_api - Geocoded location 'North Phoenix, Arizona' to (32.257877, -109.835840).
+2025-03-24 06:48:39,310 DEBUG reddit_api - Parsing event date from: '3/21/2025 , 8:16pm PT'
+2025-03-24 06:48:39,310 DEBUG reddit_api - Extracted 4-digit year: 2025
+2025-03-24 06:48:39,310 DEBUG reddit_api - Extracted numeric month: 3
+2025-03-24 06:48:39,310 DEBUG reddit_api - Extracted day: 3
+2025-03-24 06:48:39,310 DEBUG reddit_api - Time not found in '3/21/2025 , 8:16pm PT'
+2025-03-24 06:48:39,310 DEBUG reddit_api - Defaulting time to 00:00:00
+2025-03-24 06:48:39,310 DEBUG reddit_api - Constructed datetime: 2025-03-03 00:00:00
+2025-03-24 06:48:39,440 DEBUG reddit_api - Added post from source: https://www.reddit.com/r/UFOs/comments/1jhm8oo/anyone_know_what_this_is/
+2025-03-24 06:48:40,441 INFO reddit_api - Fetched 8 sightings. Inserting into database...
+2025-03-24 06:48:40,469 DEBUG reddit_api - Connected to the PostgreSQL database successfully.
+2025-03-24 06:48:40,471 DEBUG reddit_api - Primary key sequence updated.
+2025-03-24 06:48:40,471 INFO reddit_api - Inserting 8 records into the database.
+2025-03-24 06:48:40,474 INFO reddit_api - Total records processed: 8
+2025-03-24 06:48:40,474 INFO reddit_api - Records inserted: 2
+2025-03-24 06:48:40,474 INFO reddit_api - Skipped duplicates: 6
+2025-03-24 06:48:40,479 DEBUG reddit_api - Geometry column updated.
+2025-03-24 06:48:40,479 DEBUG reddit_api - Primary key sequence updated.
+2025-03-24 06:48:40,479 DEBUG reddit_api - Database connection closed.
+2025-03-24 06:48:40,479 INFO reddit_api - 2 records successfully inserted.
+2025-03-24 06:48:40,479 INFO reddit_api - 6 records skipped (likely duplicates).
+2025-03-24 06:48:40,479 INFO reddit_api - Script finished. Total runtime: 0:00:16.957826

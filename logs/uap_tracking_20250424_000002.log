@@ -1,0 +1,40 @@
+2025-04-24 00:00:02,564 INFO fetch_uap_data - Reddit API initialized successfully.
+2025-04-24 00:00:02,579 INFO fetch_uap_data - Script started.
+2025-04-24 00:00:02,579 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
+2025-04-24 00:00:02,580 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
+2025-04-24 00:00:04,822 DEBUG fetch_uap_data - Geocoded location 'Kingsville, MD' to (39.447771, -76.419126).
+2025-04-24 00:00:04,822 DEBUG fetch_uap_data - Parsing event date from: '10:30PM'
+2025-04-24 00:00:04,912 DEBUG fetch_uap_data - Parsed datetime using dateparser: 2025-04-24 22:30:00+00:00
+2025-04-24 00:00:05,034 DEBUG fetch_uap_data - Added post with ID 1k6ky4u
+2025-04-24 00:00:06,957 DEBUG fetch_uap_data - Parsing event date from: '04/21/25 around 11:00pm'
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Extracted two-digit year from mm/dd/yy: 2025
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Extracted numeric month: 4
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Extracted day: 4
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Time not found in '04/21/25 around 11:00pm'
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-04-04 00:00:00+00:00
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Skipping post 1k6k7kf because event date (2025-04-04 00:00:00+00:00) is outside the 7-day window from report date (2025-04-24 05:05:56+00:00). Time difference: 20 days, 5:05:56
+2025-04-24 00:00:07,766 DEBUG fetch_uap_data - Parsing event date from: '03/28/25  8:40pm EST'
+2025-04-24 00:00:08,240 DEBUG fetch_uap_data - Dateparser failed, falling back to custom extraction logic.
+2025-04-24 00:00:08,240 DEBUG fetch_uap_data - Extracted two-digit year from mm/dd/yy: 2025
+2025-04-24 00:00:08,240 DEBUG fetch_uap_data - Extracted numeric month: 3
+2025-04-24 00:00:08,240 DEBUG fetch_uap_data - Extracted day: 3
+2025-04-24 00:00:08,240 DEBUG fetch_uap_data - Time not found in '03/28/25  8:40pm EST'
+2025-04-24 00:00:08,240 DEBUG fetch_uap_data - Constructed datetime from fallback: 2025-03-03 00:00:00+00:00
+2025-04-24 00:00:08,377 DEBUG fetch_uap_data - Geocoded location 'Copperhill, TN' to (34.989157, -84.370098).
+2025-04-24 00:00:08,377 DEBUG fetch_uap_data - Skipping post 1k6ggx1 because event date (2025-03-03 00:00:00+00:00) is outside the 7-day window from report date (2025-04-24 01:46:07+00:00). Time difference: 52 days, 1:46:07
+2025-04-24 00:00:08,377 INFO fetch_uap_data - Total raw posts iterated: 100
+2025-04-24 00:00:08,377 INFO fetch_uap_data - Fetched 1 sightings. Inserting into database...
+2025-04-24 00:00:08,417 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-24 00:00:08,419 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-24 00:00:08,419 INFO fetch_uap_data - Inserting 1 records into the database.
+2025-04-24 00:00:08,422 INFO fetch_uap_data - Total records processed: 1
+2025-04-24 00:00:08,422 INFO fetch_uap_data - Records inserted: 1
+2025-04-24 00:00:08,422 INFO fetch_uap_data - Skipped duplicates: 0
+2025-04-24 00:00:08,428 DEBUG fetch_uap_data - Primary key sequence updated.
+2025-04-24 00:00:08,428 DEBUG fetch_uap_data - Database connection closed.
+2025-04-24 00:00:08,892 INFO fetch_uap_data - Fetched 1 flight records for location (39.447771, -76.419126)
+2025-04-24 00:00:08,925 DEBUG fetch_uap_data - Connected to the PostgreSQL database successfully.
+2025-04-24 00:00:08,932 INFO fetch_uap_data - Inserted 1 flight records for UAP source https://www.reddit.com/r/UFOs/comments/1k6ky4u/kingsville_md_42325_1030pm_sionyx_aurora_west/
+2025-04-24 00:00:12,640 INFO fetch_uap_data - Email notification sent successfully.
+2025-04-24 00:00:12,640 INFO fetch_uap_data - Script finished. Total runtime: 0:00:10.060977

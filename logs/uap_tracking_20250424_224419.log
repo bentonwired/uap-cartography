@@ -1,0 +1,13 @@
+2025-04-24 22:44:20,082 INFO <input> - Reddit API initialized successfully.
+2025-04-24 22:44:20,105 INFO <input> - Script started.
+2025-04-24 22:44:20,106 INFO <input> - Fetching UAP sightings from Reddit...
+2025-04-24 22:44:20,106 INFO <input> - Fetching posts from subreddit: UFOs
+2025-04-24 22:44:22,212 DEBUG <input> - Skipping post 1k7cjo4 as it has no video content.
+2025-04-24 22:44:22,212 DEBUG <input> - Skipping post 1k793g6 as it has no video content.
+2025-04-24 22:44:22,212 DEBUG <input> - Skipping post 1k74c02 as it has no video content.
+2025-04-24 22:44:22,212 INFO <input> - Total raw posts iterated: 100
+2025-04-24 22:44:25,030 INFO <input> - Email notification sent successfully.
+2025-04-24 22:44:25,030 INFO <input> - Calling export_sightings_to_geojson() now…
+2025-04-24 22:44:25,081 DEBUG <input> - Connected to the PostgreSQL database successfully.
+2025-04-24 22:44:25,104 INFO <input> - GeoJSON export complete.
+2025-04-24 22:44:25,104 INFO <input> - Script finished. Total runtime: 0:00:04.999559
