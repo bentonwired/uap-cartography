@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Elessar</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet" />
+  <!-- Load the Inter font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+  rel="stylesheet"
+  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css"
+  type="text/css"
+/>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+
+      /* Set Inter as your global font */
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;           /* normal text weight */
+      line-height: 1.5;           /* a bit more breathing room */
+    }
+    #map-container { position:absolute; top:0; bottom:0; width:100%; transition:opacity 0.4s ease; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+    .mapboxgl-popup { max-width: 300px; }
+    .legend {
+      background: rgba(0,0,0,0.2);
+      color: #fff;
+      padding:10px;
+      font-size:12px;
+      font-family: 'Inter', sans-serif !important;
+      position:absolute;
+      top:60px;
+      right:10px;
+      border-radius: 8px;
+    }
+
+    /* ── Timeline Scrubber Styles ── */
+    #slider-container {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      max-width: 400px;
+      background: rgba(0,0,0,0.3);
+      padding: 8px;
+      border-radius: 4px;
+      z-index: 1;
+    }
+    #time-slider { width: 100%; }
+    #time-label {
+      text-align: center;
+      color: #fff;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+    /* Constrain popup dimensions and enable scrolling */
+    .mapboxgl-popup-content {
+      max-width: 345px;
+      max-height: 500px;
+      overflow-y: auto;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+    /* Ensure all children wrap long words/URLs */
+    .mapboxgl-popup-content * {
+      word-break: break-word;
+    }
+
+    /* Top‐bar sits over the map but is otherwise transparent */
+    #top-bar {
+      position: absolute; top: 0; left: 0; right: 0; height: 40;
+      pointer-events: all; z-index: 5;
+    }
+
+    /* hamburger on the left */
+    #hamburger {
+      position: absolute; top: 10px; left: 10px;
+      pointer-events: all;
+      background: rgba(0,0,0,0.4);
+      border: none; color: #fff; font-size: 18px;
+      padding: 6px; border-radius: 6px;
+    }
+
+    /* info button on the right */
+    #info {
+      position: absolute; top: 10px; right: 10px;
+      pointer-events: all;
+      background: rgba(0,0,0,0.6);
+      border: none; color: #fff; font-size: 18px;
+      padding: 6px; border-radius: 4px;
+    }
+
+    /* small centered search box */
+    #search-box {
+      position: absolute; top: 10px; left: 50%;
+      transform: translateX(-50%);
+      width: 220px;          /* adjust to taste */
+      max-width: 60%;
+      pointer-events: all;
+      background: rgba(0,0,0,0.6);
+      border: none; color: #fff; font-size: 14px;
+      padding: 6px; border-radius: 4px;
+    }
+
+    /* container for our custom dropdown */
+    .autocomplete-items {
+      position: absolute;
+      top: 40px;                      /* just under the input bar */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;                   /* match your input width */
+      max-height: none !important;
+      overflow-y: visible !important;
+      overflow-y: visible !important;
+      background: rgba(0,0,0,0.6);
+      border-radius: 4px;
+      z-index: 6;
+    }
+
+    /* each suggestion */
+    .autocomplete-items div {
+      padding: 8px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    /* hover highlight */
+    .autocomplete-items div:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ensure the datalist dropdown inherits basic styles */
+    datalist {
+      color: #000;
+    }
+
+    /* Drawer hidden off‐screen by default */
+    #drawer {
+      position: absolute; top: 50px; bottom: 0; left: -280px;
+      width: 280px; background: rgba(0,0,0,0.4); color: #fff;
+      transition: left 0.3s ease; z-index: 4;
+    }
+    /* When open, slide in and hide the hamburger */
+    #drawer.open {
+      left: 0;
+    }
+    #drawer.open ~ #hamburger {
+      display: none;
+    }
+
+    /* Drawer nav & content */
+    #drawer nav {
+      display: flex; background: rgba(255,255,255,0.04);
+      flex-direction: column;    /* stack vertically */
+    }
+    #drawer nav button {
+      flex: 1; padding: 10px; background: none;
+      border: none; color: #fff; cursor: pointer;
+      font-size: 14px;
+      text-align: left;      /* optional, makes the labels align neatly */
+      width: 100%;
+    }
+    #drawer-content {
+      background: rgba(255,255,255,0.04);  /* 70% opaque black */
+      padding: 10px; overflow-y: auto; height: calc(100% - 40px);
+    }
+
+    /* Move the default zoom/rotation controls down below our header */
+    .mapboxgl-ctrl-top-right {
+      top: 780px !important;
+    }
+
+    /* Recent list styling */
+    #drawer-content ul.recent-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: calc(100% - 40px); /* leave room for header */
+      overflow-y: auto;
+    }
+    #drawer-content li.recent-item {
+      margin-bottom: 12px;
+    }
+    #drawer-content .recent-item .line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #drawer-content .recent-item .line span:first-child {
+      display: flex;
+      align-items: center;
+    }
+    #drawer-content .recent-item .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    #drawer-content .recent-item .snippet {
+      margin-left: 14px;
+      font-size: 11px;
+      color: #ccc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Custom scrollbar for the drawer-content panel ── */
+    #drawer-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    #drawer-content::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.04);
+      border-radius: 4px;
+    }
+    #drawer-content::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.04);
+      border-radius: 4px;
+    }
+    #drawer-content::-webkit-scrollbar-thumb:hover {
+      background:  rgba(255,255,255,0.04);
+    }
+    #drawer-content {
+      scrollbar-width: thin;
+      scrollbar-color: #29b6f6 rgba(255,255,255,0.04);
+    }
+
+    #drawer nav button {
+    font-family: 'Inter', sans-serif !important;
+  }
+
+    /* ── Blur the map while loading ── */
+    #map-container.loading {
+      filter: blur(8px);
+      transition: filter 0.5s ease;
+    }
+
+    /* ── Full-screen overlay ── */
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    /* ── 3) absolute center both lines ── */
+    .loading-text {
+      position: relative;
+      width: 100%;
+      height: 1.5rem;           /* match or exceed your font-size/line-height */
+    }
+    .loading-text .line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      color: #fff;
+      opacity: 0;
+    }
+
+    /* ── 4) fade-in/out keyframes ── */
+    @keyframes fadeInOut {
+      /* first 10% = fade in, next 80% = stay visible, last 10% = fade out */
+      0%   { opacity: 0; transform: translate(-50%, -50%) translateY(10px); }
+      10%  { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+      90%  { opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+      100% { opacity: 0; transform: translate(-50%, -50%) translateY(0); }
+    }
+
+    /* ── 5) line-specific timing ── */
+    /* Line 1: starts at 0.5s, runs 3s (ends at 3.5s) */
+    .loading-text .line1 {
+      animation: fadeInOut 3s forwards;
+      animation-delay: 0.5s;
+    }
+    /* Line 2: small 0.5s gap, so starts at 4s, runs 3s (ends at 7s) */
+    .loading-text .line2 {
+      animation: fadeInOut 3s forwards;
+      animation-delay: 4s;
+    }
+
+    /* ── 6) overlay fade-out after both lines finish ── */
+    #loading-screen.fade-out {
+      animation: fadeOut 0.8s forwards;
+      animation-delay: 0s;   /* 7s (last line end) + 0.5s buffer */
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
+    /* hide by default */
+    #about-modal.hidden { display: none; }
+
+    /* backdrop and center panel */
+    #about-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 1000;
+    }
+    #about-modal .modal-backdrop {
+      position: absolute;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
+    #about-modal .modal-content {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 600px;
+      width: 90%;
+      max-height: 80%;
+      overflow-y: auto;
+      background: #111;
+      color: #eee;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.8);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* close button */
+    #about-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    /* nice little tagline style */
+    #about-modal .tagline {
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    /* hint styling */
+    #about-modal .hint {
+      font-style: italic;
+      margin-bottom: 0.75em;
+      color: #ccc;
+    }
+
+    /* headings within modal */
+    #about-modal .modal-content h3 {
+      margin-top: 1.25em;
+      margin-bottom: 0.5em;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    /* FAQ items */
+    #about-modal .faq-item {
+      margin-bottom: 0.75em;
+    }
+    #about-modal .faq-item p {
+      margin: 0.25em 0 0 0;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+    #about-modal ul {
+      padding-left: 1.2em;
+      color: #ddd;
+    }
+    #about-modal ul li {
+      margin-bottom: 0.5em;
+    }
+
+    /* Style the summary arrow and hover effect */
+    details summary {
+      cursor: pointer;
+      padding: 6px 0;
+      font-size: 1rem;
+    }
+    details[open] summary {
+      /* optional bold when open */
+      font-weight: 600;
+    }
+
+    /* Indent the contents */
+    details .faq-item,
+    details ul {
+      margin-left: 1em;
+      margin-top: 0.5em;
+    }
+
+    /* ── Quick Links ── */
+    #about-modal .modal-content ul.quick-links {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1em 0;
+    }
+    #about-modal .modal-content ul.quick-links li {
+      margin-bottom: 0.5em;
+    }
+    /* anchor styling */
+    #about-modal .modal-content ul.quick-links li a {
+      color: #29b6f6;           /* soft sky blue */
+      text-decoration: none;
+      font-weight: 500;
+    }
+    #about-modal .modal-content ul.quick-links li a:hover {
+      text-decoration: underline;
+    }
+
+/* ── Blue-themed Buy Me a Coffee button ── */
+.bmc-button {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(41, 182, 246, 0.3);      /* soft sky-blue at 30% opacity */
+  color: #fff;                              /* white text for contrast */
+  border: 1px solid rgba(41, 182, 246, 0.6);/* slightly stronger blue border */
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  margin-top: 0.25em;
+}
+
+.bmc-button:hover {
+  background: rgba(41, 182, 246, 0.5);      /* deepen on hover */
+  border-color: rgba(41, 182, 246, 0.8);
+}
+
+.bmc-button .coffee-icon {
+  margin-right: 6px;
+  /* keep the icon white */
+}
+
+
+
+  </style>
+</head>
+<body>
+<!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <div class="loading-text">
+      <div class="line line1">For the hope that was hidden,</div>
+      <div class="line line2">For the light that returns.</div>
+    </div>
+  </div>
+
+<!-- ABOUT MODAL -->
+<div id="about-modal" class="hidden">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <button id="about-close">✕</button>
+    <h2>About Elessar</h2>
+
+    <!-- 1) What & Why -->
+    <p>
+      Elessar is a <strong>fully automated UAP pipeline</strong> created in response to the lack of high quality and near-real-time UAP sightings: it scrapes public sources on (Reddit, X, Instagram) and ingests only time-stamped and geolocated <strong>video</strong> evidence—no static images, no text-only reports.
+      Every sighting is tagged with geolocation, a UTC timestamp, and a direct video link.
+    </p>
+
+    <!-- 2) Quick Links + Buy Me a Coffee -->
+    <h3>Quick Links</h3>
+    <ul class="quick-links">
+      <li><a href="https://github.com/bentonwired/uap-cartography" target="_blank">Source on GitHub</a></li>
+      <li><a href="https://twitter.com/bentonwired" target="_blank">Follow me on X</a></li>
+      <li><a href="mailto:youremail@example.com">Contact</a></li>
+      <li>
+        <!-- Buy Me a Coffee button -->
+        <a href="https://www.buymeacoffee.com/bentonwired"
+           target="_blank"
+           class="bmc-button">
+          <span class="coffee-icon">☕</span>
+          Buy me a coffee
+        </a>
+      </li>
+    </ul>
+
+
+    <!-- 3) Version -->
+    <h3>Version</h3>
+    <p>0.1.0 (alpha)</p>
+
+    <!-- 4) FAQ (collapsed by default) -->
+    <details>
+      <summary><strong>FAQ</strong></summary>
+
+      <div class="faq-item">
+        <strong>Q: Why did you build Elessar?</strong>
+        <p>A: I’m a backend dev in a cartographic field and couldn't really find anyone automating a video-only, high-quality UAP database/map.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: Is Elessar open source?</strong>
+        <p>A: Yes. The code’s on GitHub under the MIT license—feel free to fork it or run your own instance.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: How fresh is the data?</strong>
+        <p>A: Right now I re-scrape and re-score every six hours. My goal is sub-hourly or even real-time once I optimize rate limits and parallelize the pipeline.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: What is the confidence score?</strong>
+        <p>A: I score each video 0–10 based on clarity, metadata integrity, and source reliability—higher means more trustworthy.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: What counts as a “verified” sighting?</strong>
+        <p>A: Only time-stamped videos with extractable GPS/location data make the cut—no still images or text-only reports.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: What data sources do you use?</strong>
+        <p>A: I started with r/UFOs on Reddit because it’s super structured (timestamps and location tags on every post). I’m almost done integrating X, and Instagram and YouTube are next on deck.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: How do I submit my own sighting?</strong>
+        <p>A: Coming soon: a “Submit” portal where you’ll upload or link your video and pin the location.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: Where can I find more established UAP data?</strong>
+        <p>A: For decades of thorough work, check out MUFON and NUFORC. They accept a wider range of reports, expert reviews, and interviews—consider supporting them to keep their investigations ongoing.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: Why video only? Doesn’t that exclude eyewitness reports?</strong>
+        <p>A: Video guarantees verifiable time and place—text reports can’t be automated at scale. You can still share context elsewhere, but on Elessar video is king.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Q: How do you handle broken links, removed videos, or content takedowns?</strong>
+        <p>A: I’m building a caching/embedding fallback so that when I first ingest a video, it’s stored on our CDN for a limited time. My pipeline will (future*) also re-check each link daily and flag any dead ones for review or replacement.</p>
+      </div>
+
+    </details>
+
+    <!-- 5) Known Issues (also collapsible) -->
+    <details>
+      <summary><strong>Known Issues</strong></summary>
+      <ul>
+        <li><strong>Popup duplication at edges:</strong> When a point is near the top or bottom of the map, the popup can render twice (one clipped at the edge and one “leaking” on the opposite side).</li>
+        <li><strong>Popup content overlap:</strong> Long field names or values sometimes overlap table columns in the details view.</li>
+        <li><strong>Explorer region label stickiness:</strong> If you fly manually after picking a region, the region name stays stuck in the search bar until you clear or re-select it.</li>
+        <li><strong>Timeline toggle glitch:</strong> Clicking the “Timeline” tab when it’s already on will uncheck the box but leave the slider visible.</li>
+        <li><strong>Stats chart is unlabeled:</strong> The 7-day sparkline doesn’t yet show Mon–Sun or date labels along the axis.</li>
+        <li><strong>Autocomplete overflow:</strong> On narrow screens the dropdown of suggestions can spill off the bottom or sides of the viewport.</li>
+      </ul>
+    </details>
+
+  </div>
+</div>
+
+  <!-- Invisible header icons -->
+  <div id="top-bar">
+    <button id="hamburger">☰</button>
+  <input
+    id="search-box"
+    type="text"
+    placeholder="Explore a region…"
+    autocomplete="off"
+  />
+  <!-- autocomplete dropdown will live here -->
+  <div id="autocomplete-list" class="autocomplete-items"></div>
+
+    <button id="info">ℹ️</button>
+  </div>
+
+  <!-- Sliding drawer -->
+  <aside id="drawer" class="closed">
+    <nav>
+      <button data-panel="recent">Recent</button>
+      <button data-panel="filter">Filter</button>
+      <button data-panel="timeline">Timeline</button>
+      <button data-panel="stats">Stats</button>
+      <button data-panel="confidence">Confidence</button>
+    </nav>
+    <div id="drawer-content"></div>
+  </aside>
+  <div id="map-container"><div id="map"></div></div>
+  <div class="legend" id="legend"></div>
+
+  <!-- ── Timeline Scrubber ── -->
+  <div id="slider-container">
+    <input type="range" id="time-slider" />
+    <div id="time-label"></div>
+  </div>
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY205NG4wdTA0MTBwYjJscG53eGl1Y3dnbCJ9.2wulOT3ll8505pjedehKaA';
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/dark-v10',
+      center: [-98,38],
+      zoom: 3
+    });
+
+    // grab the elements
+    const loadingScreen = document.getElementById('loading-screen');
+    const mapContainer  = document.getElementById('map-container');
+
+    // 1) immediately blur the map
+    mapContainer.classList.add('loading');
+
+    // 2) once DOM is ready, schedule overlay fade-out
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        loadingScreen.classList.add('fade-out');
+      }, 7000);  // match the 7.5s delay in your CSS
+    });
+
+    // 3) after fade-out finishes, clean up
+    loadingScreen.addEventListener('animationend', (e) => {
+      if (e.animationName === 'fadeOut') {
+        loadingScreen.remove();                   // drop the overlay
+        mapContainer.classList.remove('loading'); // un-blur the map
+      }
+    });
+
+    // ── REGION CONFIG ──
+    const regions = {
+      'United States':  { center: [-98.5795, 39.8283], zoom: 3    },
+      'North America':  { center: [-100, 45],        zoom: 2    },
+      'South America':  { center: [-60,  -15],       zoom: 2    },
+      'Europe':         { center: [10,   50],        zoom: 3    },
+      'Africa':         { center: [20,    0],        zoom: 2    },
+      'Asia':           { center: [100,   34],       zoom: 2    },
+      'Oceania':        { center: [140,  -25],       zoom: 3    },
+      'Antarctica':     { center: [0,    -75],       zoom: 1.5  }
+    };
+
+    // ── CUSTOM AUTOCOMPLETE LOGIC ──
+    const searchInput      = document.getElementById('search-box');
+    const autocompleteList = document.getElementById('autocomplete-list');
+    const regionKeys       = Object.keys(regions);
+
+    function closeAllLists() {
+      autocompleteList.innerHTML = '';
+    }
+
+    function buildList(arr) {
+      closeAllLists();
+      arr.forEach(label => {
+        const item = document.createElement('div');
+        item.textContent = label;
+        item.addEventListener('click', () => {
+          // 1) set the input
+          searchInput.value = label;
+          // 2) fly map
+          const cfg = regions[label];
+          map.flyTo({ center: cfg.center, zoom: cfg.zoom, speed: 0.8 });
+          // 3) close dropdown
+          closeAllLists();
+        });
+        autocompleteList.appendChild(item);
+      });
+    }
+
+    // show all when focused
+    searchInput.addEventListener('focus', () => {
+      buildList(regionKeys);
+    });
+
+    // filter as you type
+    searchInput.addEventListener('input', e => {
+      const val = e.target.value.trim().toLowerCase();
+      const matches = val === ''
+        ? regionKeys
+        : regionKeys.filter(k => k.toLowerCase().startsWith(val));
+      buildList(matches);
+    });
+
+    // close when clicking outside
+    document.addEventListener('click', e => {
+      if (e.target !== searchInput) closeAllLists();
+    });
+
+    // ── FILTER / SORT STATE ──
+    let currentSortOrder = 'desc';     // 'desc' = Newest first, 'asc' = Oldest first
+    let currentFilter    = 'all';      // 'all' | 'vetted' | 'unreviewed'
+
+    // Returns “just now” / “X mins ago” / “Y hrs ago” / “Z days ago”
+    function relativeTime(dateStr) {
+      const then = new Date(dateStr).getTime();
+      const diff = Date.now() - then;
+      const secs = diff/1000;
+      if (secs < 60) return 'just now';
+      const mins = secs/60;
+      if (mins < 60) return `${Math.round(mins)} mins ago`;
+      const hrs = mins/60;
+      if (hrs < 24) return `${Math.round(hrs)} hrs ago`;
+      const days = hrs/24;
+      return `${Math.round(days)} days ago`;
+    }
+
+    // Maps confidence_rating → your blue scale (fallback to black)
+    function getDotColor(r) {
+      if (r === null || r === undefined) return '#000';
+      if (r < 5)   return '#e0f7fa';
+      if (r < 10)  return '#29b6f6';
+                   return '#01579b';
+    }
+
+    // ── GLOBAL CACHE FOR YOUR GEOJSON ──
+    let cachedSightings = null;
+
+    function renderFilterList() {
+      const listContainer = document.getElementById('filter-list');
+      if (!cachedSightings || !listContainer) return;
+
+      // 1) Copy & filter
+      let items = cachedSightings.features.slice();
+      if (currentFilter === 'vetted') {
+        items = items.filter(f => f.properties.vetted);
+      } else if (currentFilter === 'unreviewed') {
+        items = items.filter(f => !f.properties.vetted);
+      }
+
+      // 2) Sort
+      items.sort((a,b) => {
+        const da = new Date(a.properties.report_date),
+              db = new Date(b.properties.report_date);
+        return (currentSortOrder==='desc' ? db-da : da-db);
+      });
+
+      // 3) Build HTML
+      let html = '<ul style="list-style:none;padding:0;margin:8px 0;">';
+      items.forEach(f => {
+        const p = f.properties;
+        const rel = relativeTime(p.report_date);
+        const color = getDotColor(p.confidence_rating);
+        const [lng,lat] = f.geometry.coordinates;
+        const snippet = p.description.length > 40
+          ? p.description.slice(0,40)+'…'
+          : p.description;
+        html += `
+          <li style="margin-bottom:10px;">
+            <a href="#" data-coords="${lng},${lat}" style="text-decoration:none;color:inherit;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="display:flex;align-items:center;">
+                  <span style="width:8px;height:8px;border-radius:50%;background:${color};margin-right:6px;"></span>
+                  <strong>${rel}</strong>
+                </span>
+                <span style="font-size:11px;color:#ccc;">${lat.toFixed(2)},${lng.toFixed(2)}</span>
+              </div>
+              <div style="font-size:11px;color:#ccc;margin-left:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                ${snippet}
+              </div>
+            </a>
+          </li>`;
+      });
+      html += '</ul>';
+      listContainer.innerHTML = html;
+
+      // 4) Wire fly‐to
+      listContainer.querySelectorAll('a[data-coords]').forEach(a=>{
+        a.onclick = e=>{
+          e.preventDefault();
+          const [lng,lat] = a.dataset.coords.split(',');
+          map.flyTo({ center:[+lng,+lat], zoom:10 });
+        };
+      });
+    }
+
+    map.on('load', () => {
+      // 1) source
+      map.addSource('uapSightings', {
+        type: 'geojson',
+        data: `./uap_sightings.geojson?cb=${Date.now()}`,
+        cluster: true,
+        clusterMaxZoom: 12,
+        clusterRadius: 50
+      });
+
+      // ── 1a) CACHE THE SIGHTINGS GEOJSON ──
+      fetch('./uap_sightings.geojson')
+        .then(res => res.json())
+        .then(data => {
+          cachedSightings = data;
+          initializeTimeline(cachedSightings);
+        })
+        .catch(err => console.error('Failed to load sightings:', err));
+
+      // 2) clusters
+      map.addLayer({
+        id: 'clusters',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['has', 'point_count'],
+        paint: {
+          'circle-color': ['step', ['get','point_count'], '#51bbd6', 10, '#f1f075', 30, '#f28cb1'],
+          'circle-radius': ['step', ['get','point_count'], 15, 10, 20, 30, 25]
+        }
+      });
+
+      // 3) cluster counts
+      map.addLayer({
+        id: 'cluster-count',
+        type: 'symbol',
+        source: 'uapSightings',
+        filter: ['has', 'point_count'],
+        layout: {
+          'text-field': '{point_count_abbreviated}',
+          'text-font': ['DIN Offc Pro Medium','Arial Unicode MS Bold'],
+          'text-size': 12
+        }
+      });
+
+      // 4) base dot
+      map.addLayer({
+        id: 'pulse-base',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['!', ['has','point_count']],
+        paint: {
+          'circle-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
+          'circle-radius': 4,
+          'circle-opacity': 1
+        }
+      });
+
+      // 4.1) first ripple
+      map.addLayer({
+        id: 'pulse-ripple',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['!', ['has','point_count']],
+        paint: {
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
+          'circle-stroke-width': 2,
+          'circle-radius': 6,
+          'circle-stroke-opacity': 0
+        }
+      });
+
+      // 4.2) second ripple
+      map.addLayer({
+        id: 'pulse-ripple-2',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['!', ['has','point_count']],
+        paint: {
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
+          'circle-stroke-width': 2,
+          'circle-radius': 6,
+          'circle-stroke-opacity': 0
+        }
+      });
+
+      // 4.2.1) third ripple
+      map.addLayer({
+      id: 'pulse-ripple-3',
+      type: 'circle',
+      source: 'uapSightings',
+      filter: ['!', ['has','point_count']],
+      paint: {
+        'circle-color': 'rgba(0,0,0,0)',
+        'circle-stroke-color': ['interpolate',
+          ['linear'], ['get','confidence_rating'],
+          0,  '#e0f7fa',
+          5,  '#29b6f6',
+          10, '#01579b'
+        ],
+        'circle-stroke-width': 2,
+        'circle-radius': 6,
+        'circle-stroke-opacity': 0
+      }
+    });
+
+      //4.3) invisible hitbox for easier clicks
+      map.addLayer({
+        id: 'hitbox',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['!', ['has','point_count']],
+        paint: {
+          // twice the radius of your visual dot:
+          'circle-radius': 12,
+          // completely invisible
+          'circle-opacity': 0
+        }
+      });
+
+      // 5) popups on hitbox with “Show all attributes” panel
+      map.on('click', 'hitbox', e => {
+        const p = e.features[0].properties;
+
+        // 1) Build the static part of the popup
+        let html = `
+          <strong>Reported:</strong> ${p.report_date}<br/>
+          <strong>Event:</strong>    ${p.event_date || 'N/A'}<br/>
+          <strong>Confidence:</strong> ${p.confidence_rating || 'N/A'}<br/>
+          <p>${p.description.substring(0,200)}…</p>
+          <a href="${p.source}" target="_blank">View at Source</a>
+
+          <!-- Collapsible details for every attribute -->
+          <details style="margin-top:8px;">
+            <summary style="cursor:pointer;color:#29b6f6;">
+              Show all attributes
+            </summary>
+
+            <!-- 2) Scrollable wrapper: keeps the table from growing too tall -->
+            <div style="
+              max-height:300px;         /* limit height */
+              overflow-y:auto;          /* vertical scroll */
+              margin-top:4px;
+            ">
+              <!-- 3) Fixed-layout table: key stays one line, value wraps -->
+              <table style="
+                width:100%;
+                table-layout:fixed;       /* enforce our column widths */
+                border-collapse:collapse;
+                font-size:12px;
+              ">
+        `;
+
+        // 4) Dynamically generate each row
+        for (const [key, value] of Object.entries(p)) {
+          html += `
+                <tr>
+                  <!-- first cell: attribute name -->
+                  <th style="
+                    text-align:left;
+                    padding:2px 4px;
+                    border-bottom:1px solid rgba(255,255,255,0.2);
+                    white-space:nowrap;     /* never wrap a key */
+                    width:30%;              /* take up 30% of row */
+                  ">
+                    ${key}
+                  </th>
+                  <!-- second cell: attribute value -->
+                  <td style="
+                    padding:2px 4px;
+                    border-bottom:1px solid rgba(255,255,255,0.2);
+                    word-break:break-word;  /* wrap long words/URLs */
+                    white-space:normal;     /* allow wrapping */
+                  ">
+                    ${value}
+                  </td>
+                </tr>
+          `;
+        }
+
+        // 5) Close our tags
+        html += `
+              </table>
+            </div>
+          </details>
+        `;
+
+        // 6) Render the popup
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(html)
+          .addTo(map);
+      });
+
+      // 7) Cursor pointer on hover
+      map.on('mouseenter', 'hitbox', () => map.getCanvas().style.cursor = 'pointer');
+      map.on('mouseleave', 'hitbox', () => map.getCanvas().style.cursor = '');
+
+
+      // 7.1) controls
+      map.addControl(new mapboxgl.NavigationControl());
+
+      // 7.2) legend (with Unreviewed = black)
+      document.getElementById('legend').innerHTML = `
+        <h4>Confidence Score</h4>
+        <!-- 10 → deep navy -->
+        <span
+          style="
+            background:#01579b;
+            width:12px; height:12px;
+            display:inline-block;
+            margin-right:6px;
+            border-radius:3px;
+          "
+        ></span> 10<br/>
+        <!-- 5 → sky blue -->
+        <span
+          style="
+            background:#29b6f6;
+            width:12px; height:12px;
+            display:inline-block;
+            margin-right:6px;
+            border-radius:3px;
+          "
+        ></span> 5<br/>
+        <!-- 0 → light cyan -->
+        <span
+          style="
+            background:#e0f7fa;
+            width:12px; height:12px;
+            display:inline-block;
+            margin-right:6px;
+            border-radius:3px;
+          "
+        ></span> 0<br/>
+        <!-- unreviewed/null -->
+        <span
+          style="
+            background:#000000;
+            width:12px; height:12px;
+            display:inline-block;
+            margin-right:6px;
+            border-radius:3px;
+          "
+        ></span> Unreviewed
+      `;
+
+     // 9) smoother ripple via style-transitions (no rAF)
+    const CYCLE = 4500;
+    const ripples = [
+      'pulse-ripple',
+      'pulse-ripple-2',
+      'pulse-ripple-3'
+    ];
+
+    // 1) tell Mapbox GL to interpolate these props over the full cycle
+    ripples.forEach(id => {
+      map.setPaintProperty(id, 'circle-radius-transition',         { duration: CYCLE });
+      map.setPaintProperty(id, 'circle-stroke-opacity-transition', { duration: CYCLE });
+    });
+
+    // 2) kick off one full 3-wave ripple
+    function triggerRipples() {
+      // instantly reset all three
+      ripples.forEach(id => {
+        map.setPaintProperty(id, 'circle-radius',         6, { duration: 0 });
+        map.setPaintProperty(id, 'circle-stroke-opacity', 1, { duration: 0 });
+      });
+      // wave 1 out
+      setTimeout(() => {
+        map.setPaintProperty('pulse-ripple', 'circle-radius',         36);
+        map.setPaintProperty('pulse-ripple', 'circle-stroke-opacity', 0);
+      },  50);
+      // wave 2 out
+      setTimeout(() => {
+        map.setPaintProperty('pulse-ripple-2', 'circle-radius',         36);
+        map.setPaintProperty('pulse-ripple-2', 'circle-stroke-opacity', 0);
+      }, 1500);
+      // wave 3 out
+      setTimeout(() => {
+        map.setPaintProperty('pulse-ripple-3', 'circle-radius',         36);
+        map.setPaintProperty('pulse-ripple-3', 'circle-stroke-opacity', 0);
+      }, 3000);
+    }
+
+    // 3) start immediately, then loop
+    triggerRipples();
+    setInterval(triggerRipples, CYCLE);
+
+      // Grab references
+      const drawer = document.getElementById('drawer');
+      const panels = {
+        recent: null,       // we’ll build recent on each click
+        timeline: null,     // handled specially below
+        confidence: null
+      };
+
+      // 1) Hamburger toggles drawer
+      document.getElementById('hamburger').onclick = () => {
+        drawer.classList.toggle('open');
+      };
+
+      // 2) Drawer nav: stacked buttons
+      drawer.querySelectorAll('nav button').forEach(btn => {
+        btn.onclick = () => {
+          const panel = btn.dataset.panel;
+          const container = document.getElementById('drawer-content');
+
+          // Timeline panel → checkbox
+          if (panel === 'timeline') {
+            container.innerHTML = `
+              <label style="display:flex;align-items:center;">
+                <input type="checkbox" id="toggle-timeline" style="margin-right:8px;">
+                Show timeline bar
+              </label>
+              <p style="font-size:12px;margin-top:8px;color:#ccc;">
+                Use this to show or hide the bottom-center slider.
+              </p>
+            `;
+            document.getElementById('toggle-timeline').onchange = e => {
+              document.getElementById('slider-container').style.display =
+                e.target.checked ? 'block' : 'none';
+            };
+            return;
+          }
+
+          if (panel === 'filter') {
+            container.innerHTML = `
+              <h4>Filter &amp; Sort</h4>
+              <div style="margin:8px 0;">
+                <label>
+                  Sort:
+                  <select id="sort-order" style="margin-left:4px;">
+                    <option value="desc">Newest First</option>
+                    <option value="asc">Oldest First</option>
+                  </select>
+                </label>
+              </div>
+              <div style="margin-bottom:8px;">
+                <label><input type="radio" name="filter" value="all" checked> All</label>
+                <label style="margin-left:12px;"><input type="radio" name="filter" value="vetted"> Vetted</label>
+                <label style="margin-left:12px;"><input type="radio" name="filter" value="unreviewed"> Unreviewed</label>
+              </div>
+              <div id="filter-list" style="overflow-y:auto;max-height:calc(100% - 100px);"></div>
+            `;
+
+            // initialize controls
+            const sortEl = document.getElementById('sort-order');
+            sortEl.value = currentSortOrder;
+            sortEl.onchange = e => {
+              currentSortOrder = e.target.value;
+              renderFilterList();
+            };
+
+            container.querySelectorAll('input[name="filter"]').forEach(radio => {
+              radio.checked = (radio.value === currentFilter);
+              radio.onchange = e => {
+                currentFilter = e.target.value;
+                renderFilterList();
+              };
+            });
+
+            // initial render
+            renderFilterList();
+            return;
+          }
+
+          if (panel === 'recent') {
+            container.innerHTML = '';         // clear previous panel
+            if (!cachedSightings) {
+              container.innerHTML = '<p>Loading…</p>';
+              return;
+            }
+
+            // Sort by newest, take top 10
+            const recent = cachedSightings.features
+              .sort((a,b) =>
+                new Date(b.properties.report_date)
+                - new Date(a.properties.report_date)
+              )
+              .slice(0,10);
+
+            // Build HTML, wrapping each item in an <a>:
+            let html = '<h4>Recent Sightings</h4>'
+                     + '<ul class="recent-list">';
+            recent.forEach(f => {
+              const props   = f.properties;
+              const rel     = relativeTime(props.report_date);
+              const [lng,lat] = f.geometry.coordinates;
+              const loc     = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+              const color   = getDotColor(props.confidence_rating);
+              const snippet = props.description.length > 30
+                ? props.description.slice(0,30) + '…'
+                : props.description;
+
+              html += `
+                <li class="recent-item">
+                  <a href="#" data-coords="${lng},${lat}" style="text-decoration:none;color:inherit;">
+                    <div class="line">
+                      <span>
+                        <span class="dot" style="background:${color}"></span>
+                        <strong>${rel}</strong>
+                      </span>
+                      <span>${loc}</span>
+                    </div>
+                    <div class="snippet">${snippet}</div>
+                  </a>
+                </li>`;
+            });
+            html += '</ul>';
+            container.innerHTML = html;
+
+            // Attach fly-to on the <a> elements
+            container.querySelectorAll('a[data-coords]').forEach(link => {
+              link.addEventListener('click', e => {
+                e.preventDefault();
+                const [lng,lat] = link.dataset.coords.split(',');
+                map.flyTo({ center: [parseFloat(lng), parseFloat(lat)], zoom: 10 });
+              });
+            });
+
+            return;
+          }
+
+          if (panel === 'stats') {
+            // make sure our cached geojson is loaded
+            if (!cachedSightings) {
+              container.innerHTML = '<p>Loading stats…</p>';
+              return;
+            }
+
+            const now   = Date.now();
+            const msDay = 24 * 60 * 60 * 1000;
+            const since24h = now - msDay;
+            const sinceWeek = now - 7 * msDay;
+
+            const features = cachedSightings.features;
+
+            // 1) Total in last 24h
+            const count24h = features.filter(f =>
+              new Date(f.properties.report_date).getTime() >= since24h
+            ).length;
+
+            // 2) High-confidence (≥ 8) in last week
+            const countHigh = features.filter(f =>
+              f.properties.confidence_rating >= 8 &&
+              new Date(f.properties.report_date).getTime() >= sinceWeek
+            ).length;
+
+            // 3) Build a 7-day sparkline
+            // initialize a map day→count
+            const daily = {};
+            for (let i = 6; i >= 0; i--) {
+              const d = new Date();
+              d.setDate(d.getDate() - i);
+              const key = d.toISOString().split('T')[0];
+              daily[key] = 0;
+            }
+            // tally
+            features.forEach(f => {
+              const day = f.properties.report_date.split('T')[0];
+              if (daily[day] !== undefined) daily[day]++;
+            });
+            const counts = Object.values(daily);
+            const maxCount = Math.max(...counts, 1);
+
+            // render bars
+            let sparkHtml = '<div style="display:flex;align-items:flex-end;gap:4px;height:40px;margin-top:6px;">';
+            counts.forEach(c => {
+              const h = Math.round((c / maxCount) * 100);
+              sparkHtml += `<div style="
+                  flex:1;
+                  background: rgba(41, 182, 246, 0.6);
+                  height:${h}%;
+                  border-radius:2px;
+                "></div>`;
+            });
+            sparkHtml += '</div>';
+
+            // 4) Inject into drawer
+            container.innerHTML = `
+              <h4>Stats (last 7 days)</h4>
+              <p><strong>${count24h}</strong> sightings in last 24 hrs</p>
+              <p><strong>${countHigh}</strong> high-confidence (≥ 8) in last week</p>
+              ${sparkHtml}
+            `;
+            return;
+          }
+
+          if (panel === 'confidence') {
+            container.textContent = 'Coming soon…';
+          }
+        };
+      });
+
+      // ── B) SLIDER INITIALIZATION FUNCTION ──
+      function initializeTimeline(allData) {
+        const dates = Array.from(
+          new Set(allData.features.map(f => f.properties.report_date))
+        ).sort();
+        const slider = document.getElementById('time-slider');
+        const label  = document.getElementById('time-label');
+        slider.min   = 0;
+        slider.max   = dates.length - 1;
+        slider.value = dates.length - 1;
+        function update(i) {
+          const cutoff = dates[i];
+          label.innerText = `Showing sightings up to ${new Date(cutoff).toLocaleString()}`;
+          const filtered = allData.features.filter(f => f.properties.report_date <= cutoff);
+          map.getSource('uapSightings').setData({ type:'FeatureCollection', features:filtered });
+        }
+        slider.oninput = e => update(+e.target.value);
+        update(dates.length - 1);
+      }
+
+    });
+
+    // ── OPEN MODAL FUNCTION ──
+    const infoBtn   = document.getElementById('info');
+    const aboutModal = document.getElementById('about-modal');
+    const aboutClose = document.getElementById('about-close');
+
+    // open modal
+    infoBtn.addEventListener('click', () => {
+      aboutModal.classList.remove('hidden');
+    });
+
+    // close modal
+    aboutClose.addEventListener('click', () => {
+      aboutModal.classList.add('hidden');
+});
+
+  </script>
+</body>
+</html>
