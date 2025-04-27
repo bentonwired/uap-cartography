@@ -1,9 +1,0 @@
-2025-04-13 06:00:03,485 INFO fetch_uap_data - Reddit API initialized successfully.
-2025-04-13 06:00:03,501 INFO fetch_uap_data - Script started.
-2025-04-13 06:00:03,501 INFO fetch_uap_data - Fetching UAP sightings from Reddit...
-2025-04-13 06:00:03,501 INFO fetch_uap_data - Fetching posts from subreddit: UFOs
-2025-04-13 06:00:05,507 DEBUG fetch_uap_data - Skipping post 1jy1buy as it has no video content.
-2025-04-13 06:00:05,681 DEBUG fetch_uap_data - Skipping post 1jy3nvb because no event date is available after fallback.
-2025-04-13 06:00:05,682 INFO fetch_uap_data - Total raw posts iterated: 100
-2025-04-13 06:00:08,680 INFO fetch_uap_data - Email notification sent successfully.
-2025-04-13 06:00:08,680 INFO fetch_uap_data - Script finished. Total runtime: 0:00:05.179030

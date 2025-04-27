@@ -1,8 +1,0 @@
-2025-04-04 10:12:16,960 INFO <input> - Reddit API initialized successfully.
-2025-04-04 10:12:16,977 INFO <input> - Script started.
-2025-04-04 10:12:16,977 INFO <input> - Fetching UAP sightings from Reddit...
-2025-04-04 10:12:16,977 INFO <input> - Fetching posts from subreddit: UFOs
-2025-04-04 10:12:18,929 DEBUG <input> - Skipping post 1jrauph as it has no video content.
-2025-04-04 10:12:18,930 INFO <input> - Total raw posts iterated: 100
-2025-04-04 10:12:21,567 INFO <input> - Email notification sent successfully.
-2025-04-04 10:12:21,567 INFO <input> - Script finished. Total runtime: 0:00:04.589821

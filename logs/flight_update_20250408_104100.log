@@ -1,6 +1,0 @@
-2025-04-08 10:41:00,500 DEBUG <input> - Connected to the PostgreSQL database successfully.
-2025-04-08 10:41:00,501 ERROR <input> - Error while updating flight data for existing sightings: column "uap_source" does not exist
-LINE 2:         SELECT sighting_id, uap_source, latitude, longitude,...
-                                    ^
-
-2025-04-08 10:41:00,502 INFO <input> - Finished updating flight data for existing sightings.
