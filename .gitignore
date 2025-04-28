@@ -7,9 +7,9 @@
 # Ignore local settings
 .env
 *.db
-.bat
+*.bat
 .ini
-.bat
+.*bat
 .log
 
 # Ignore virtual environment folders
