@@ -351,10 +351,12 @@
       cursor: pointer;
     }
 
-    /* nice little tagline style */
     #about-modal .tagline {
-      font-style: italic;
-      margin-top: 16px;
+      font-style: italic;        /* keep the italics */
+      font-size: 0.75rem;        /* smaller than normal text */
+      color: rgba(255, 255, 255, 0.6);  /* lighter, more subtle */
+      margin-top: 8px;           /* a bit tighter to the header */
+      text-align: left;        /* left under the title */
     }
 
     /* hint styling */
@@ -470,7 +472,7 @@
   <div class="modal-content">
     <button id="about-close">✕</button>
     <h2>About Elessar</h2>
-
+<p class="tagline">“No, but I served in the company of heroes.”</p>
     <!-- 1) What & Why -->
     <p>
       Elessar is a <strong>fully automated UAP pipeline</strong> created in response to the lack of high quality and near-real-time UAP sightings: it scrapes public sources on (Reddit, X, Instagram) and ingests only time-stamped and geolocated <strong>video</strong> evidence—no static images, no text-only reports.
