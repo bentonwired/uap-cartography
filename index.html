@@ -31,7 +31,17 @@
       font-weight: 400;           /* normal text weight */
       line-height: 1.5;           /* a bit more breathing room */
     }
-    #map-container { position:absolute; top:0; bottom:0; width:100%; transition:opacity 0.4s ease; }
+    /* ── 1) Always be able to transition the filter ── */
+    #map-container {
+      position: absolute;
+      top: 0; bottom: 0; width: 100%;
+
+      /* keep opacity fade if you need it */
+      transition: opacity 0.4s ease,
+                  filter  0.5s ease-out;
+      filter: none;
+    }
+
     #map { position:absolute; top:0; bottom:0; width:100%; }
     .mapboxgl-popup { max-width: 300px; }
     .legend {
@@ -244,10 +254,10 @@
   }
 
     /* ── Blur the map while loading ── */
-    #map-container.loading {
-      filter: blur(8px);
-      transition: filter 0.5s ease;
-    }
+#map-container.loading {
+  transition: none;
+  filter: blur(8px);
+}
 
     /* ── Full-screen overlay ── */
     #loading-screen {
@@ -287,21 +297,20 @@
     }
 
     /* ── 5) line-specific timing ── */
-    /* Line 1: starts at 0.5s, runs 3s (ends at 3.5s) */
+    /* Line 1: 2s animation, starts at 0.3s */
     .loading-text .line1 {
-      animation: fadeInOut 3s forwards;
-      animation-delay: 0.5s;
+      animation: fadeInOut 2s forwards;
+      animation-delay: 0.3s;
     }
-    /* Line 2: small 0.5s gap, so starts at 4s, runs 3s (ends at 7s) */
+    /* Line 2: 2s animation, starts at 2.5s */
     .loading-text .line2 {
-      animation: fadeInOut 3s forwards;
-      animation-delay: 4s;
+      animation: fadeInOut 2s forwards;
+      animation-delay: 2.5s;
     }
 
-    /* ── 6) overlay fade-out after both lines finish ── */
+    /* ── 6) overlay fade‐out ── */
     #loading-screen.fade-out {
-      animation: fadeOut 0.8s forwards;
-      animation-delay: 0s;   /* 7s (last line end) + 0.5s buffer */
+      animation: fadeOut 0.2s forwards;
     }
 
     @keyframes fadeOut {
@@ -620,15 +629,15 @@
     // grab the elements
     const loadingScreen = document.getElementById('loading-screen');
     const mapContainer  = document.getElementById('map-container');
+    const line2 = document.querySelector('.loading-text .line2');
 
     // 1) immediately blur the map
     mapContainer.classList.add('loading');
 
-    // 2) once DOM is ready, schedule overlay fade-out
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        loadingScreen.classList.add('fade-out');
-      }, 7000);  // match the 7.5s delay in your CSS
+    // 2) Add listener to fade blur out
+    line2.addEventListener('animationend', () => {
+    // this fires exactly when your "For the light that returns." animation finishes
+    loadingScreen.classList.add('fade-out');
     });
 
     // 3) after fade-out finishes, clean up
