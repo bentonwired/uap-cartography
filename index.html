@@ -3,6 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <title>Elessar</title>
+
+    <!-- Favicon (64×64 circular PNG) -->
+  <link
+    rel="icon"
+    href="/favicon_circular.png"
+    type="image/png"
+    sizes="64x64"
+  />
+
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet" />
@@ -161,16 +170,13 @@
 
     /* Drawer hidden off‐screen by default */
     #drawer {
-      position: absolute; top: 50px; bottom: 0; left: -280px;
+      position: absolute; top: 0px; bottom: 0; left: -280px;
       width: 280px; background: rgba(0,0,0,0.4); color: #fff;
       transition: left 0.3s ease; z-index: 4;
     }
     /* When open, slide in and hide the hamburger */
     #drawer.open {
       left: 0;
-    }
-    #drawer.open ~ #hamburger {
-      display: none;
     }
 
     /* Drawer nav & content */
@@ -252,6 +258,11 @@
     #drawer nav button {
     font-family: 'Inter', sans-serif !important;
   }
+
+    /* hide the hamburger once the drawer is open */
+    .drawer-open #hamburger {
+      display: none;
+    }
 
     /* ── Blur the map while loading ── */
 #map-container.loading {
@@ -349,6 +360,18 @@
       font-family: 'Inter', sans-serif;
     }
 
+    /* Brand-centered logo atop the About panel */
+    #about-modal .modal-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    #about-modal .modal-logo img {
+      border-radius: 50%;                  /* keep it perfectly circular */
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 12px rgba(41,182,246,0.6); /* gentle sky-blue glow */
+    }
+
     /* close button */
     #about-close {
       position: absolute;
@@ -437,32 +460,61 @@
       text-decoration: underline;
     }
 
-/* ── Blue-themed Buy Me a Coffee button ── */
-.bmc-button {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(41, 182, 246, 0.3);      /* soft sky-blue at 30% opacity */
-  color: #fff;                              /* white text for contrast */
-  border: 1px solid rgba(41, 182, 246, 0.6);/* slightly stronger blue border */
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease;
-  margin-top: 0.25em;
-}
+    /* ── Blue-themed Buy Me a Coffee button ── */
+    .bmc-button {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(41, 182, 246, 0.3);      /* soft sky-blue at 30% opacity */
+      color: #fff;                              /* white text for contrast */
+      border: 1px solid rgba(41, 182, 246, 0.6);/* slightly stronger blue border */
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      margin-top: 0.25em;
+    }
 
-.bmc-button:hover {
-  background: rgba(41, 182, 246, 0.5);      /* deepen on hover */
-  border-color: rgba(41, 182, 246, 0.8);
-}
+    .bmc-button:hover {
+      background: rgba(41, 182, 246, 0.5);      /* deepen on hover */
+      border-color: rgba(41, 182, 246, 0.8);
+    }
 
-.bmc-button .coffee-icon {
-  margin-right: 6px;
-  /* keep the icon white */
-}
+    .bmc-button .coffee-icon {
+      margin-right: 6px;
+      /* keep the icon white */
+    }
 
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1rem;
+    }
+    .sidebar-brand img {
+      margin-right: 0.5rem;
+    }
+    .sidebar-brand span {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+    }
 
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
 
   </style>
 </head>
@@ -480,6 +532,16 @@
   <div class="modal-backdrop"></div>
   <div class="modal-content">
     <button id="about-close">✕</button>
+
+    <!-- ★ New logo header -->
+    <div class="modal-logo">
+      <img
+        src="/logo_detailed.png"
+        alt="Elessar logo"
+        width="80" height="80"
+      />
+    </div>
+
     <h2>About Elessar</h2>
 <p class="tagline">“No, but I served in a company of heroes.”</p>
     <!-- 1) What & Why -->
@@ -492,8 +554,8 @@
     <h3>Quick Links</h3>
     <ul class="quick-links">
       <li><a href="https://github.com/bentonwired/uap-cartography" target="_blank">Source on GitHub</a></li>
-      <li><a href="https://twitter.com/bentonwired" target="_blank">Follow me on X</a></li>
-      <li><a href="mailto:youremail@example.com">Contact</a></li>
+      <li><a href="https://x.com/bentonwired" target="_blank">Follow me on X</a></li>
+      <li><a href="mailto:bentonwired_gmail.com">Contact</a></li>
       <li>
         <!-- Buy Me a Coffee button -->
         <a href="https://www.buymeacoffee.com/bentonwired"
@@ -508,7 +570,7 @@
 
     <!-- 3) Version -->
     <h3>Version</h3>
-    <p>0.1.0 (alpha)</p>
+    <p>0.1.1 (alpha)</p>
 
     <!-- 4) FAQ (collapsed by default) -->
     <details>
@@ -597,9 +659,19 @@
     <button id="info">ℹ️</button>
   </div>
 
-  <!-- Sliding drawer -->
-  <aside id="drawer" class="closed">
-    <nav>
+<!-- Sliding drawer -->
+<aside id="drawer" class="closed">
+
+  <!-- ① Drawer header: brand + close button -->
+  <div class="drawer-header">
+    <div class="sidebar-brand">
+      <img src="/logo_detailed.png" alt="Elessar logo" width="32" height="32" />
+      <span>Elessar</span>
+    </div>
+    <button id="close-drawer" class="close-btn" aria-label="Close menu">&times;</button>
+  </div>
+
+  <nav>
       <button data-panel="recent">Recent</button>
       <button data-panel="filter">Filter</button>
       <button data-panel="timeline">Timeline</button>
@@ -1091,10 +1163,26 @@
         confidence: null
       };
 
-      // 1) Hamburger toggles drawer
-      document.getElementById('hamburger').onclick = () => {
-        drawer.classList.toggle('open');
-      };
+      //CLose Drawer
+      const closeBtn = document.getElementById('close-drawer');
+
+      closeBtn.addEventListener('click', () => {
+        drawer.classList.remove('open');
+      });
+
+      const hamb = document.getElementById('hamburger');
+
+      hamb.addEventListener('click', () => {
+        // open drawer + mark body
+        drawer.classList.add('open');
+        document.body.classList.add('drawer-open');
+      });
+
+      closeBtn.addEventListener('click', () => {
+        // close drawer + unmark body
+        drawer.classList.remove('open');
+        document.body.classList.remove('drawer-open');
+      });
 
       // 2) Drawer nav: stacked buttons
       drawer.querySelectorAll('nav button').forEach(btn => {
