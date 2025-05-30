@@ -717,6 +717,13 @@
       if (e.animationName === 'fadeOut') {
         loadingScreen.remove();                   // drop the overlay
         mapContainer.classList.remove('loading'); // un-blur the map
+
+      // ── OPEN the drawer & select Recent ──
+      const drawer    = document.getElementById('drawer');
+      const recentBtn = document.querySelector('#drawer nav button[data-panel="recent"]');
+      drawer.classList.add('open');
+      document.body.classList.add('drawer-open');
+      if (recentBtn) recentBtn.click();
       }
     });
 
