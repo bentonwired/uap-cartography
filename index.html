@@ -40,12 +40,6 @@
       font-weight: 400;           /* normal text weight */
       line-height: 1.5;           /* a bit more breathing room */
     }
-    /* make room for our fixed banner */
-    body {
-      position: relative;     /* become the containing block for abs-pos kids */
-      box-sizing: border-box; /* include padding in its 100% height */
-      padding-top: 40px;      /* banner height (8px top + ~24px text + 8px bottom) */
-    }
     /* ── 1) Always be able to transition the filter ── */
     #map-container {
       position: absolute;
@@ -66,10 +60,41 @@
       font-size:12px;
       font-family: 'Inter', sans-serif !important;
       position:absolute;
-      top:90px;
+      top:60px;
       right:10px;
       border-radius: 8px;
     }
+
+      /* completely hide the Load Flight Data button */
+      #load-data-btn {
+        display: none !important;
+      }
+
+      /* permanently bottom-center the flight controls container */
+      #flight-controls-container {
+        z-index: 999;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+
+        /* you can fold these here instead of inline */
+        background: rgba(255,255,255,0.9);
+        padding: 8px;
+        border-radius: 4px;
+        font-family: sans-serif;
+      }
+
+      /* style the buttons inside the container */
+      #flight-controls-container button {
+        z-index: 10;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
     /* ── Timeline Scrubber Styles ── */
     #slider-container {
@@ -107,7 +132,7 @@
 
     /* Top‐bar sits over the map but is otherwise transparent */
     #top-bar {
-      position: absolute; top: 0; left: 0; right: 0; height: 30px;
+      position: absolute; top: 0; left: 0; right: 0; height: 40;
       pointer-events: all; z-index: 5;
     }
 
@@ -521,17 +546,7 @@
       font-size: 1.4rem;
       cursor: pointer;
     }
-/* bump everything down by the 38px banner height */
-#map-container,
-#top-bar,
-#drawer {
-  top: 38px !important;
-}
 
-/* your search dropdown lives inside the top-bar; move it down another 10px */
-.autocomplete-items {
-  top: 40px !important;
-}
   </style>
 </head>
 <body>
@@ -543,22 +558,11 @@
     </div>
   </div>
 
-<div
-  id="event-date-banner"
-  style="
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    background-color: rgba(33, 37, 41, 0.9);  /* dark grey, 90% opaque */
-    color: #b3e5fc;                           /* pale-blue text */
-    text-align: center;
-    padding: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    border-bottom: 0.1px solid #29b6f6;         /* sky-blue accent line */
-    z-index: 1001;
-  "
->
-  ⚠️ Alpha Notice: date/location quirks may occur and mobile support is limited—this alpha is focused on perfecting user experience. ⚠️
+<!-- Flight controls (initially hidden) -->
+<div id="flight-controls-container" style="display:none;">
+  <button id="load-data-btn">Load Flight Data</button>
+  <button id="play-pause-btn" disabled>Play</button>
+  <button id="close-btn" disabled>Close</button>
 </div>
 
 <!-- ABOUT MODAL -->
@@ -580,8 +584,8 @@
 <p class="tagline">“No, but I served in a company of heroes.”</p>
     <!-- 1) What & Why -->
     <p>
-      Elessar is a <strong>fully automated & AI Integrated UAP pipeline</strong> created in response to the lack of high quality and near-real-time UAP sightings: it scrapes public sources on (Reddit, X, Instagram) and ingests only time-stamped and geolocated <strong>video</strong> evidence—no static images, no text-only reports.
-      Every sighting is tagged with geolocation, a UTC timestamp, and a direct video link - all of which are vetted against OpenAI's 4.1mini GPT model.
+      Elessar is a <strong>fully automated UAP pipeline</strong> created in response to the lack of high quality and near-real-time UAP sightings: it scrapes public sources on (Reddit, X, Instagram) and ingests only time-stamped and geolocated <strong>video</strong> evidence—no static images, no text-only reports.
+      Every sighting is tagged with geolocation, a UTC timestamp, and a direct video link.
     </p>
 
     <!-- 2) Quick Links + Buy Me a Coffee -->
@@ -617,7 +621,7 @@
 
       <div class="faq-item">
         <strong>Q: Is Elessar open source?</strong>
-        <p>A: Absolutely. The full code lives under the MIT license on GitHub—feel free to fork, run your own instance, or even contribute back.</p>
+        <p>A: Yes. The code’s on GitHub under the MIT license—feel free to fork it or run your own instance.</p>
       </div>
 
       <div class="faq-item">
@@ -628,11 +632,6 @@
       <div class="faq-item">
         <strong>Q: What is the confidence score?</strong>
         <p>A: I score each video 0–10 based on clarity, metadata integrity, and source reliability—higher means more trustworthy.</p>
-      </div>
-
-      <div class="faq-item">
-        <strong>Q: Is it mobile-friendly?</strong>
-        <p>A: This alpha is optimized for desktop; a responsive mobile UI is coming in the next release as I refine the user experience.</p>
       </div>
 
       <div class="faq-item">
@@ -728,8 +727,20 @@
     <div id="time-label"></div>
   </div>
 
+<script>
+  // Preload flight data so we know if there’s anything to show
+  window.flightDataCache = [];
+  fetch('batch_flight_pings.geojson')            // ← use your real test filename
+    .then(res => res.json())
+    .then(json => { window.flightDataCache = json.features; })
+    .catch(err => {
+      console.error('Could not load test flights:', err);
+      window.flightDataCache = [];
+    });
+</script>
+
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY21hMGNtNHAzMTNvcjJqb3I1ajhlZ2FlcyJ9.A-o67AZybXMb4JPmWj4HGQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY205NG4wdTA0MTBwYjJscG53eGl1Y3dnbCJ9.2wulOT3ll8505pjedehKaA';
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
@@ -757,9 +768,9 @@
         loadingScreen.remove();                   // drop the overlay
         mapContainer.classList.remove('loading'); // un-blur the map
 
-      // ── OPEN the drawer & select Recent ──
-      const drawer    = document.getElementById('drawer');
-      const recentBtn = document.querySelector('#drawer nav button[data-panel="recent"]');
+        // ── OPEN the drawer & select Recent ──
+      const drawer      = document.getElementById('drawer');
+      const recentBtn   = document.querySelector('#drawer nav button[data-panel="recent"]');
       drawer.classList.add('open');
       document.body.classList.add('drawer-open');
       if (recentBtn) recentBtn.click();
@@ -1032,79 +1043,99 @@
         }
       });
 
-      // 5) popups on hitbox with “Show all attributes” panel
+      // replace your existing hitbox-click handler with this:
+      window.currentSightingId = null;
+
       map.on('click', 'hitbox', e => {
+        // 1) grab the properties
         const p = e.features[0].properties;
 
-        // 1) Build the static part of the popup
+        // 2) build up your HTML (table + details + button)
         let html = `
           <strong>Reported:</strong> ${p.report_date}<br/>
           <strong>Event:</strong>    ${p.event_date || 'N/A'}<br/>
           <strong>Confidence:</strong> ${p.confidence_rating || 'N/A'}<br/>
           <p>${p.description.substring(0,200)}…</p>
           <a href="${p.source}" target="_blank">View at Source</a>
-
-          <!-- Collapsible details for every attribute -->
           <details style="margin-top:8px;">
             <summary style="cursor:pointer;color:#29b6f6;">
               Show all attributes
             </summary>
-
-            <!-- 2) Scrollable wrapper: keeps the table from growing too tall -->
-            <div style="
-              max-height:300px;         /* limit height */
-              overflow-y:auto;          /* vertical scroll */
-              margin-top:4px;
-            ">
-              <!-- 3) Fixed-layout table: key stays one line, value wraps -->
+            <div style="max-height:300px; overflow-y:auto; margin-top:4px;">
               <table style="
                 width:100%;
-                table-layout:fixed;       /* enforce our column widths */
+                table-layout:fixed;
                 border-collapse:collapse;
                 font-size:12px;
               ">
         `;
 
-        // 4) Dynamically generate each row
         for (const [key, value] of Object.entries(p)) {
           html += `
-                <tr>
-                  <!-- first cell: attribute name -->
-                  <th style="
-                    text-align:left;
-                    padding:2px 4px;
-                    border-bottom:1px solid rgba(255,255,255,0.2);
-                    white-space:nowrap;     /* never wrap a key */
-                    width:30%;              /* take up 30% of row */
-                  ">
-                    ${key}
-                  </th>
-                  <!-- second cell: attribute value -->
-                  <td style="
-                    padding:2px 4px;
-                    border-bottom:1px solid rgba(255,255,255,0.2);
-                    word-break:break-word;  /* wrap long words/URLs */
-                    white-space:normal;     /* allow wrapping */
-                  ">
-                    ${value}
-                  </td>
-                </tr>
+            <tr>
+              <th style="
+                text-align:left;
+                padding:2px 4px;
+                border-bottom:1px solid rgba(255,255,255,0.2);
+                white-space:nowrap;
+                width:30%;
+              ">${key}</th>
+              <td style="
+                padding:2px 4px;
+                border-bottom:1px solid rgba(255,255,255,0.2);
+                word-break:break-word;
+                white-space:normal;
+              ">${value}</td>
+            </tr>
           `;
         }
 
-        // 5) Close our tags
-        html += `
-              </table>
-            </div>
-          </details>
-        `;
+      const sightingIdNum = Number(p.sighting_id);
+      const hasFlights = window.flightDataCache.some(
+        f => Number(f.properties.sighting_id) === sightingIdNum
+      );
 
-        // 6) Render the popup
+      if (hasFlights) {
+        html += `
+          <button id="show-flight-btn" style="margin-top:8px;">
+            Historical Flights Available
+          </button>
+        `;
+      }
+
+        // 3) show the popup
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
           .setHTML(html)
           .addTo(map);
+
+        // 4) wire up the Show-Flights button
+        const popupEl = document.querySelector('.mapboxgl-popup-content');
+        const showBtn  = popupEl.querySelector('#show-flight-btn');
+        if (showBtn) {
+          showBtn.addEventListener('click', () => {
+            // a) remember which sighting
+            window.currentSightingId = p.sighting_id;
+            // b) reveal your controls
+            document.getElementById('flight-controls-container').style.display = 'flex';
+            // c) zoom & lock the map
+            const [lng, lat] = e.lngLat.toArray();
+            map.fitBounds([[lng - 0.6, lat - 0.6], [lng + 0.6, lat + 0.6]]);
+            map.touchZoomRotate.disable();
+            // d) *trigger* the real loader in flight_widget.js
+            document.getElementById('load-data-btn').click();
+          });
+        }
       });
+
+      // your existing close-button logic stays the same:
+      document.getElementById('close-btn').addEventListener('click', () => {
+        map.dragPan.enable();
+        map.touchZoomRotate.enable();
+        document.getElementById('flight-controls-container').style.display = 'none';
+      });
+
+
 
       // 7) Cursor pointer on hover
       map.on('mouseenter', 'hitbox', () => map.getCanvas().style.cursor = 'pointer');
@@ -1346,6 +1377,8 @@
                 e.preventDefault();
                 const [lng,lat] = link.dataset.coords.split(',');
                 map.flyTo({ center: [parseFloat(lng), parseFloat(lat)], zoom: 10 });
+                // ── close drawer after fly-to ──
+                document.getElementById('close-drawer').click();
               });
             });
 
@@ -1461,5 +1494,17 @@
 });
 
   </script>
+
+
+
+  <!-- 1) Load the widget code -->
+  <script src="flight_widget.js"></script>
+
+  <!-- 2) Hook it into your Mapbox map -->
+  <script>
+    // once the map itself has loaded, bootstrap the flight widget
+    map.on('load', () => {
+      initFlightWidget(map);
+    });
+  </script>
 </body>
-</html>
