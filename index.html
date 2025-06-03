@@ -71,10 +71,6 @@
       border-radius: 8px;
     }
 
-      /* completely hide the Load Flight Data button */
-      #load-data-btn {
-        display: none !important;
-      }
 
       /* permanently bottom-center the flight controls container */
       #flight-controls-container {
@@ -576,7 +572,7 @@
 
 <!-- Flight controls (initially hidden) -->
 <div id="flight-controls-container" style="display:none;">
-  <button id="load-data-btn">Load Flight Data</button>
+  <button id="load-data-btn">Reload Flights</button>
   <button id="play-pause-btn" disabled>Play</button>
   <button id="close-btn" disabled>Close</button>
 </div>
@@ -642,7 +638,7 @@
 
     <!-- 3) Version -->
     <h3>Version</h3>
-    <p>0.1.1 (alpha)</p>
+    <p>0.2.1 (alpha)</p>
 
     <!-- 4) FAQ (collapsed by default) -->
     <details>
@@ -1128,16 +1124,24 @@
             </tr>
           `;
         }
+      // 2b) close out the table and details before inserting the button
+      html += `
+            </table>
+          </div>
+        </details>
+      `;
 
+      // 2c) determine if this sighting actually has flight data
       const sightingIdNum = Number(p.sighting_id);
       const hasFlights = window.flightDataCache.some(
         f => Number(f.properties.sighting_id) === sightingIdNum
       );
 
+      // 2d) *Now* append the flight button outside <details>
       if (hasFlights) {
         html += `
-          <button id="show-flight-btn" style="margin-top:8px;">
-            Historical Flights Available
+          <button id="show-flight-btn" style="margin-top:8px; display:block;">
+            Flight Data
           </button>
         `;
       }

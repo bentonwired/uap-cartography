@@ -151,7 +151,7 @@
         new mapboxgl.Popup({ offset: 25 })
           .setLngLat([lng, lat])
           .setHTML(`
-            <strong>${first.properties.icao}</strong><br/>
+            Flight: <strong>${first.properties.icao}</strong><br/>
             Alt: ${alt} ft<br/>
             Time: ${timeStr}
           `)
