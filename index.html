@@ -1082,6 +1082,7 @@
       window.currentSightingId = null;
 
       map.on('click', 'hitbox', e => {
+
         // Close any existing popups first
         document.querySelectorAll('.mapboxgl-popup').forEach(p => p.remove());
 
