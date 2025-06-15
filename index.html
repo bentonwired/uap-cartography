@@ -1082,6 +1082,14 @@
       window.currentSightingId = null;
 
       map.on('click', 'hitbox', e => {
+        // Close any existing popups first
+        document.querySelectorAll('.mapboxgl-popup').forEach(p => p.remove());
+
+        // Add bounds checking
+        const bounds = map.getBounds();
+        const clickPoint = e.lngLat;
+        if (!bounds.contains(clickPoint)) return;
+
         // 1) grab the properties
         const p = e.features[0].properties;
 
