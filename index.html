@@ -28,7 +28,12 @@
   type="text/css"
 />
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+  <script src="https://unpkg.com/mapbox-gl-spiderfy@1.0.0/lib/mapbox-gl-spiderfy.js"></script>
   <style>
+    :root {
+    --banner-height: 65px;  /* Change this value to adjust banner height */
+    --header-spacing: 50px; /* Space from top for UI elements */
+    }
     body, html {
       margin: 0;
       padding: 0;
@@ -42,18 +47,16 @@
     }
     /* make room for our fixed banner */
     body {
-      position: relative;     /* become the containing block for abs-pos kids */
-      box-sizing: border-box; /* include padding in its 100% height */
-      padding-top: 40px;      /* banner height (8px top + ~24px text + 8px bottom) */
+    position: relative;
+    box-sizing: border-box;
+    padding-top: var(--banner-height);
     }
-    /* ── 1) Always be able to transition the filter ── */
     #map-container {
       position: absolute;
-      top: 0; bottom: 0; width: 100%;
-
-      /* keep opacity fade if you need it */
-      transition: opacity 0.4s ease,
-                  filter  0.5s ease-out;
+      top: var(--banner-height);
+      bottom: 0;
+      width: 100%;
+      transition: opacity 0.4s ease, filter 0.5s ease-out;
       filter: none;
     }
 
@@ -66,11 +69,22 @@
       font-size:12px;
       font-family: 'Inter', sans-serif !important;
       position:absolute;
-      top:130px;
+      top:calc(var(--banner-height) + var(--header-spacing) + 625px);
       right:10px;
       border-radius: 8px;
     }
 
+    /* Mobile-specific legend positioning */
+    @media (max-width: 768px) {
+      .legend {
+        bottom: 20px;
+        top: auto !important;
+        right: 10px;
+        font-size: 10px;
+        padding: 6px;
+        max-width: 120px;
+      }
+    }
 
       /* permanently bottom-center the flight controls container */
       #flight-controls-container {
@@ -134,13 +148,17 @@
 
     /* Top‐bar sits over the map but is otherwise transparent */
     #top-bar {
-      position: absolute; top: 0; left: 0; right: 0; height: 30;
-      pointer-events: all; z-index: 5;
+      position: absolute;
+      top: var(--banner-height);
+      left: 0; right: 0;
+      height: auto;
+      pointer-events: all;
+      z-index: 5;
     }
 
     /* hamburger on the left */
     #hamburger {
-      position: absolute; top: 50px; left: 10px;
+      position: absolute; top: calc(var(--banner-height) + -40px); left: 10px;
       pointer-events: all;
       background: rgba(0,0,0,0.4);
       border: none; color: #fff; font-size: 18px;
@@ -149,7 +167,7 @@
 
     /* info button on the right */
     #info {
-      position: absolute; top: 50px; right: 10px;
+      position: absolute; top: calc(var(--banner-height) + -40px); right: 10px;
       pointer-events: all;
       background: rgba(0,0,0,0.6);
       border: none; color: #fff; font-size: 18px;
@@ -158,7 +176,7 @@
 
     /* small centered search box */
     #search-box {
-      position: absolute; top: 50px; left: 50%;
+      position: absolute; top: calc(var(--banner-height) + -40px); left: 50%;
       transform: translateX(-50%);
       width: 220px;          /* adjust to taste */
       max-width: 60%;
@@ -171,13 +189,12 @@
     /* container for our custom dropdown */
     .autocomplete-items {
       position: absolute;
-      top: 40px;                      /* just under the input bar */
+      top: 35px;
       left: 50%;
       transform: translateX(-50%);
-      width: 220px;                   /* match your input width */
-      max-height: none !important;
-      overflow-y: visible !important;
-      overflow-y: visible !important;
+      width: 220px;
+      max-height: 200px; /* Limit height on mobile */
+      overflow-y: auto;
       background: rgba(0,0,0,0.6);
       border-radius: 4px;
       z-index: 6;
@@ -203,9 +220,15 @@
 
     /* Drawer hidden off‐screen by default */
     #drawer {
-      position: absolute; top: 0px; bottom: 0; left: -280px;
-      width: 280px; background: rgba(0,0,0,0.4); color: #fff;
-      transition: left 0.3s ease; z-index: 4;
+      position: absolute;
+      top: var(--banner-height);
+      bottom: 0;
+      left: -280px;
+      width: 280px;
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      transition: left 0.3s ease;
+      z-index: 4;
     }
     /* When open, slide in and hide the hamburger */
     #drawer.open {
@@ -225,13 +248,80 @@
       width: 100%;
     }
     #drawer-content {
-      background: rgba(255,255,255,0.04);  /* 70% opaque black */
-      padding: 10px; overflow-y: auto; height: calc(100% - 40px);
+      background: rgba(255,255,255,0.04);
+      padding: 10px;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      height: calc(100% - 40px); /* Account for nav height */
+      position: relative;
+      /* Enable smooth scrolling on mobile */
+      -webkit-overflow-scrolling: touch;
+      /* Firefox */
+      scrollbar-width: none !important;
+      /* IE/Edge */
+      -ms-overflow-style: none !important;
     }
 
     /* Move the default zoom/rotation controls down below our header */
     .mapboxgl-ctrl-top-right {
-      top: 780px !important;
+      top: calc(var(--banner-height) + 10px) !important;
+    }
+
+    /* Main control group background */
+    .mapboxgl-ctrl-group {
+      background: rgba(0, 0, 0, 0.4) !important; /* Match your search box */
+      border: none !important;
+      box-shadow: 0 0 0 2px rgba(41, 182, 246, 0.1) !important; /* Subtle blue glow */
+    }
+
+    /* Individual buttons */
+    .mapboxgl-ctrl-group button {
+      background: transparent !important;
+      border: none !important;
+      color: #fff !important;
+      transition: all 0.2s ease !important;
+    }
+
+    /* Button separators */
+    .mapboxgl-ctrl-group button + button {
+      border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Hover state */
+    .mapboxgl-ctrl-group button:hover {
+      background-color: rgba(41, 182, 246, 0.2) !important; /* Blue tint on hover */
+    }
+
+    /* Active/focus state */
+    .mapboxgl-ctrl-group button:active,
+    .mapboxgl-ctrl-group button:focus {
+      background-color: rgba(41, 182, 246, 0.3) !important;
+      outline: none !important;
+    }
+
+    /* The actual icons (zoom in/out and compass) */
+    .mapboxgl-ctrl-icon {
+      filter: invert(1) !important; /* Makes white icons */
+    }
+
+    /* Compass specific styling */
+    .mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 29 29' xmlns='http://www.w3.org/2000/svg' fill='%23ffffff'%3E%3Cpath d='M10.5 14l4-8 4 8h-8z'/%3E%3Cpath d='M10.5 16l4 8 4-8h-8z' fill='%23ccc'/%3E%3C/svg%3E") !important;
+    }
+
+    /* Disabled state */
+    .mapboxgl-ctrl-group button:disabled {
+      opacity: 0.5 !important;
+    }
+
+    /* Attribution control (if visible) */
+    .mapboxgl-ctrl-attrib {
+      background: rgba(0, 0, 0, 0.6) !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    .mapboxgl-ctrl-attrib a {
+      color: #29b6f6 !important; /* Your blue accent */
     }
 
     /* Recent list styling */
@@ -268,24 +358,88 @@
       text-overflow: ellipsis;
     }
 
-    /* ── Custom scrollbar for the drawer-content panel ── */
-    #drawer-content::-webkit-scrollbar {
-      width: 8px;
-    }
-    #drawer-content::-webkit-scrollbar-track {
-      background: rgba(255,255,255,0.04);
-      border-radius: 4px;
-    }
-    #drawer-content::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.04);
-      border-radius: 4px;
-    }
-    #drawer-content::-webkit-scrollbar-thumb:hover {
-      background:  rgba(255,255,255,0.04);
-    }
+    /* NUCLEAR OPTION: Hide ALL scrollbars in drawer */
+
+    /* 1. Hide scrollbars on drawer-content itself */
     #drawer-content {
-      scrollbar-width: thin;
-      scrollbar-color: #29b6f6 rgba(255,255,255,0.04);
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+
+      /* Firefox */
+      scrollbar-width: none !important;
+
+      /* IE/Edge */
+      -ms-overflow-style: none !important;
+    }
+
+    /* Webkit browsers (Chrome, Safari, newer Edge) */
+    #drawer-content::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* 2. Hide scrollbars on ALL children of drawer-content */
+    #drawer-content * {
+      /* Firefox */
+      scrollbar-width: none !important;
+
+      /* IE/Edge */
+      -ms-overflow-style: none !important;
+    }
+
+    #drawer-content *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* 3. Specifically target any lists or containers */
+    #drawer-content ul,
+    #drawer-content .recent-list,
+    #drawer-content .ticker-container,
+    #drawer-content #filter-list {
+      /* Firefox */
+      scrollbar-width: none !important;
+
+      /* IE/Edge */
+      -ms-overflow-style: none !important;
+    }
+
+    #drawer-content ul::-webkit-scrollbar,
+    #drawer-content .recent-list::-webkit-scrollbar,
+    #drawer-content .ticker-container::-webkit-scrollbar,
+    #drawer-content #filter-list::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    /* 4. Target the drawer itself in case it's showing scrollbars */
+    #drawer {
+      overflow: hidden !important;
+    }
+
+    /* 5. Mobile-specific hiding (sometimes mobile browsers ignore the above) */
+    @media (max-width: 768px) {
+      #drawer-content {
+        /* Use transform hack for iOS */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+
+        /* Ensure touch scrolling works but hide bars */
+        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll !important;
+      }
+
+      /* Double-ensure no scrollbars on mobile */
+      #drawer-content::-webkit-scrollbar,
+      #drawer-content *::-webkit-scrollbar {
+        display: none !important;
+        -webkit-appearance: none !important;
+        width: 0 !important;
+        height: 0 !important;
+      }
     }
 
     #drawer nav button {
@@ -383,7 +537,8 @@
       transform: translate(-50%, -50%);
       max-width: 600px;
       width: 90%;
-      max-height: 80%;
+      max-height: calc(90% - var(--banner-height));
+      margin-top: calc(var(--banner-height) / 2);
       overflow-y: auto;
       background: #111;
       color: #eee;
@@ -548,17 +703,59 @@
       font-size: 1.4rem;
       cursor: pointer;
     }
-/* bump everything down by the 38px banner height */
-#map-container,
-#top-bar,
-#drawer {
-  top: 38px !important;
-}
 
-/* your search dropdown lives inside the top-bar; move it down another 10px */
-.autocomplete-items {
-  top: 40px !important;
-}
+
+    @media (max-width: 768px) {
+      :root {
+        --header-spacing: 40px;
+      }
+
+      /* Reduce button sizes on mobile */
+      #hamburger, #info {
+        padding: 12px;
+        font-size: 16px;
+      }
+
+      /* Better search box on mobile */
+      #search-box {
+        width: 140px;
+        font-size: 12px;
+        padding: 4px;
+        top: calc(var(--banner-height) + -50px); /* Slightly closer to banner */
+      }
+
+      /* Adjust button positions on mobile */
+      #hamburger {
+        top: calc(var(--banner-height) + -40px);
+        left: 8px;
+      }
+
+      #info {
+        top: calc(var(--banner-height) + -40px);
+        right: 8px;
+      }
+
+      /* Drawer adjustments */
+      #drawer {
+        width: 240px;
+      }
+
+      /* Hide legend text on very small screens, show only colors */
+      @media (max-width: 380px) {
+        .legend h4 {
+          font-size: 10px;
+          margin: 0 0 4px 0;
+        }
+      }
+    }
+
+    /* Hide search box when drawer is open on mobile */
+    @media (max-width: 768px) {
+      .drawer-open #search-box,
+      .drawer-open #autocomplete-list {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -582,17 +779,24 @@
   style="
     position: fixed;
     top: 0; left: 0; right: 0;
-    background-color: rgba(33, 37, 41, 0.9);  /* dark grey, 90% opaque */
-    color: #b3e5fc;                           /* pale-blue text */
+    height: var(--banner-height);
+    background-color: rgba(33, 37, 41, 0.9);
+    color: #b3e5fc;
     text-align: center;
-    padding: 8px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: 600;
     font-size: 14px;
-    border-bottom: 0.1px solid #29b6f6;         /* sky-blue accent line */
+    border-bottom: 0.1px solid #29b6f6;
     z-index: 1001;
+    box-sizing: border-box;
+    white-space: normal;
+    line-height: 1.2;
   "
 >
-  ⚠️ Alpha Notice: date/location quirks may occur and mobile support is limited—this alpha is focused on perfecting user experience. ⚠️
+  ⚠️ Alpha Notice: date/location quirks may occur and mobile support is limited. ⚠️
 </div>
 
 <!-- ABOUT MODAL -->
@@ -638,7 +842,7 @@
 
     <!-- 3) Version -->
     <h3>Version</h3>
-    <p>0.2.1 (alpha)</p>
+    <p>0.2.5 (alpha)</p>
 
     <!-- 4) FAQ (collapsed by default) -->
     <details>
@@ -865,10 +1069,33 @@
       buildList(matches);
     });
 
-    // close when clicking outside
-    document.addEventListener('click', e => {
-      if (e.target !== searchInput) closeAllLists();
+    // Replace your entire document click listener with this:
+    document.addEventListener('mousedown', e => {
+      // Use mousedown instead of click for better cross-browser consistency
+      if (!searchInput.contains(e.target) && !autocompleteList.contains(e.target)) {
+        closeAllLists();
+      }
     });
+
+    // Also, modify your item click handlers to use mousedown:
+    function buildList(arr) {
+      closeAllLists();
+      arr.forEach(label => {
+        const item = document.createElement('div');
+        item.textContent = label;
+
+        // Use mousedown instead of click
+        item.addEventListener('mousedown', (e) => {
+          e.preventDefault(); // Prevent focus loss
+          searchInput.value = label;
+          const cfg = regions[label];
+          map.flyTo({ center: cfg.center, zoom: cfg.zoom, speed: 0.8 });
+          closeAllLists();
+        });
+
+        autocompleteList.appendChild(item);
+      });
+    }
 
     // ── FILTER / SORT STATE ──
     let currentSortOrder = 'desc';     // 'desc' = Newest first, 'asc' = Oldest first
@@ -1378,58 +1605,82 @@
             return;
           }
 
+          // Replace the existing 'recent' panel case with this:
           if (panel === 'recent') {
-            container.innerHTML = '';         // clear previous panel
+            container.innerHTML = '';
             if (!cachedSightings) {
               container.innerHTML = '<p>Loading…</p>';
               return;
             }
 
-            // Sort by newest, take top 10
-            const recent = cachedSightings.features
+            // Get sightings from the last 7 days, extend to 50 if needed
+            const now = Date.now();
+            const weekAgo = now - (7 * 24 * 60 * 60 * 1000);
+
+            let recentSightings = cachedSightings.features
+              .filter(f => new Date(f.properties.report_date).getTime() >= weekAgo)
               .sort((a,b) =>
-                new Date(b.properties.report_date)
-                - new Date(a.properties.report_date)
-              )
-              .slice(0,10);
+                new Date(b.properties.report_date) - new Date(a.properties.report_date)
+              );
 
-            // Build HTML, wrapping each item in an <a>:
-            let html = '<h4>Recent Sightings</h4>'
-                     + '<ul class="recent-list">';
-            recent.forEach(f => {
-              const props   = f.properties;
-              const rel     = relativeTime(props.report_date);
-              const [lng,lat] = f.geometry.coordinates;
-              const loc     = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
-              const color   = getDotColor(props.confidence_rating);
-              const snippet = props.description.length > 30
-                ? props.description.slice(0,30) + '…'
-                : props.description;
+            // If less than 50 sightings in the past week, get the most recent 50
+            if (recentSightings.length < 50) {
+              recentSightings = cachedSightings.features
+                .sort((a,b) =>
+                  new Date(b.properties.report_date) - new Date(a.properties.report_date)
+                )
+                .slice(0, 50);
+            }
 
-              html += `
-                <li class="recent-item">
-                  <a href="#" data-coords="${lng},${lat}" style="text-decoration:none;color:inherit;">
-                    <div class="line">
-                      <span>
-                        <span class="dot" style="background:${color}"></span>
-                        <strong>${rel}</strong>
-                      </span>
-                      <span>${loc}</span>
-                    </div>
-                    <div class="snippet">${snippet}</div>
-                  </a>
-                </li>`;
-            });
+            // Build HTML without the ticker-container wrapper
+            let html = `
+              <h4 style="margin: 0 0 12px 0; position: sticky; top: 0; background: rgba(0,0,0,0); padding: 8px 0;">Recent Sightings</h4>
+              <ul class="recent-list" style="
+                list-style: none;
+                margin: 0;
+                padding: 0;
+              ">`;
+
+            if (recentSightings.length === 0) {
+              html += '<li style="color: #999; padding: 10px;">No recent sightings</li>';
+            } else {
+              recentSightings.forEach(f => {
+                const props = f.properties;
+                const rel = relativeTime(props.report_date);
+                const [lng,lat] = f.geometry.coordinates;
+                const loc = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+                const color = getDotColor(props.confidence_rating);
+                const snippet = props.description.length > 50
+                  ? props.description.slice(0,50) + '…'
+                  : props.description;
+
+                html += `
+                  <li class="recent-item" style="margin-bottom: 12px;">
+                    <a href="#" data-coords="${lng},${lat}" style="text-decoration:none;color:inherit;display:block;">
+                      <div class="line" style="display:flex;justify-content:space-between;align-items:center;">
+                        <span style="display:flex;align-items:center;">
+                          <span class="dot" style="width:8px;height:8px;border-radius:50%;background:${color};margin-right:6px;"></span>
+                          <strong>${rel}</strong>
+                        </span>
+                        <span style="font-size:11px;color:#ccc;">${loc}</span>
+                      </div>
+                      <div class="snippet" style="margin-left:14px;font-size:11px;color:#ccc;margin-top:2px;">
+                        ${snippet}
+                      </div>
+                    </a>
+                  </li>`;
+              });
+            }
+
             html += '</ul>';
             container.innerHTML = html;
 
-            // Attach fly-to on the <a> elements
+            // Attach fly-to handlers
             container.querySelectorAll('a[data-coords]').forEach(link => {
               link.addEventListener('click', e => {
                 e.preventDefault();
                 const [lng,lat] = link.dataset.coords.split(',');
                 map.flyTo({ center: [parseFloat(lng), parseFloat(lat)], zoom: 10 });
-                // ── close drawer after fly-to ──
                 document.getElementById('close-drawer').click();
               });
             });
