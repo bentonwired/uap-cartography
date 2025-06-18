@@ -142,26 +142,38 @@
 
       // 7) Clear old popups & drop a new one at each flight’s first ping
       document.querySelectorAll('.mapboxgl-popup').forEach(p => p.remove());
+      // Store references to the popups
+      const flightPopups = [];
+
       Object.values(byIcao).forEach(feats => {
         const first = feats.sort((a,b) => a.properties.time - b.properties.time)[0];
         const [lng, lat] = first.geometry.coordinates;
         const alt     = first.properties.alt_ft;
         const timeStr = new Date(first.properties.time * 1000).toLocaleString();
 
-        new mapboxgl.Popup({ offset: 25 })
+        const popup = new mapboxgl.Popup({ offset: 25 })
           .setLngLat([lng, lat])
           .setHTML(`
-            Flight: <strong>${first.properties.icao}</strong><br/>
-            Alt: ${alt} ft<br/>
-            Time: ${timeStr}
+          Flight: <strong>${first.properties.icao}</strong><br/>
+          Alt: ${alt} ft<br/>
+          Time: ${timeStr}
           `)
           .addTo(map);
+
+        flightPopups.push(popup);
       });
+
+      // Auto-hide all popups after 3 seconds
+      setTimeout(() => {
+        flightPopups.forEach(p => {
+          p.getElement().classList.add('fade-out');
+          setTimeout(() => p.remove(), 500); // Remove after fade
+        });
+      }, 2500); // Start fading at 2.5s
 
       // 8) Enable the Close button now that flights are on the map
       closeBtn.disabled = false;
-    });
-
+      });
 
     // Start or restart animation for a given ICAO
     function startAnimationForICAO(icao) {

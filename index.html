@@ -756,6 +756,151 @@
         display: none !important;
       }
     }
+
+    /* Video player styling in popups */
+    .mapboxgl-popup-content video {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        border-radius: 4px;
+        background: #000;
+        margin: 8px 0;
+    }
+
+    /* Video container with loading state */
+    .video-container {
+        position: relative;
+        width: 100%;
+        max-width: 320px;
+        margin: 10px 0;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Loading spinner for videos */
+    .video-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #29b6f6;
+        font-size: 12px;
+    }
+
+    /* Error state for failed videos */
+    .video-error {
+        padding: 20px;
+        text-align: center;
+        color: #999;
+        font-size: 12px;
+    }
+
+    /* Fallback link styling */
+    .video-fallback {
+        display: block;
+        padding: 8px;
+        background: rgba(41, 182, 246, 0.2);
+        border: 1px solid rgba(41, 182, 246, 0.4);
+        border-radius: 4px;
+        text-align: center;
+        color: #29b6f6;
+        text-decoration: none;
+        margin-top: 8px;
+    }
+
+    .video-fallback:hover {
+        background: rgba(41, 182, 246, 0.3);
+        border-color: rgba(41, 182, 246, 0.6);
+    }
+
+    /* Customize popup background and transparency */
+    .mapboxgl-popup-content {
+      background: rgba(0, 0, 0, 0.65) !important;  /* Dark background with 85% opacity */
+      color: #fff !important;                      /* White text */
+      border-radius: 8px !important;
+      box-shadow: 0 2px 10px rgba(41, 182, 246, 0.3) !important;  /* Blue glow to match theme */
+    }
+
+    /* Style the popup tip/arrow */
+    .mapboxgl-popup-tip {
+      border-top-color: rgba(0, 0, 0, 0.85) !important;
+    }
+
+    /* Style links within popups */
+    .mapboxgl-popup-content a {
+      color: #29b6f6 !important;  /* Your blue accent color */
+      text-decoration: underline;
+    }
+
+    .mapboxgl-popup-content a:hover {
+      color: #4fc3f7 !important;  /* Lighter blue on hover */
+    }
+
+    /* Style the close button */
+    .mapboxgl-popup-close-button {
+      color: #fff !important;
+      font-size: 18px !important;
+    }
+
+    .mapboxgl-popup-close-button:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Style the details/summary elements in popups */
+    .mapboxgl-popup-content details summary {
+      color: #29b6f6 !important;
+    }
+
+    /* Style the table within popups */
+    .mapboxgl-popup-content table {
+      color: #ddd !important;
+    }
+
+    .mapboxgl-popup-content th {
+      color: #29b6f6 !important;  /* Blue headers */
+    }
+
+    /* Webkit browsers (Chrome, Safari, Edge) */
+    .mapboxgl-popup-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .mapboxgl-popup-content::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .mapboxgl-popup-content::-webkit-scrollbar-thumb {
+      background: rgba(41, 182, 246, 0.5);  /* Your blue theme color */
+      border-radius: 4px;
+    }
+
+    .mapboxgl-popup-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(41, 182, 246, 0.8);  /* Brighter on hover */
+    }
+
+    /* Firefox */
+    .mapboxgl-popup-content {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(41, 182, 246, 0.5) rgba(255, 255, 255, 0.1);
+    }
+
+    /* Fixed video formatting in popups */
+    .mapboxgl-popup-content {
+        max-width: 380px !important;
+        max-height: 80vh !important; /* Prevents popup from being too tall */
+        overflow-y: auto !important;
+    }
+
+    /* Ensure video container maintains aspect ratio */
+    .mapboxgl-popup-content video {
+        max-width: 100%;
+        height: auto;
+    }
   </style>
 </head>
 <body>
@@ -1309,102 +1454,120 @@
       window.currentSightingId = null;
 
       map.on('click', 'hitbox', e => {
+          // Close any existing popups first
+          document.querySelectorAll('.mapboxgl-popup').forEach(p => p.remove());
 
-        // Close any existing popups first
-        document.querySelectorAll('.mapboxgl-popup').forEach(p => p.remove());
+          // Add bounds checking
+          const bounds = map.getBounds();
+          const clickPoint = e.lngLat;
+          if (!bounds.contains(clickPoint)) return;
 
-        // Add bounds checking
-        const bounds = map.getBounds();
-        const clickPoint = e.lngLat;
-        if (!bounds.contains(clickPoint)) return;
+          // 1) grab the properties
+          const p = e.features[0].properties;
 
-        // 1) grab the properties
-        const p = e.features[0].properties;
+          // 2) build up your HTML (table + details + button)
+          let html = `
+              <strong>Reported:</strong> ${p.report_date}<br/>
+              <strong>Event:</strong>    ${p.event_date || 'N/A'}<br/>
+              <strong>Confidence:</strong> ${p.confidence_rating || 'N/A'}<br/>`;
 
-        // 2) build up your HTML (table + details + button)
-        let html = `
-          <strong>Reported:</strong> ${p.report_date}<br/>
-          <strong>Event:</strong>    ${p.event_date || 'N/A'}<br/>
-          <strong>Confidence:</strong> ${p.confidence_rating || 'N/A'}<br/>
-          <p>${p.description.substring(0,200)}…</p>
-          <a href="${p.source}" target="_blank">View at Source</a>
-          <details style="margin-top:8px;">
-            <summary style="cursor:pointer;color:#29b6f6;">
-              Show all attributes
-            </summary>
-            <div style="max-height:300px; overflow-y:auto; margin-top:4px;">
-              <table style="
-                width:100%;
-                table-layout:fixed;
-                border-collapse:collapse;
-                font-size:12px;
-              ">
-        `;
+          // 3) Add embedded video if media_url exists - FIXED FORMATTING
+          if (p.media_url && p.media_url !== 'null') {
+              const videoUrl = p.media_url;
 
-        for (const [key, value] of Object.entries(p)) {
+              html += `
+              <div style="width: 100%; margin: 10px 0;">
+                  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 4px;">
+                      <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                          <source src="${videoUrl}" type="video/mp4">
+                          Your browser does not support the video tag.
+                      </video>
+                  </div>
+              </div>`;
+          }
+
+          // 4) Add description and source link
           html += `
-            <tr>
-              <th style="
-                text-align:left;
-                padding:2px 4px;
-                border-bottom:1px solid rgba(255,255,255,0.2);
-                white-space:nowrap;
-                width:30%;
-              ">${key}</th>
-              <td style="
-                padding:2px 4px;
-                border-bottom:1px solid rgba(255,255,255,0.2);
-                word-break:break-word;
-                white-space:normal;
-              ">${value}</td>
-            </tr>
-          `;
-        }
-      // 2b) close out the table and details before inserting the button
-      html += `
-            </table>
-          </div>
-        </details>
-      `;
+              <p>${p.description.substring(0,200)}…</p>
+              <a href="${p.source}" target="_blank">View at Source</a>`;
 
-      // 2c) determine if this sighting actually has flight data
-      const sightingIdNum = Number(p.sighting_id);
-      const hasFlights = window.flightDataCache.some(
-        f => Number(f.properties.sighting_id) === sightingIdNum
-      );
+          // 5) Add the collapsible details section
+          html += `
+              <details style="margin-top:8px;">
+                  <summary style="cursor:pointer;color:#29b6f6;">
+                      Show all attributes
+                  </summary>
+                  <div style="max-height:300px; overflow-y:auto; margin-top:4px;">
+                      <table style="
+                          width:100%;
+                          table-layout:fixed;
+                          border-collapse:collapse;
+                          font-size:12px;
+                      ">`;
 
-      // 2d) *Now* append the flight button outside <details>
-      if (hasFlights) {
-        html += `
-          <button id="show-flight-btn" style="margin-top:8px; display:block;">
-            Flight Data
-          </button>
-        `;
-      }
+          for (const [key, value] of Object.entries(p)) {
+              html += `
+                  <tr>
+                      <th style="
+                          text-align:left;
+                          padding:2px 4px;
+                          border-bottom:1px solid rgba(255,255,255,0.2);
+                          white-space:nowrap;
+                          width:30%;
+                      ">${key}</th>
+                      <td style="
+                          padding:2px 4px;
+                          border-bottom:1px solid rgba(255,255,255,0.2);
+                          word-break:break-word;
+                          white-space:normal;
+                      ">${value}</td>
+                  </tr>`;
+          }
 
-        // 3) show the popup
-        new mapboxgl.Popup()
-          .setLngLat(e.lngLat)
-          .setHTML(html)
-          .addTo(map);
+          html += `
+                      </table>
+                  </div>
+              </details>`;
 
-        // 4) wire up the Show-Flights button
-        const popupEl = document.querySelector('.mapboxgl-popup-content');
-        const showBtn  = popupEl.querySelector('#show-flight-btn');
-        if (showBtn) {
-          showBtn.addEventListener('click', () => {
-            // a) remember which sighting
-            window.currentSightingId = p.sighting_id;
-            // b) reveal your controls
-            document.getElementById('flight-controls-container').style.display = 'flex';
-            // c) zoom & lock the map
-            const [lng, lat] = e.lngLat.toArray();
-            map.fitBounds([[lng - 0.6, lat - 0.6], [lng + 0.6, lat + 0.6]]);
-            map.touchZoomRotate.disable();
-            // d) *trigger* the real loader in flight_widget.js
-            document.getElementById('load-data-btn').click();
-          });
-        }
+          // 6) determine if this sighting actually has flight data
+          const sightingIdNum = Number(p.sighting_id);
+          const hasFlights = window.flightDataCache.some(
+              f => Number(f.properties.sighting_id) === sightingIdNum
+          );
+
+          // 7) append the flight button outside <details>
+          if (hasFlights) {
+              html += `
+                  <button id="show-flight-btn" style="margin-top:8px; display:block;">
+                      Flight Data
+                  </button>`;
+          }
+
+          // 8) show the popup
+          new mapboxgl.Popup({
+              maxWidth: '380px'  // Slightly wider to accommodate videos
+          })
+              .setLngLat(e.lngLat)
+              .setHTML(html)
+              .addTo(map);
+
+          // 9) wire up the Show-Flights button
+          const popupEl = document.querySelector('.mapboxgl-popup-content');
+          const showBtn  = popupEl.querySelector('#show-flight-btn');
+          if (showBtn) {
+              showBtn.addEventListener('click', () => {
+                  // a) remember which sighting
+                  window.currentSightingId = p.sighting_id;
+                  // b) reveal your controls
+                  document.getElementById('flight-controls-container').style.display = 'flex';
+                  // c) zoom & lock the map
+                  const [lng, lat] = e.lngLat.toArray();
+                  map.fitBounds([[lng - 0.6, lat - 0.6], [lng + 0.6, lat + 0.6]]);
+                  // map.touchZoomRotate.disable();
+                  // d) trigger the real loader in flight_widget.js
+                  document.getElementById('load-data-btn').click();
+              });
+          }
       });
 
       // your existing close-button logic stays the same:
