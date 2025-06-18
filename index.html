@@ -31,7 +31,7 @@
   <script src="https://unpkg.com/mapbox-gl-spiderfy@1.0.0/lib/mapbox-gl-spiderfy.js"></script>
   <style>
     :root {
-    --banner-height: 65px;  /* Change this value to adjust banner height */
+    --banner-height: 35px;  /* Change this value to adjust banner height */
     --header-spacing: 50px; /* Space from top for UI elements */
     }
     body, html {
@@ -158,7 +158,7 @@
 
     /* hamburger on the left */
     #hamburger {
-      position: absolute; top: calc(var(--banner-height) + -40px); left: 10px;
+      position: absolute; top: calc(var(--banner-height) + -20px); left: 10px;
       pointer-events: all;
       background: rgba(0,0,0,0.4);
       border: none; color: #fff; font-size: 18px;
@@ -167,7 +167,7 @@
 
     /* info button on the right */
     #info {
-      position: absolute; top: calc(var(--banner-height) + -40px); right: 10px;
+      position: absolute; top: calc(var(--banner-height) + -20px); right: 10px;
       pointer-events: all;
       background: rgba(0,0,0,0.6);
       border: none; color: #fff; font-size: 18px;
@@ -176,7 +176,7 @@
 
     /* small centered search box */
     #search-box {
-      position: absolute; top: calc(var(--banner-height) + -40px); left: 50%;
+      position: absolute; top: calc(var(--banner-height) + -20px); left: 50%;
       transform: translateX(-50%);
       width: 220px;          /* adjust to taste */
       max-width: 60%;
@@ -707,13 +707,13 @@
 
     @media (max-width: 768px) {
       :root {
-        --header-spacing: 40px;
+        --banner-height: 40px;
       }
 
       /* Reduce button sizes on mobile */
       #hamburger, #info {
         padding: 12px;
-        font-size: 16px;
+        font-size: 16px;S
       }
 
       /* Better search box on mobile */
@@ -721,17 +721,17 @@
         width: 140px;
         font-size: 12px;
         padding: 4px;
-        top: calc(var(--banner-height) + -50px); /* Slightly closer to banner */
+        top: calc(var(--banner-height) + -30px); /* Slightly closer to banner */
       }
 
       /* Adjust button positions on mobile */
       #hamburger {
-        top: calc(var(--banner-height) + -40px);
+        top: calc(var(--banner-height) + -30px);
         left: 8px;
       }
 
       #info {
-        top: calc(var(--banner-height) + -40px);
+        top: calc(var(--banner-height) + -30px);
         right: 8px;
       }
 
