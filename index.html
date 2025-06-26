@@ -69,9 +69,10 @@
       font-size:12px;
       font-family: 'Inter', sans-serif !important;
       position:absolute;
-      top:calc(var(--banner-height) + var(--header-spacing) + 625px);
+      bottom: 20px;
       right:10px;
       border-radius: 8px;
+      z-index: 2;    /* Ensure it's above map but below controls */
     }
 
     /* Mobile-specific legend positioning */
@@ -1124,7 +1125,7 @@
 </script>
 
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY21hMGNtNHAzMTNvcjJqb3I1ajhlZ2FlcyJ9.A-o67AZybXMb4JPmWj4HGQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY21jM3o3YXBmMGE2bDJscG5xb2JwOW9zNiJ9.MKN7imH44tFHDifsMvjFIg';
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
@@ -1268,8 +1269,76 @@
                    return '#01579b';
     }
 
+    // Add this new function after getDotColor
+    function calculateAnimatedSightings() {
+      if (!cachedSightings) return;
+
+      const now = Date.now();
+      const sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000);
+
+      // Get sightings from last 7 days
+      const recentSightings = cachedSightings.features
+        .filter(f => new Date(f.properties.report_date).getTime() >= sevenDaysAgo)
+        .sort((a,b) => new Date(b.properties.report_date) - new Date(a.properties.report_date));
+
+      // If less than 10 sightings in 7 days, get the 10 most recent
+      let eligibleSightings;
+      if (recentSightings.length < 10) {
+        eligibleSightings = cachedSightings.features
+          .sort((a,b) => new Date(b.properties.report_date) - new Date(a.properties.report_date))
+          .slice(0, 10);
+        isAnimationRestricted = true;
+      } else {
+        eligibleSightings = recentSightings;
+        isAnimationRestricted = false;
+      }
+
+      // Store the IDs of sightings that should be animated
+      animatedSightingIds = new Set(
+        eligibleSightings.map(f => f.properties.sighting_id)
+      );
+
+      console.log(`Animation enabled for ${animatedSightingIds.size} sightings (restricted: ${isAnimationRestricted})`);
+    }
+
+    function updateAnimationFilters() {
+      if (!animatedSightingIds.size) return;
+
+      const sightingIdsArray = Array.from(animatedSightingIds);
+      const rippleLayers = ['pulse-ripple', 'pulse-ripple-2', 'pulse-ripple-3'];
+
+      rippleLayers.forEach(layerId => {
+        map.setFilter(layerId, ['all',
+          ['!', ['has','point_count']],
+          ['in', ['get', 'sighting_id'], ['literal', sightingIdsArray]]
+        ]);
+      });
+    }
+
+    function updateBaseLayerFilters() {
+      if (!animatedSightingIds.size) return;
+
+      const sightingIdsArray = Array.from(animatedSightingIds);
+
+      // Update animated base dots filter
+      map.setFilter('pulse-base-animated', ['all',
+        ['!', ['has','point_count']],
+        ['in', ['get', 'sighting_id'], ['literal', sightingIdsArray]]
+      ]);
+
+      // Update static base dots filter
+      map.setFilter('pulse-base-static', ['all',
+        ['!', ['has','point_count']],
+        ['!', ['in', ['get', 'sighting_id'], ['literal', sightingIdsArray]]]
+      ]);
+    }
+
     // ── GLOBAL CACHE FOR YOUR GEOJSON ──
     let cachedSightings = null;
+
+    // Add specific ids for animated sighting_ids for ping animations
+    let animatedSightingIds = new Set();
+    let isAnimationRestricted = false;
 
     function renderFilterList() {
       const listContainer = document.getElementById('filter-list');
@@ -1344,6 +1413,9 @@
         .then(res => res.json())
         .then(data => {
           cachedSightings = data;
+          calculateAnimatedSightings();
+          updateAnimationFilters();
+          updateBaseLayerFilters();
           initializeTimeline(cachedSightings);
         })
         .catch(err => console.error('Failed to load sightings:', err));
@@ -1373,16 +1445,38 @@
         }
       });
 
-      // 4) base dot
+      // 4a) Animated base dots (recent sightings)
       map.addLayer({
-        id: 'pulse-base',
+        id: 'pulse-base-animated',
         type: 'circle',
         source: 'uapSightings',
-        filter: ['!', ['has','point_count']],
+        filter: ['all',
+          ['!', ['has','point_count']],
+          ['in', ['get', 'sighting_id'], ['literal', []]]
+        ],
         paint: {
           'circle-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
           'circle-radius': 4,
           'circle-opacity': 1
+        }
+      });
+
+      // 4b) Static base dots with subtle pulse (older sightings)
+      map.addLayer({
+        id: 'pulse-base-static',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['all',
+          ['!', ['has','point_count']],
+          ['!', ['in', ['get', 'sighting_id'], ['literal', []]]]
+        ],
+        paint: {
+          'circle-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
+          'circle-radius': 4,
+          'circle-opacity': 1,
+          'circle-stroke-color': 'rgba(41, 182, 246, 0.4)', // Blue hue like popup
+          'circle-stroke-width': 2,
+          'circle-stroke-opacity': 0.6
         }
       });
 
@@ -1391,7 +1485,10 @@
         id: 'pulse-ripple',
         type: 'circle',
         source: 'uapSightings',
-        filter: ['!', ['has','point_count']],
+        filter: ['all',
+          ['!', ['has','point_count']],
+          ['in', ['get', 'sighting_id'], ['literal', []]]
+        ],
         paint: {
           'circle-color': 'rgba(0,0,0,0)',
           'circle-stroke-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
@@ -1406,7 +1503,10 @@
         id: 'pulse-ripple-2',
         type: 'circle',
         source: 'uapSightings',
-        filter: ['!', ['has','point_count']],
+        filter: ['all',
+          ['!', ['has','point_count']],
+          ['in', ['get', 'sighting_id'], ['literal', []]]
+        ],
         paint: {
           'circle-color': 'rgba(0,0,0,0)',
           'circle-stroke-color': ['interpolate',['linear'],['get','confidence_rating'],0,'#e0f7fa',5,'#29b6f6',10,'#01579b'],
@@ -1418,23 +1518,26 @@
 
       // 4.2.1) third ripple
       map.addLayer({
-      id: 'pulse-ripple-3',
-      type: 'circle',
-      source: 'uapSightings',
-      filter: ['!', ['has','point_count']],
-      paint: {
-        'circle-color': 'rgba(0,0,0,0)',
-        'circle-stroke-color': ['interpolate',
-          ['linear'], ['get','confidence_rating'],
-          0,  '#e0f7fa',
-          5,  '#29b6f6',
-          10, '#01579b'
+        id: 'pulse-ripple-3',
+        type: 'circle',
+        source: 'uapSightings',
+        filter: ['all',
+          ['!', ['has','point_count']],
+          ['in', ['get', 'sighting_id'], ['literal', []]]
         ],
-        'circle-stroke-width': 2,
-        'circle-radius': 6,
-        'circle-stroke-opacity': 0
-      }
-    });
+        paint: {
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-color': ['interpolate',
+            ['linear'], ['get','confidence_rating'],
+            0,  '#e0f7fa',
+            5,  '#29b6f6',
+            10, '#01579b'
+          ],
+          'circle-stroke-width': 2,
+          'circle-radius': 6,
+          'circle-stroke-opacity': 0
+        }
+      });
 
       //4.3) invisible hitbox for easier clicks
       map.addLayer({
@@ -1452,6 +1555,8 @@
 
       // replace your existing hitbox-click handler with this:
       window.currentSightingId = null;
+
+      
 
       map.on('click', 'hitbox', e => {
           // Close any existing popups first
@@ -1670,9 +1775,39 @@
       }, 3000);
     }
 
+    // Add subtle pulse animation for static dots
+    function initStaticPulse() {
+      // Set up transition properties for smooth pulsing
+      map.setPaintProperty('pulse-base-static', 'circle-stroke-opacity-transition', { duration: 2000 });
+      map.setPaintProperty('pulse-base-static', 'circle-stroke-width-transition', { duration: 2000 });
+      map.setPaintProperty('pulse-base-static', 'circle-radius-transition', { duration: 2000 });
+
+      // Start the pulsing animation
+      function pulseStatic() {
+        // Pulse out: dimmer hue, wider stroke, larger dot
+        map.setPaintProperty('pulse-base-static', 'circle-stroke-opacity', 0.2);
+        map.setPaintProperty('pulse-base-static', 'circle-stroke-width', 3);
+        map.setPaintProperty('pulse-base-static', 'circle-radius', 6);
+
+        // Pulse back in after 1 second: brighter hue, normal stroke, normal size
+        setTimeout(() => {
+          map.setPaintProperty('pulse-base-static', 'circle-stroke-opacity', 0.6);
+          map.setPaintProperty('pulse-base-static', 'circle-stroke-width', 2);
+          map.setPaintProperty('pulse-base-static', 'circle-radius', 4);
+        }, 1000);
+      }
+
+      // Start immediately and repeat every 3 seconds
+      pulseStatic();
+      setInterval(pulseStatic, 3000);
+    }
+
     // 3) start immediately, then loop
     triggerRipples();
     setInterval(triggerRipples, CYCLE);
+
+    // Initialize static pulse for older sightings
+    initStaticPulse();
 
       // Grab references
       const drawer = document.getElementById('drawer');
