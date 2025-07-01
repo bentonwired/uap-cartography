@@ -28,7 +28,6 @@
   type="text/css"
 />
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
-  <script src="https://unpkg.com/mapbox-gl-spiderfy@1.0.0/lib/mapbox-gl-spiderfy.js"></script>
   <style>
     :root {
     --banner-height: 35px;  /* Change this value to adjust banner height */
@@ -61,7 +60,10 @@
     }
 
     #map { position:absolute; top:0; bottom:0; width:100%; }
-    .mapboxgl-popup { max-width: 300px; }
+    .mapboxgl-popup {
+      max-width: 300px;
+      z-index: 1000 !important;
+    }
     .legend {
       background: rgba(0,0,0,0.2);
       color: #fff;
@@ -72,7 +74,7 @@
       bottom: 20px;
       right:10px;
       border-radius: 8px;
-      z-index: 2;    /* Ensure it's above map but below controls */
+      z-index: 2 !important;    /* Ensure it's above map but below controls */
     }
 
     /* Mobile-specific legend positioning */
@@ -89,7 +91,7 @@
 
       /* permanently bottom-center the flight controls container */
       #flight-controls-container {
-        z-index: 999;
+        z-index: 1003;
         position: absolute;
         bottom: 20px;
         left: 50%;
@@ -902,6 +904,36 @@
         max-width: 100%;
         height: auto;
     }
+
+    /* Spiderify styles */
+    .spider-leg {
+      stroke: rgba(41, 182, 246, 0.8);
+      stroke-width: 2;
+      stroke-dasharray: 3, 3;
+      animation: spider-dash 20s linear infinite;
+      transition: none !important;
+      will-change: transform, width, left, top;
+      pointer-events: none !important;
+      z-index: 997 !important;
+    }
+
+    @keyframes spider-dash {
+      to {
+        stroke-dashoffset: -60;
+      }
+    }
+
+    .spiderfy-marker {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 50 !important;
+      transform: translate(-50%, -50%);
+      transform-origin: center;
+    }
+
+    .spiderfy-marker:hover {
+      transform: scale(1.3);
+      z-index: 60 !important;
+    }
   </style>
 </head>
 <body>
@@ -1124,8 +1156,312 @@
     });
 </script>
 
+<script>
+// Custom Spiderifier Implementation
+// Custom Spiderifier Implementation
+class MapboxglSpiderifier {
+  constructor(map, options = {}) {
+    this.map = map;
+    this.options = {
+      animate: options.animate !== false,
+      animationSpeed: options.animationSpeed || 200,
+      circleFootSeparation: options.circleFootSeparation || 25,
+      circleSpiralSwitchover: options.circleSpiralSwitchover || 10,
+      legWeight: options.legWeight || 2,
+      legColor: options.legColor || 'rgba(41, 182, 246, 0.5)',
+      markerWidth: options.markerWidth || 12,
+      markerHeight: options.markerHeight || 12,
+      markerBorder: options.markerBorder || 2,
+      ...options
+    };
+    this.spiderfied = new Map();
+    this.originalPositions = new Map();
+  }
+
+  spiderfy(center, markers) {
+    console.log(`🕷️ Spiderfying ${markers.length} markers at`, center);
+
+    // Clear any existing spiderfied markers
+    this.unspiderfy();
+
+    const count = markers.length;
+    const centerPt = this.map.project(center);
+    const positions = this._generatePositions(count);
+
+    const spiderfiedData = {
+      center: center,
+      markers: [],
+      legs: [],
+      debugDots: [] // Initialize here
+    };
+
+    markers.forEach((marker, i) => {
+      // Store original position (which should be the cluster center)
+      this.originalPositions.set(marker, center);
+
+      // Calculate new position
+      const angle = positions[i].angle;
+      const distance = positions[i].distance;
+
+      const newX = centerPt.x + Math.cos(angle) * distance;
+      const newY = centerPt.y + Math.sin(angle) * distance;
+      const newLngLat = this.map.unproject([newX, newY]);
+
+      // Create leg element
+      const leg = this._createLeg(center, newLngLat);
+      this.map.getCanvasContainer().appendChild(leg);
+
+      // Set marker initial position to center before animating
+      marker.setLngLat(center);
+      marker.addTo(this.map);
+
+      // Animate or directly position marker
+      if (this.options.animate) {
+        // Small delay to ensure marker is added to map first
+        setTimeout(() => {
+          this._animateMarker(marker, center, newLngLat, this.options.animationSpeed);
+        }, 50);
+      } else {
+        marker.setLngLat(newLngLat);
+        // Update legs immediately if not animating
+        setTimeout(() => {
+          this._updateLegs();
+        }, 10);
+      }
+
+      spiderfiedData.markers.push(marker);
+      spiderfiedData.legs.push(leg);
+    });
+
+    // Debug: Add red dots AFTER the forEach loop
+    const debugDots = [];
+    markers.forEach((marker, i) => {
+      const debugEl = document.createElement('div');
+      debugEl.className = 'spider-debug-dot';
+      debugEl.style.cssText = `
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: red;
+        border: 1px solid white;
+        border-radius: 50%;
+        z-index: 1002;
+        pointer-events: none;
+      `;
+      this.map.getCanvasContainer().appendChild(debugEl);
+      debugDots.push(debugEl);
+    });
+
+    // Store debug dots with spiderfied data
+    spiderfiedData.debugDots = debugDots;
+
+    // Update debug dot positions on map move
+    const updateDebugDots = () => {
+      markers.forEach((marker, i) => {
+        const pos = this.map.project(marker.getLngLat());
+        debugDots[i].style.left = `${pos.x - 2}px`; // For 4px dot
+        debugDots[i].style.top = `${pos.y - 2}px`;
+      });
+    };
+    updateDebugDots();
+
+    // Add to the move listener
+    this._updateDebugDotsOnMove = updateDebugDots;
+    this.map.on('move', this._updateDebugDotsOnMove);
+
+    this.spiderfied.set(center.toString(), spiderfiedData);
+
+    // Update legs on map move
+    this._updateLegsOnMove = () => this._updateLegs();
+    this.map.on('move', this._updateLegsOnMove);
+
+    return spiderfiedData.markers;
+  }
+
+  _updateLegs() {
+    this.spiderfied.forEach((data, key) => {
+      data.legs.forEach((leg, i) => {
+        const marker = data.markers[i];
+        const markerLngLat = marker.getLngLat();
+        const centerPt = this.map.project(data.center);
+        const markerPt = this.map.project(markerLngLat);
+
+        const dx = markerPt.x - centerPt.x;
+        const dy = markerPt.y - centerPt.y;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+        leg.style.width = `${length}px`;
+        leg.style.left = `${centerPt.x}px`;
+        leg.style.top = `${centerPt.y - this.options.legWeight / 2}px`;
+        leg.style.transform = `rotate(${angle}deg)`;
+        leg.style.transformOrigin = '0 50%';
+      });
+    });
+  }
+
+  unspiderfy() {
+    // Remove the move listeners
+    if (this._updateLegsOnMove) {
+      this.map.off('move', this._updateLegsOnMove);
+    }
+    if (this._updateDebugDotsOnMove) {
+      this.map.off('move', this._updateDebugDotsOnMove);
+    }
+
+    this.spiderfied.forEach(data => {
+      // Remove legs with fade out
+      data.legs.forEach(leg => {
+        if (leg.parentNode) {
+          leg.style.opacity = '0';
+          leg.style.transition = 'opacity 200ms';
+          setTimeout(() => {
+            if (leg.parentNode) {
+              leg.parentNode.removeChild(leg);
+            }
+          }, 200);
+        }
+      });
+
+      // Remove debug dots
+      data.debugDots?.forEach(dot => {
+        if (dot.parentNode) {
+          dot.parentNode.removeChild(dot);
+        }
+      });
+
+      // Remove markers
+      data.markers.forEach(marker => {
+        marker.remove();
+      });
+    });
+
+    this.spiderfied.clear();
+    this.originalPositions.clear();
+  }
+
+  _generatePositions(count) {
+    const positions = [];
+    const separation = this.options.circleFootSeparation;
+    const dynamicSeparation = Math.max(separation, separation * Math.sqrt(count / 5));
+
+    if (count >= this.options.circleSpiralSwitchover) {
+      // Spiral layout for many markers
+      let angle = 0;
+      let legLength = dynamicSeparation * 2;
+      const angleStep = (Math.PI * 2) / Math.min(7, count);
+
+      for (let i = 0; i < count; i++) {
+        positions.push({
+          angle: angle,
+          distance: legLength
+        });
+        angle += angleStep;
+        // Gradually increase distance for spiral effect
+        legLength += dynamicSeparation * 0.15;
+      }
+    } else {
+      // Circle layout for few markers - evenly distributed
+      const angleStep = (Math.PI * 2) / count;
+      const distance = dynamicSeparation * Math.max(2.5, count * 0.5);
+
+      for (let i = 0; i < count; i++) {
+        // Start from top (12 o'clock) and go clockwise
+        const angle = (i * angleStep) - (Math.PI / 2);
+        positions.push({ angle, distance });
+      }
+    }
+
+    return positions;
+  }
+
+  _createLeg(from, to) {
+    const fromPt = this.map.project(from);
+    const toPt = this.map.project(to);
+
+    const dx = toPt.x - fromPt.x;
+    const dy = toPt.y - fromPt.y;
+    const length = Math.sqrt(dx * dx + dy * dy);
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+    const leg = document.createElement('div');
+    leg.className = 'spider-leg';
+
+    // Use a more robust positioning approach
+    leg.style.cssText = `
+      position: absolute;
+      height: ${this.options.legWeight}px;
+      background: linear-gradient(to right,
+        transparent 0%,
+        ${this.options.legColor} 10%,
+        ${this.options.legColor} 90%,
+        transparent 100%
+      );
+      width: ${length}px;
+      left: ${fromPt.x}px;
+      top: ${fromPt.y - this.options.legWeight / 2}px;
+      transform-origin: 0 50%;
+      transform: rotate(${angle}deg);
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 200ms;
+    `;
+
+    // Fade in the leg
+    setTimeout(() => {
+      leg.style.opacity = '1';
+    }, 10);
+
+    return leg;
+  }
+
+  _animateMarker(marker, from, to, duration) {
+    const start = performance.now();
+    const fromPt = this.map.project(from);
+    const toPt = this.map.project(to);
+
+    const animate = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      // Interpolate pixel coordinates
+      const currentX = fromPt.x + (toPt.x - fromPt.x) * eased;
+      const currentY = fromPt.y + (toPt.y - fromPt.y) * eased;
+
+      // Convert back to lng/lat and update marker
+      const currentLngLat = this.map.unproject([currentX, currentY]);
+      marker.setLngLat(currentLngLat);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Force exact final position
+        marker.setLngLat(to);
+        // IMPORTANT: Update legs AFTER animation completes
+        setTimeout(() => {
+          this._updateLegs();
+        }, 10);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }
+}
+
+// Make it globally available
+window.MapboxglSpiderifier = MapboxglSpiderifier;
+console.log('✅ Custom MapboxglSpiderifier loaded');
+</script>
+
   <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY21hMGNtNHAzMTNvcjJqb3I1ajhlZ2FlcyJ9.A-o67AZybXMb4JPmWj4HGQ';
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVudG9ud2lyZWQiLCJhIjoiY21jZ3g2d2k4MHBzMTJqcTJvcDQwNzl3eiJ9.Q2oV3ja9-OZ1HokbBnrDug';
+    // Global spiderifier instance
+    let spiderifier = null;
+
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
@@ -1399,6 +1735,224 @@
     }
 
     map.on('load', () => {
+          // Initialize spiderifier with error handling
+          try {
+            spiderifier = new MapboxglSpiderifier(map, {
+              animate: true,
+              animationSpeed: 200,
+              customPin: true,
+              circleFootSeparation: 50,
+              circleSpiralSwitchover: 10,
+              onClick: function(e, marker) {
+                e.stopPropagation();
+              }
+            });
+            console.log('✅ Spiderifier initialized successfully');
+          } catch (error) {
+            console.error('❌ Error initializing spiderifier:', error);
+          }
+
+          // Function to handle spiderifying clusters
+          function spiderifyCluster(clusterId, clusterCoords) {
+            console.log('🕷️ spiderifyCluster called with:', { clusterId, clusterCoords });
+
+            if (!spiderifier) {
+              console.error('❌ Spiderifier not initialized!');
+              return;
+            }
+
+            // Get cluster leaves
+            map.getSource('uapSightings').getClusterLeaves(
+              clusterId,
+              100,
+              0,
+              (err, features) => {
+                if (err) {
+                  console.error('❌ Error getting cluster leaves:', err);
+                  return;
+                }
+
+                console.log(`📍 Got ${features.length} features from cluster`);
+
+                if (features.length === 0) {
+                  console.warn('⚠️ No features in cluster!');
+                  return;
+                }
+
+                // Clear any previous spiderfied markers
+                spiderifier.unspiderfy();
+
+                // Create markers with your FULL popup functionality
+                const markers = features.map((feature, index) => {
+                  const el = document.createElement('div');
+                  el.className = 'spiderfy-marker';
+
+                  // Enhanced styling for visibility
+                  const confidence = feature.properties.confidence_rating;
+                  let color = '#000';
+                  if (confidence !== null && confidence !== undefined) {
+                    if (confidence < 5) color = '#e0f7fa';
+                    else if (confidence < 10) color = '#29b6f6';
+                    else color = '#01579b';
+                  }
+
+                  // Make markers more visible
+                  el.style.cssText = `
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background-color: ${color};
+                    border: 2px solid rgba(255,255,255,0.9);
+                    cursor: pointer;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+                  `;
+
+                  const marker = new mapboxgl.Marker({
+                    element: el,
+                    anchor: 'center',
+                  }).setLngLat(feature.geometry.coordinates);
+
+                  // Use your FULL popup code from the hitbox click handler
+                  el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    // Close any existing popups first
+                    document.querySelectorAll('.mapboxgl-popup').forEach(p => p.remove());
+
+                    // Use the exact same popup code as your hitbox handler
+                    const p = feature.properties;
+
+                    let html = `
+                      <strong>Reported:</strong> ${p.report_date}<br/>
+                      <strong>Event:</strong>    ${p.event_date || 'N/A'}<br/>
+                      <strong>Confidence:</strong> ${p.confidence_rating || 'N/A'}<br/>`;
+
+                    // Add embedded video if media_url exists
+                    if (p.media_url && p.media_url !== 'null') {
+                      const videoUrl = p.media_url;
+                      html += `
+                      <div style="width: 100%; margin: 10px 0;">
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 4px;">
+                          <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                            <source src="${videoUrl}" type="video/mp4">
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>`;
+                    }
+
+                    // Add description and source link
+                    html += `
+                      <p>${p.description.substring(0,200)}…</p>
+                      <a href="${p.source}" target="_blank">View at Source</a>`;
+
+                    // Add the collapsible details section
+                    html += `
+                      <details style="margin-top:8px;">
+                        <summary style="cursor:pointer;color:#29b6f6;">
+                          Show all attributes
+                        </summary>
+                        <div style="max-height:300px; overflow-y:auto; margin-top:4px;">
+                          <table style="
+                            width:100%;
+                            table-layout:fixed;
+                            border-collapse:collapse;
+                            font-size:12px;
+                          ">`;
+
+                    for (const [key, value] of Object.entries(p)) {
+                      html += `
+                        <tr>
+                          <th style="
+                            text-align:left;
+                            padding:2px 4px;
+                            border-bottom:1px solid rgba(255,255,255,0.2);
+                            white-space:nowrap;
+                            width:30%;
+                          ">${key}</th>
+                          <td style="
+                            padding:2px 4px;
+                            border-bottom:1px solid rgba(255,255,255,0.2);
+                            word-break:break-word;
+                            white-space:normal;
+                          ">${value}</td>
+                        </tr>`;
+                    }
+
+                    html += `
+                          </table>
+                        </div>
+                      </details>`;
+
+                    // Check for flight data
+                    const sightingIdNum = Number(p.sighting_id);
+                    const hasFlights = window.flightDataCache.some(
+                      f => Number(f.properties.sighting_id) === sightingIdNum
+                    );
+
+                    if (hasFlights) {
+                      html += `
+                        <button id="show-flight-btn" style="margin-top:8px; display:block;">
+                          Flight Data
+                        </button>`;
+                    }
+
+                    // Create and show the popup
+                    const popup = new mapboxgl.Popup({
+                      maxWidth: '380px'
+                    })
+                      .setLngLat(marker.getLngLat()) // Use marker position, not original
+                      .setHTML(html)
+                      .addTo(map);
+
+                    // Wire up the flight button
+                    setTimeout(() => {
+                      try {
+                        const popupEl = document.querySelector('.mapboxgl-popup-content');
+                        if (!popupEl) return; // Exit gracefully
+                        const showBtn = popupEl.querySelector('#show-flight-btn');
+                        if (showBtn) {
+                          showBtn.addEventListener('click', () => {
+                            // ... flight button logic
+                          });
+                        }
+                      } catch (e) {
+                        console.error('Failed to wire flight button:', e);
+                      }
+                    }, 100); // Small delay to ensure DOM is ready
+                  });
+
+                  return marker;
+                });
+
+                // Spiderfy with fixed positioning
+                try {
+                  const result = spiderifier.spiderfy(clusterCoords, markers);
+                  console.log('✅ Spiderfy result:', result);
+                  map.triggerRepaint();
+                } catch (error) {
+                  console.error('❌ Spiderfy error:', error);
+                }
+              }
+            );
+          }
+
+       // 4. Add a test function to manually trigger spiderify on any visible cluster:
+      window.testSpiderifyFirst = function() {
+        const clusters = map.queryRenderedFeatures({ layers: ['clusters'] });
+        console.log('Found clusters:', clusters);
+
+        if (clusters.length > 0) {
+          const first = clusters[0];
+          console.log('Testing with first cluster:', first);
+          spiderifyCluster(
+            first.properties.cluster_id,
+            first.geometry.coordinates
+          );
+        } else {
+          console.log('No clusters visible. Zoom out to see clusters.');
+        }
+      };
       // 1) source
       map.addSource('uapSightings', {
         type: 'geojson',
@@ -1675,6 +2229,90 @@
           }
       });
 
+      // 5. Enhanced cluster click handler with more debugging:
+      map.on('click', 'clusters', (e) => {
+
+        console.log('🗺️ Cluster clicked!', e);
+
+        // Prevent event bubbling
+        e.originalEvent.stopPropagation();
+
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ['clusters']
+        });
+
+        console.log('Features at click point:', features);
+
+        if (!features.length) {
+          console.log('❌ No cluster features found');
+          return;
+        }
+
+        const clusterId = features[0].properties.cluster_id;
+        const clusterCoords = features[0].geometry.coordinates;
+        const currentZoom = map.getZoom();
+
+        console.log('📊 Cluster details:', {
+          clusterId,
+          coordinates: clusterCoords,
+          currentZoom,
+          pointCount: features[0].properties.point_count
+        });
+
+        // Get expansion zoom
+        map.getSource('uapSightings').getClusterExpansionZoom(
+          clusterId,
+          (err, zoom) => {
+            if (err) {
+              console.error('❌ Error getting expansion zoom:', err);
+              // Try spiderfy anyway
+              spiderifyCluster(clusterId, clusterCoords);
+              return;
+            }
+
+            console.log(`🔍 Current zoom: ${currentZoom}, Expansion zoom: ${zoom}`);
+
+            // Lower the threshold for testing - try spiderfy at zoom 8+
+            if (currentZoom >= 5) {
+              console.log('🕷️ Triggering spiderfy (zoom >= 8)');
+              spiderifyCluster(clusterId, clusterCoords);
+            } else {
+              console.log('🔍 Zooming in...');
+              map.easeTo({
+                center: clusterCoords,
+                zoom: zoom,
+                duration: 500
+              });
+            }
+          }
+        );
+      });
+
+      // Add cursor pointer for clusters
+      map.on('mouseenter', 'clusters', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'clusters', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      // Unspiderfy when map moves
+      map.on('movestart', () => {
+        if (spiderifier) spiderifier.unspiderfy();
+      });
+
+      // Also unspiderfy when drawer opens/closes
+      const hambButton = document.getElementById('hamburger');
+      const origDrawerClick = hambButton.onclick;
+      hambButton.onclick = function(e) {
+        if (spiderifier) spiderifier.unspiderfy();
+        // Open drawer - use getElementById since drawer isn't defined yet
+        const drawerEl = document.getElementById('drawer');
+        drawerEl.classList.add('open');
+        document.body.classList.add('drawer-open');
+      };
+
       // your existing close-button logic stays the same:
       document.getElementById('close-btn').addEventListener('click', () => {
         map.dragPan.enable();
@@ -1817,25 +2455,15 @@
         confidence: null
       };
 
-      //CLose Drawer
+
+
       const closeBtn = document.getElementById('close-drawer');
-
-      closeBtn.addEventListener('click', () => {
-        drawer.classList.remove('open');
-      });
-
-      const hamb = document.getElementById('hamburger');
-
-      hamb.addEventListener('click', () => {
-        // open drawer + mark body
-        drawer.classList.add('open');
-        document.body.classList.add('drawer-open');
-      });
 
       closeBtn.addEventListener('click', () => {
         // close drawer + unmark body
         drawer.classList.remove('open');
         document.body.classList.remove('drawer-open');
+        if (spiderifier) spiderifier.unspiderfy();
       });
 
       // 2) Drawer nav: stacked buttons
