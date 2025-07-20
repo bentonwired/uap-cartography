@@ -1913,7 +1913,17 @@ console.log('✅ Custom MapboxglSpiderifier loaded');
                         const showBtn = popupEl.querySelector('#show-flight-btn');
                         if (showBtn) {
                           showBtn.addEventListener('click', () => {
-                            // ... flight button logic
+                            // a) remember which sighting
+                            window.currentSightingId = p.sighting_id;
+                            // b) reveal your controls
+                            document.getElementById('flight-controls-container').style.display = 'flex';
+                            // c) zoom & lock the map using marker position instead of e.lngLat
+                            const markerLngLat = marker.getLngLat();
+                            const lng = markerLngLat.lng;
+                            const lat = markerLngLat.lat;
+                            map.fitBounds([[lng - 0.6, lat - 0.6], [lng + 0.6, lat + 0.6]]);
+                            // d) trigger the real loader in flight_widget.js
+                            document.getElementById('load-data-btn').click();
                           });
                         }
                       } catch (e) {
