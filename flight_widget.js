@@ -149,7 +149,16 @@
         const first = feats.sort((a,b) => a.properties.time - b.properties.time)[0];
         const [lng, lat] = first.geometry.coordinates;
         const alt     = first.properties.alt_ft;
-        const timeStr = new Date(first.properties.time * 1000).toLocaleString();
+        const timeStr = new Date(first.properties.time * 1000).toLocaleString('en-US', {
+          timeZone: 'UTC',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }) + ' UTC';
 
         const popup = new mapboxgl.Popup({ offset: 25 })
           .setLngLat([lng, lat])
@@ -218,7 +227,16 @@
         const feat = lastFeatures[idx];
         const [lng, lat] = feat.geometry.coordinates;
         const alt = feat.properties.alt_ft;  // your new field
-        const timeStr = new Date(feat.properties.time * 1000).toLocaleString();
+        const timeStr = new Date(feat.properties.time * 1000).toLocaleString('en-US', {
+            timeZone: 'UTC',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }) + ' UTC';
 
         if (!animationPopup) {
           animationPopup = new mapboxgl.Popup({ className: 'animation-popup', offset: 25 })
