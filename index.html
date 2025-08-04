@@ -972,9 +972,10 @@
     box-sizing: border-box;
     white-space: normal;
     line-height: 1.2;
+    transition: background-color 0.3s ease;
   "
 >
-  ⚠️ Alpha Notice: date/location quirks may occur and mobile support is limited. ⚠️
+  <span id="quality-message">Loading parsing quality metrics...</span>
 </div>
 
 <!-- ABOUT MODAL -->
@@ -1468,6 +1469,101 @@ console.log('✅ Custom MapboxglSpiderifier loaded');
       center: [-98,38],
       zoom: 3
     });
+
+    // ── QUALITY BADGE UPDATER ──
+    function updateQualityBadge() {
+      // Define color constants
+      const colors = {
+        high: 'linear-gradient(rgba(0, 188, 212, 0.4), rgba(0, 188, 212, 0.4)), rgba(20, 25, 30, 0.9)',
+        medium: 'linear-gradient(rgba(41, 182, 246, 0.4), rgba(41, 182, 246, 0.4)), rgba(20, 25, 30, 0.9)',
+        improving: 'rgba(38, 50, 56, 0.9)',
+        loading: 'rgba(33, 37, 41, 0.9)'
+      };
+
+      fetch('./parsing_quality.json?t=' + Date.now()) // Cache bust
+        .then(res => res.json())
+        .then(stats => {
+          const banner = document.getElementById('event-date-banner');
+          const message = document.getElementById('quality-message');
+          const quality = stats.quality_score;
+
+          // Build appropriate message based on data maturity
+          let displayMessage = '';
+
+          if (stats.total_runs === 0) {
+            // No data yet
+            displayMessage = '⚙️ Quality tracking initializing...';
+            banner.style.background = colors.loading;
+          } else if (stats.total_runs === 1) {
+            // First run
+            displayMessage = `[ALPHA] AI parsing: ${stats.ai_success_rate}% accurate (1 run since Aug 3)`;
+            banner.style.background = quality === 'high' ? colors.high : colors.improving;
+          } else if (stats.days_of_data < 7) {
+            // Less than a week of data
+            displayMessage = `[ALPHA] AI parsing: ${stats.ai_success_rate}% (${stats.total_runs} runs, ${stats.days_of_data} days)`;
+            banner.style.background = quality === 'high' ? colors.high :
+                                           quality === 'medium' ? colors.medium :
+                                           colors.improving;
+          } else if (stats.days_of_data < 30) {
+            // Less than a month - show 7-day average
+            displayMessage = `[ALPHA] 7-day avg: ${stats.ai_success_rate_7d.toFixed(1)}% | All-time: ${stats.ai_success_rate.toFixed(1)}% (${stats.total_runs} runs)`;
+            banner.style.background = stats.ai_success_rate_7d > 90 ? colors.high :
+                                           stats.ai_success_rate_7d > 70 ? colors.medium :
+                                           colors.improving;
+          } else {
+            // Mature system - show trend
+            const trend = stats.ai_success_rate_7d > stats.ai_success_rate ? '↑' :
+                         stats.ai_success_rate_7d < stats.ai_success_rate ? '↓' : '→';
+            const trendDiff = (stats.ai_success_rate_7d - stats.ai_success_rate).toFixed(1);
+            displayMessage = `[ALPHA] 7-day: ${stats.ai_success_rate_7d.toFixed(1)}% | 30-day: ${stats.ai_success_rate.toFixed(1)}% | Trend: ${trend} ${trendDiff > 0 ? '+' : ''}${trendDiff}%`;
+            banner.style.background = stats.ai_success_rate_7d > 90 ? colors.high :
+                                           stats.ai_success_rate_7d > 70 ? colors.medium :
+                                           colors.improving;
+          }
+
+          message.innerHTML = displayMessage;
+
+          // Add tooltip with details
+          const startDate = new Date(stats.tracking_since);
+          const updateTime = new Date(stats.last_updated);
+          const timeAgo = getTimeAgo(updateTime);
+          message.title = `Quality tracking since ${startDate.toLocaleDateString()}. Last updated: ${timeAgo}. Based on ${stats.total_runs} script runs.`;
+        })
+        .catch(err => {
+          // If fetch fails, show fallback message
+          console.log('Could not load parsing quality metrics:', err);
+          const message = document.getElementById('quality-message');
+          message.innerHTML = '⚠️ Alpha Notice: date/location quirks may occur';
+        });
+    }
+
+    // Helper function to calculate time ago
+    function getTimeAgo(date) {
+      const seconds = Math.floor((new Date() - date) / 1000);
+
+      let interval = seconds / 31536000;
+      if (interval > 1) return Math.floor(interval) + " years ago";
+
+      interval = seconds / 2592000;
+      if (interval > 1) return Math.floor(interval) + " months ago";
+
+      interval = seconds / 86400;
+      if (interval > 1) return Math.floor(interval) + " days ago";
+
+      interval = seconds / 3600;
+      if (interval > 1) return Math.floor(interval) + " hours ago";
+
+      interval = seconds / 60;
+      if (interval > 1) return Math.floor(interval) + " minutes ago";
+
+      return Math.floor(seconds) + " seconds ago";
+    }
+
+    // Initial load
+    updateQualityBadge();
+
+    // Refresh every 5 minutes (300000 ms)
+    setInterval(updateQualityBadge, 300000);
 
     // grab the elements
     const loadingScreen = document.getElementById('loading-screen');
