@@ -1,10 +1,10 @@
 {
-  "avg_confidence": 0.02016806722689076,
+  "avg_confidence": 0.020000000000000004,
   "ai_success_rate": 100.0,
   "ai_success_rate_7d": 100.0,
-  "last_updated": "2026-10-18T07:00:25.559811+00:00",
+  "last_updated": "2026-10-18T13:00:06.741511+00:00",
   "quality_score": "high",
-  "total_runs": 119,
+  "total_runs": 120,
   "tracking_since": "2026-09-18T13:00:06.942144+00:00",
   "days_of_data": 29
 }
